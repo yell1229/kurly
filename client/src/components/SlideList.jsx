@@ -2,6 +2,7 @@ import React,{useCallback, useRef} from 'react';
 // slide
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination,Autoplay , Scrollbar, A11y } from 'swiper/modules';
+import { Link } from 'react-router-dom';
 
 import ProductThumb from './ProductThumb.jsx';
 
@@ -11,21 +12,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import '../scss/slider.scss';
 
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
 
-export default function SlideList({classname}) {
+export default function SlideList({classname,slideImg}) {
     const swiperRef = useRef(null);
     const swiperPrevRef = useRef(null);
     const swiperNextRef = useRef(null);
 
-    // const prevSlide = useCallback(() => {
-    //     swiperRef.current?.swiper.slidePrev();
-    // }, [swiperRef]);
-
-    // const nextSlide = useCallback(() => {
-    //     swiperRef.current?.swiper.slideNext();
-    // }, [swiperRef]);
-    // console.log('swiperRef',swiperRef.current?.swiper);
-    // https://hyjang.tistory.com/entry/ReactNextjs-%EC%8A%A4%EC%99%80%EC%9D%B4%ED%8D%BC-%EC%8A%AC%EB%9D%BC%EC%9D%B4%EB%93%9Cswiper-slide-%EC%BB%A8%ED%8A%B8%EB%A1%A4%EB%9F%AC-%EC%BB%A4%EC%8A%A4%ED%85%80%ED%95%98%EA%B8%B0
     return (
         <>
             {/* main top */}
@@ -46,10 +40,9 @@ export default function SlideList({classname}) {
                     loop={true}
                     className="slider"
                 >
-                    <SwiperSlide style={{background:"#333"}}>1<img src="https://picsum.photos/1200/370" alt="" /></SwiperSlide>
-                    <SwiperSlide style={{background:"#666"}}>2<img src="https://picsum.photos/1200/370" alt="" /></SwiperSlide>
-                    <SwiperSlide style={{background:"#999"}}>3<img src="https://picsum.photos/1200/370" alt="" /></SwiperSlide>
-                    <SwiperSlide style={{background:"#999"}}>4<img src="https://picsum.photos/1200/370" alt="" /></SwiperSlide>
+                    {slideImg && slideImg.map((img) =>
+                        <SwiperSlide style={{background:"#666"}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
+                    )}
                 </Swiper>
             </div>}
 
@@ -68,29 +61,50 @@ export default function SlideList({classname}) {
                         loop={false}
                         className="slider"
                         ref={swiperRef}
-                        navigation={{nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev'}}
-                        // onBeforeInit={(swiper) => {
-                        //     // 초기화 전에 네비게이션 버튼을 swiper에 할당합니다.
-                        //     swiper.params.navigation.prevEl = swiperPrevRef.current;
-                        //     swiper.params.navigation.nextEl = swiperNextRef.current;
-                        //     }}
+                        navigation={{nextEl: '.slider_tab4 .swiper-button-next', prevEl: '.slider_tab4 .swiper-button-prev'}}
+
                     >
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><ProductThumb/></SwiperSlide>
-                        <SwiperSlide><div style={{width:"325px",height:"370px"}}>7 전체보기 ==</div> </SwiperSlide>
+                        {slideImg && slideImg.map((img) =>
+                            <SwiperSlide><ProductThumb slideImg={img} /></SwiperSlide>
+                        )}
+                        <SwiperSlide><div className="more"><span>전체보기</span></div> </SwiperSlide>
                     </Swiper>
                     <div className="swiper-button-prev" ref={swiperPrevRef}></div>
                     <div className="swiper-button-next" ref={swiperNextRef}></div>
-                    {/* <div className="swiper-button-prev" onClick={prevSlide} ref={swiperPrevRef}></div>
-                    <div className="swiper-button-next" onClick={nextSlide} ref={swiperNextRef}></div> */}
                 </div>
             </div>
+            }
+
+            {/* aside */}
+            {
+                classname === 'aside_slide' && <div className={classname}>
+                    <div className='tit'>최근 본 상품</div>
+                    <Swiper
+                        modules={[Navigation, Pagination, Autoplay]}
+                        spaceBetween={2}
+                        slidesPerView={'auto'}
+                        slidesPerGroup={1}
+                        direction={'vertical'}
+                        centeredSlides ={false}
+                        speed={500}
+                        freeMode = {true}
+                        loop={false}
+                        className="slider"
+                        height={209}
+                        navigation={{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'}}
+
+                    >   
+                    {
+                        slideImg && slideImg.map((img) =>
+                            <SwiperSlide><a href=""><img src={img.img} alt={img.src} /></a></SwiperSlide>
+                        )
+                    }
+                        
+
+                    </Swiper>
+                    <div className="swiper-prev"><IoIosArrowUp /></div>
+                    <div className="swiper-next"><IoIosArrowDown /></div>
+                </div>
             }
         </>
     );

@@ -1,8 +1,6 @@
 import React,{useRef} from 'react';
-import { Link } from 'react-router-dom';
 // icons
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { TfiArrowUp } from "react-icons/tfi";
 
 // components
 import Header from '../components/common/Header.jsx';
@@ -12,21 +10,82 @@ import ProductThumb from '../components/ProductThumb.jsx';
 
 
 export default function Kurly() {
-    const wrapRef = useRef(null);
+    
+    // main top slide
+    const topSlideImg = [
+        {
+            "img":"https://picsum.photos/id/1/1200/370",
+            "src":"https://www.kurly.com/main"
+        },
+        {
+            "img":"https://picsum.photos/id/2/1200/370",
+            "src":"https://www.coupang.com/"
+        },
+        {
+            "img":"https://picsum.photos/id/3/1200/370",
+            "src":"https://www.naver.com/"
+        },
+        {
+            "img":"https://picsum.photos/id/4/1200/370",
+            "src":"https://github.com/"
+        },
+    ];
 
+    const contSlideImg01 = [
+        {
+            "img":"https://picsum.photos/id/5/1200/370",
+            "src":"https://www.naver.com/",
+            "isLive":true,
+            "isPayback":true
+        },
+        {
+            "img":"https://picsum.photos/id/6/1200/370",
+            "src":"https://pages.coupang.com/",
+            "isLive":true,
+            "istotalPrice" : "141,930"
+        },
+        {
+            "img":"https://picsum.photos/id/7/1200/370",
+            "src":"https://www.kurly.com/main",
+            "isLive":true,
+            "isPayback":"페이백"
+        },
+        {
+            "img":"https://picsum.photos/id/8/1200/370",
+            "src":"https://github.com/"
+        },
+        {
+            "img":"https://picsum.photos/id/9/1200/370",
+            "src":"https://www.naver.com/",
+            "isLive":true,
+            "istotalPrice" : "141,930"
+        },
+        {
+            "img":"https://picsum.photos/id/10/1200/370",
+            "src":"https://pages.coupang.com/",
+            "isLive":true
+        },
+        {
+            "img":"https://picsum.photos/id/11/1200/370",
+            "src":"https://www.kurly.com/main",
+            "isPayback":true
+        },
+        {
+            "img":"https://picsum.photos/id/12/1200/370",
+            "src":"https://github.com/",
+            "isPayback":true
+        }
+    ];
+    
     return (
-        <div id="wrap" ref={wrapRef}>
-            <Header />
-
+        <>
             {/* start of container_area */}
             <div className="container_area">
 
-                {/* start slide */}
-                <SlideList classname="top_slider" />
-                {/* end slide */}
+                <SlideList classname="top_slider" slideImg={topSlideImg} />
 
                 {/* sample ====> start 1 content */}
-                <div className="cont_area" style={{height:'1000px'}}>
+                <div className="cont_area">
                     <div className="tit_area">
                         <strong><a href="">✨주목! 설 선물 베스트 <MdOutlineKeyboardArrowRight className='icon' /></a></strong>
                         <span>실패 없는 설 인기 선물만 모았어요!</span>
@@ -34,7 +93,7 @@ export default function Kurly() {
 
                     {/* start components */}
                     <div className="product_list_wrap"> 
-                        <SlideList classname="slider_tab4" />
+                        <SlideList classname="slider_tab4" slideImg={contSlideImg01} />
                     </div>
                     {/* end components */}
                 </div>
@@ -48,22 +107,7 @@ export default function Kurly() {
 
             </div>
             {/* end of container_area */}
-
-            <Footer />
-
-            {/* start of aside nav */}
-            <aside className='ban_q_aside'>
-                <a href=""><img src="./images/deliveryInfo.jpg" alt="" /></a>
-                <ul>
-                    <li><a href="">컬리 고객 제도</a></li>
-                    <li><a href="">컬리 큐레이터</a></li>
-                    <li><a href="">레시피</a></li>
-                </ul>
-            </aside>
-            {/* end of aside nav */}
-
-            <div className="btn_top" onClick={() => wrapRef.current.scrollIntoView({ behavior: 'smooth', block: 'start'})}><TfiArrowUp /></div>
-        </div>
+        </>
     );
 }
 

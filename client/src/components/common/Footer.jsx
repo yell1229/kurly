@@ -1,7 +1,10 @@
 import React from 'react';
+import Aside from './Aside.jsx';
 
-export default function Footer() {
+export default function Footer({topScrollRef}) {
+
     return (
+        <>
         <footer id="footer">
                 <div className="footer_top">
                     <div className="info_center">
@@ -72,6 +75,8 @@ export default function Footer() {
                 <em>© KURLY CORP. ALL RIGHTS RESERVED</em>
                 </div>
             </footer>
+            <Aside wrapRef={topScrollRef} />
+        </>
     );
 }
 

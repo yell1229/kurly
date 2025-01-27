@@ -64,7 +64,6 @@
                         }
                     }
                     .sub_list{
-                        display:none;
                         position: absolute;
                         right: 0px;
                         top: 33px;
@@ -134,19 +133,86 @@
         .q_btns{
             @include flex-between;
             align-items: center;
-            div{
+            & > div{
                 @include flex-between;
                 align-items: center;
                 width: 36px;
-                height: 36px;
+                height: 46px;
+                padding-bottom:10px;
                 margin-left:20px;
                 font-size:27px;
                 text-align:center;
                 cursor: pointer;
-                &:first-child{
-                    font-size:30px;
+                & > span{
+                    position:absolute;
+                    top:-999px;
+                    left:-999px;
+                    width:1px;
+                    height:1px;
+                    overflow:hidden;
                 }
-                &:last-child{
+                &.search_addr{
+                    position:relative;
+                    font-size:30px;
+                    .layer_pop{
+                        position:absolute;
+                        top:45px;
+                        left:-112px;
+                        width:250px;
+                        height:120px;
+                        padding:20px;
+                        background-color: #fff;
+                        border:1px solid $main-color;
+                        z-index:10;
+                        font-size:14px;
+                        .msg{
+                            span{
+                                color:$main-color;
+                            }
+                        }
+                        .btns{
+                            display:flex;
+                            margin-top:15px;
+                            gap:10px;
+                            a{
+                                height:30px;
+                                line-height:30px;
+                                border-radius: 4px;
+                                flex:1;
+                                color: rgb(95, 0, 128);
+                                background-color: rgb(255, 255, 255);
+                                border: 1px solid rgb(95, 0, 128);
+                            }
+                            button{
+                                height:30px;
+                                line-height:30px;
+                                border-radius: 4px;
+                                cursor: pointer;
+                                &:last-child{
+                                    flex:2;
+                                    color: rgb(255, 255, 255);
+                                    background-color: rgb(95, 0, 128);
+                                }
+                            }
+                            
+                        }
+                        &:before{
+                            content:'';
+                            display:block;
+                            position:absolute;
+                            top:-7px;
+                            left:48%;
+                            width:12px;
+                            height:12px;
+                            border-bottom:1px solid $main-color;
+                            border-left:1px solid $main-color;
+                            background-color: #fff;
+                            transform:rotate(136deg);
+                            z-index:9;
+                        }
+                    }
+                }
+                &.cart{
                     font-size:25px;
                 }
             }
@@ -185,15 +251,46 @@
             .nav_detail_category{
                 display:none;
                 position:absolute;
-                top:40px;
+                top:38px;
                 left:0;
                 width:248px;
                 height:840px;
                 border:1px solid #ddd;
                 background-color: #fff;
                 z-index:10;
-                overflow-y:scroll;
+                .depth1{
+                    height:840px;
+                    overflow-y: auto;
+                    z-index:10;
+                    li{
+                        padding:5px;
+                        cursor: pointer;
+                        .sub{
+                            display:none;
+                            position:absolute;
+                            top:0;
+                            left:250px;
+                            width:240px;
+                            z-index:10;
+                        }
+                        &.on{
+                            .sub{
+                                display:block;
+                            }
+                        }
+                    }
+                }
+                .depth2{
+                    position:absolute;
+                    top:0;
+                    left:240px;
+                    width:248px;
+                    height:840px;
+                    background-color: #ddd;
+                    z-index:1;
+                }
             }
+
         }
         nav{
             ul{

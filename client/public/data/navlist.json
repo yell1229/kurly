@@ -1,38 +1,109 @@
 [
    {
+    "id":1,
     "name":"2025 설 선물",
-    "sub":{
-        "name":"usb name",
-        "url":"http://www.naver.com"
-    }
+    "sub":[
+        {
+            "name":"usb name",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb name",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb name",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb name",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb name",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb name",
+            "url":"http://www.naver.com"
+        }
+    ]
    },
    {
+    "id":2,
     "name":"채소",
-    "sub":{
-        "name":"usb name",
-        "url":"http://www.naver.com"
-    }
+    "sub":[
+        {
+            "name":"usb 채소",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 채소",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 채소",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 채소",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 채소",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 채소",
+            "url":"http://www.naver.com"
+        }
+    ]
    },
    {
+    "id":3,
     "name":"과일ㆍ견과ㆍ 쌀",
-    "sub":{
-        "name":"usb name",
-        "url":"http://www.naver.com"
-    }
+    "sub":[
+        {
+            "name":"usb 과일ㆍ견과ㆍ 쌀",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 과일ㆍ견과ㆍ 쌀",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 과일ㆍ견과ㆍ 쌀",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 과일ㆍ견과ㆍ 쌀",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 과일ㆍ견과ㆍ 쌀",
+            "url":"http://www.naver.com"
+        },
+        {
+            "name":"usb 과일ㆍ견과ㆍ 쌀",
+            "url":"http://www.naver.com"
+        }
+    ]
    },
    {
+    "id":4,
     "name":"수산ㆍ해산ㆍ건어물",
-    "sub":{
+    "sub":[{
         "name":"usb name",
         "url":"http://www.naver.com"
-    }
+    }]
    },
    {
+    "id":5,
     "name":"정육ㆍ가공육ㆍ계란",
-    "sub":{
+    "sub":[{
         "name":"usb name",
         "url":"http://www.naver.com"
-    }
+    }]
    }
 ]
 
