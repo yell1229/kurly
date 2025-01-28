@@ -16,7 +16,7 @@ export default function Header() {
     const [navCheck, setNavCheck] = useState(false);
     const [customerBox,setCustomerBox] = useState(false);
     const [layerAddr,setLayerAddr] = useState(false);
-    const depth1 = useRef(null);
+    const [navIdx, setNavIdx] = useState([]);
 
     useEffect(() => {
         axios.get('/data/navlist.json')
@@ -24,10 +24,11 @@ export default function Header() {
             .catch(err => console.log(err));
     },[]);
 
-    const navHoverEvent = (e) =>{
+    const navHoverEvent = (idx) =>{  
+        const submenu = navList[idx -1]?.sub;
+
+        setNavIdx( Array.isArray(submenu) ? submenu : []);
         
-            e.target.classList.add('on');
-            // e.target.classList.remove('on');
     }
 
     return (
@@ -86,18 +87,21 @@ export default function Header() {
                             {/* start detail nav list */}
                             <div className="nav_detail_category">
                                 <ul className="depth1">
-                                    {navList.map((menu, idx) =>
-                                            <li onMouseEnter={(e) => navHoverEvent(e)}>
-                                                {menu.name}
-                                                <ul className="sub" key={idx}>
-                                                    {menu.sub.map((submenu) =>
-                                                        <li><a href={submenu.url}>{submenu.name}</a></li>
-                                                    )}     
-                                                </ul>
-                                            </li>
-                                        )}
+                                    {navList.map((menu) =>
+                                        <li onMouseEnter={() => navHoverEvent(menu.id)}>
+                                            {menu.name}
+                                        </li>
+                                    )}
                                 </ul>
-                                <div className="depth2"></div>
+                                <div className="depth2">
+                                    <ul>
+                                        {navIdx && navIdx.map((menu) =>
+                                            // console.log('menu',menu);
+                                            <li><a href={menu.url}>{menu.name}</a></li>
+                                        
+                                        )}     
+                                    </ul>
+                                </div>
                             </div>
                             {/* end detail nav list */}
                         </div>

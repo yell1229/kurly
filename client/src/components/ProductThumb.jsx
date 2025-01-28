@@ -9,7 +9,7 @@ export default function ProductThumb({slideImg}) {
                 <div className="thumb">
                     <img src={slideImg.img} alt="" />
                     { slideImg.isLive && <div className="ban_top_left">라이브특가</div> }
-                    {/* { slideImg.isPayback && <div className="ban_btm_line">최대혜택가 141,930원</div> } */}
+                    { slideImg.isPayback && <div className="ban_btm_line">최대혜택가 141,930원</div> }
                     { slideImg.istotalPrice && <div className="ban_btm_right">페이백</div> }
                 </div>
                 <div className="product_detail_area">
