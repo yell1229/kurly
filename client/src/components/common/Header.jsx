@@ -45,7 +45,7 @@ export default function Header() {
                 <div className="top_btns">
                     <div className="inner">
                         <ul className="top_btns">
-                            <li>회원가입</li>   
+                            <li><Link to="/member/signup">회원가입</Link></li>   
                             <li><Link to="/member/login">로그인</Link></li>   
                             <li onMouseEnter={() => setCustomerBox(true)} onMouseLeave={() => setCustomerBox(false)}>고객센터 <BiSolidDownArrow className="icon" />
                                 {customerBox && <div className="sub_list">

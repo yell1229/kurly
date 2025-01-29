@@ -4,6 +4,7 @@ import Main from "./pages/Main.jsx";
 import Detail from "./pages/Detail.jsx";
 import Login from "./pages/Login.jsx";
 import Layout from "./pages/Layout.jsx";
+import SignUp from './pages/SignUp.jsx';
 import './scss/kurly.scss';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
                     <Route index element={<Main />} />
                     <Route path="/collection-groups/" element={<Detail />} />
                     <Route path="/member/login" element={<Login />} />
+                    <Route path="/member/signup" element={<SignUp />} />
                 </Route>
             </Routes>
         </BrowserRouter>
