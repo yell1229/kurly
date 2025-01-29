@@ -13,10 +13,11 @@ import { Link } from 'react-router-dom';
 export default function Header() {
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
-    const [navCheck, setNavCheck] = useState(false);
     const [customerBox,setCustomerBox] = useState(false);
     const [layerAddr,setLayerAddr] = useState(false);
     const [navIdx, setNavIdx] = useState([]);
+    const [checkCategory, setCheckCategory] = useState(false);
+    const catrgoryWrapRef = useRef(null);
 
     useEffect(() => {
         axios.get('/data/navlist.json')
@@ -82,11 +83,10 @@ export default function Header() {
                 </div>
                 <div className="nav_area">
                     <div className="inner">
-                        <div className="category">
-                            <a href=""><HiOutlineMenu  className='icon'/>카테고리</a>
-                            {/* start detail nav list */}
-                            <div className="nav_detail_category">
-                                <ul className="depth1">
+                        <div className="category"  onMouseEnter={()=>{setCheckCategory(true)}} onMouseLeave={()=>{setCheckCategory(false)}}>
+                            <div className="menu"><HiOutlineMenu  className='icon'/>카테고리</div>
+                            {checkCategory && <div className="nav_detail_category" ref={catrgoryWrapRef}>
+                                <ul className="depth1" onMouseEnter={(e)=>{ catrgoryWrapRef.current.classList.add('active')}}>
                                     {navList.map((menu) =>
                                         <li onMouseEnter={() => navHoverEvent(menu.id)}>
                                             {menu.name}
@@ -102,8 +102,8 @@ export default function Header() {
                                         )}     
                                     </ul>
                                 </div>
-                            </div>
-                            {/* end detail nav list */}
+                            </div> }
+
                         </div>
                         
                         <nav>

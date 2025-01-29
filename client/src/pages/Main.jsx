@@ -67,7 +67,7 @@ export default function Kurly() {
         slideImg: [
             {
                 "img":"https://picsum.photos/id/5/1200/370",
-                "src":"https://www.naver.com/",
+                "src":"/collection-groups/",
                 "isLive":true,
                 "isPayback":true
             },

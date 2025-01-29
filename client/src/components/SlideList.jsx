@@ -34,7 +34,7 @@ export default function SlideList({classname,slideControls}) {
                 <div>
                     <Swiper {...slideControls.slideControl} >
                         {slideControls.slideImg && slideControls.slideImg.map((img) =>
-                            <SwiperSlide><ProductThumb slideImg={img} /></SwiperSlide>
+                            <SwiperSlide><Link to={img.src}><ProductThumb slideImg={img} /></Link></SwiperSlide>
                         )}
                         <SwiperSlide><div className="more"><span>전체보기</span></div> </SwiperSlide>
                     </Swiper>

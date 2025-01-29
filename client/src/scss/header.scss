@@ -233,11 +233,16 @@
         }
         .category{
             position:relative;
+            height:56px;
+            padding-top:15px;
             line-height: 20px;
             font-size: 16px;
             font-weight: 500;
             color: rgb(51, 51, 51);
             vertical-align: middle;
+            & > .menu{
+                cursor: pointer;
+            }
             .icon{
                 position:relative;
                 top:-2px;
@@ -251,16 +256,17 @@
             .nav_detail_category{
                 display:block;
                 position:absolute;
-                top:38px;
+                top:54px;
                 left:0;
                 width:248px;
                 height:840px;
                 border:1px solid #ddd;
-                background-color: #fff;
                 z-index:10;
                 .depth1{
+                    position:relative;
                     height:840px;
                     overflow-y: auto;
+                    background-color: #fff;
                     z-index:10;
                     li{
                         padding:5px;
@@ -283,11 +289,19 @@
                 .depth2{
                     position:absolute;
                     top:0;
-                    left:240px;
+                    left:0px;
                     width:248px;
                     height:840px;
+                    padding:10px 0 0 20px;
                     background-color: #ddd;
                     z-index:1;
+                    transition: all .5s;
+                    li{
+                        padding:5px 0;
+                    }
+                }
+                &.active .depth2{
+                    left:240px;
                 }
             }
 
