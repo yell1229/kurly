@@ -18,14 +18,16 @@
             }
             .tel{
                 margin-top:17px;
-                margin-left: 8px;
                 font-weight: normal;
-                font-size: 16px;
                 strong{
+                    margin-right:8px;
                     padding-bottom: 20px;
                     font-size: 28px;
                     line-height: 40px;
                     font-weight: bold;
+                    & + span{
+                        font-size: 16px;
+                    }
                 }
             }
             ul{

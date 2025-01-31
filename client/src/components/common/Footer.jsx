@@ -1,7 +1,11 @@
 import React from 'react';
 import Aside from './Aside.jsx';
+import { useLocation, locationNow } from 'react-router-dom';
 
-export default function Footer({topScrollRef}) {
+export default function Footer() {
+
+    const locationNow = useLocation();
+    if (locationNow.pathname === "/member/signup") return null; 
 
     return (
         <>
@@ -75,7 +79,7 @@ export default function Footer({topScrollRef}) {
                 <em>© KURLY CORP. ALL RIGHTS RESERVED</em>
                 </div>
             </footer>
-            <Aside wrapRef={topScrollRef} />
+            <Aside />
         </>
     );
 }

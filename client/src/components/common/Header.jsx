@@ -36,7 +36,7 @@ export default function Header() {
         <>
             { topBan && <div className="top_banner">
                             <div className="inner">
-                                <a href="">지금 가입하고,  <b>50% 할인 쿠폰</b>  받아가세요!</a>
+                                <Link to="/member/signup">지금 가입하고,  <b>50% 할인 쿠폰</b>  받아가세요!</Link>
                                 <button type="button" onClick={() => setTopBan(false)}><TfiClose /></button>
                             </div>
                         </div> }
@@ -61,7 +61,7 @@ export default function Header() {
                     </div>
                 </div>
                 <div className="header_top">
-                    <h1><Link to="/"><img src="./images/logo.svg" alt="Kurly" /></Link> <strong>마켓컬리</strong></h1>
+                    <h1><Link to="/"><img src="/images/logo.svg" alt="Kurly" referrerPolicy="no-referrer" /></Link> <strong>마켓컬리</strong></h1>
                     <div className="input_area">
                         <input type="search" placeholder="검색어를 입력해주세요" />
                         <button type="button"><BiSearch className="icon" /></button>
@@ -96,7 +96,6 @@ export default function Header() {
                                 <div className="depth2">
                                     <ul>
                                         {navIdx && navIdx.map((menu) =>
-                                            // console.log('menu',menu);
                                             <li><a href={menu.url}>{menu.name}</a></li>
                                         
                                         )}     

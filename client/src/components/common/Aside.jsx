@@ -1,9 +1,16 @@
-import React from 'react';
+import React,{useRef} from 'react';
 import { TfiArrowUp } from "react-icons/tfi";
 import SlideList from '../SlideList.jsx';
 import { Navigation, Pagination,Autoplay } from 'swiper/modules';
 
-export default function Aside({wrapRef}) {
+export default function Aside() {
+    
+    const handleScrollTop = () => {
+        window.scroll({
+            top:0,
+            behavior:'smooth'
+        });
+    };
     const slidecontrol = {
         slideControl : {
         modules : [Navigation, Pagination, Autoplay] ,
@@ -59,7 +66,8 @@ export default function Aside({wrapRef}) {
             {/* end of aside nav */}
 
             
-            <div className="btn_top" onClick={() => wrapRef.scrollIntoView({ behavior: 'smooth', block: 'start'})}><TfiArrowUp /></div>
+            {/* <div className="btn_top" onClick={() => topRef.scrollIntoView({ behavior: 'smooth', block: 'start'})}><TfiArrowUp /></div> */}
+            <div className="btn_top" onClick={handleScrollTop}><TfiArrowUp /></div>
         </>
     );
 }

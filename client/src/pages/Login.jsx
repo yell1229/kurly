@@ -1,7 +1,6 @@
-import React from 'react';
+import React,{useState, useRef} from 'react';
+import { Link } from 'react-router-dom';
 import '../scss/member.scss';
-import Header from '../components/common/Header.jsx';
-import Footer from '../components/common/Footer.jsx';
 
 export default function Login() {
     return (
@@ -18,7 +17,7 @@ export default function Login() {
                             </div>
                         </div>
                         <button type="submit">로그인</button>
-                        <button type="button">회원가입</button>
+                        <Link to="/member/signup" className='btn'>회원가입</Link>
                     </form>
                 </div>
             
