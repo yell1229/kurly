@@ -358,9 +358,18 @@
         .tab_box{
             .tab_product_info{
                 padding: 100px 0px 88px;
-                border-top: 1px solid rgb(238, 238, 238);
+                ul{
+                    li{
+                        margin-bottom:50px;
+                    }
+                }
             }
             .tab_detail_info{
+                .product_img{
+                    li{
+                        margin-bottom:20px;
+                    }
+                }
                 .why{
                     padding: 100px 0px 88px;
                     border-top: 1px solid rgb(238, 238, 238);

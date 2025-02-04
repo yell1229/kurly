@@ -102,10 +102,19 @@ export default function Detail() {
                     <div className="tab_box">
                         {/* 1 상품설명 */}
                         <div className="tab_product_info">
-                        상품설명
+                            <ul>
+                                <li><img src="https://placehold.co/1010x400?text=img01" alt="" /></li>
+                                <li><img src="https://placehold.co/1010x400?text=img02" alt="" /></li>
+                                <li><img src="https://placehold.co/1010x400?text=img03" alt="" /></li>
+                                <li><img src="https://placehold.co/1010x400?text=img04" alt="" /></li>
+                            </ul>
                         </div>
                         {/* 2 상세정보 */}
                         <div className="tab_detail_info">
+                            <ul className='product_img'>
+                                <li><img src="https://placehold.co/1010x400?text=detail_01" alt="" /></li>
+                                <li><img src="https://placehold.co/1010x400?text=detail_02" alt="" /></li>
+                            </ul>
                             <div className="why">
                                 <div className="tit">WHY KURLY</div>
                                 <ul>
