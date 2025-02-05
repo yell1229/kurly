@@ -9,6 +9,7 @@ import { MdArrowDropDown } from "react-icons/md";
 export default function SignUp() {
     const [isDomainInput, setIsDomainInput] = useState(true);
     const [isDomainSelect, setIsDomainSelect] = useState(false);
+    const [isRecommendId, setIsRecommendId] = useState(false);
     const refs = {
         idRef: useRef(null),
         pwdRef: useRef(null),
@@ -67,15 +68,23 @@ export default function SignUp() {
     
     // validate
     const validate = () =>{
+        let result = true;
         // 빈 문자열 확인
+        if(refs.idRef.current.value ===''){
+            alert('아이디를 입력해주세요.')
+            result = false;
+        }else if(refs.pwdRef.current.value ===''){
+            alert('비밀번호를 입력해주세요.')
+            result = false;
+        }
     }
 
     // login
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('formData ===> ', formData);
+        if(validate()) console.log('formData ===> ', formData);
     }
-
+    
     return (
         <div className="signup">
             <h2>회원가입</h2>
@@ -85,49 +94,66 @@ export default function SignUp() {
 
                     <div className="f_wrap">
                         <span>아이디<span className='icon_star'>*</span></span>
-                        <div><input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' /></div>
+                        <div>
+                            <input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' minLength={6} maxLength={16} />
+                            <div className='txt'>아이디를 입력해주세요.</div>
+                        </div>
+                        <div><button type="button" className="get_dblcheck">아이디 중복체크</button></div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호<span className='icon_star'>*</span></span>
-                        <div><input type="password" name="pwd" ref={refs.pwdRef} onChange={handleChangeForm} placeholder='비밀번호를 입력해주세요' /></div>
+                        <div>
+                            <input type="password" name="pwd" ref={refs.pwdRef} onChange={handleChangeForm} placeholder='비밀번호를 입력해주세요' />
+                            <div className='txt'>비밀번호를 입력해주세요.</div>
+                        </div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호확인<span className='icon_star'>*</span></span>
-                        <div><input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} placeholder='비밀번호를 한번 더 입력해주세요' /></div>
+                        <div>
+                            <input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} placeholder='비밀번호를 한번 더 입력해주세요' />
+                            <div className='txt'>동일한 비밀번호를 입력</div>
+                        </div>
                     </div>
                     <div className="f_wrap">
                         <span>이름<span className='icon_star'>*</span></span>
-                        <div><input type="text"  name="name" ref={refs.nameRef} onChange={handleChangeForm} placeholder='이름을 입력해 주세요' /></div>
+                        <div>
+                            <input type="text"  name="name" ref={refs.nameRef} onChange={handleChangeForm} placeholder='이름을 입력해 주세요' />
+                            <div className='txt'>이름을 입력해주세요.</div>
+                        </div>
                     </div>
                     <div className="f_wrap">
                         <span>이메일<span className='icon_star'>*</span></span>
-                        <div className='email'>
-                            <input type="text"  name="email" ref={refs.emailRef} onChange={handleChangeForm} placeholder='예: marketkurly' />
-                            <div className="select">
-                                <div className="default" onClick={() =>{setIsDomainSelect(!isDomainSelect)}}>
-                                    { isDomainInput ? 
-                                    <input type="text" disabled placeholder="선택하기" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> : 
-                                    <input type="text" placeholder="직접입력" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> 
-                                    }  
-                                    <span><MdArrowDropDown/></span>
+                        <div>
+                            <div className='email'>
+                                <input type="email"  name="email" ref={refs.emailRef} onChange={handleChangeForm} placeholder='예: marketkurly' />
+                                <div className="select">
+                                    <div className="default" onClick={() =>{setIsDomainSelect(!isDomainSelect)}}>
+                                        { isDomainInput ? 
+                                        <input type="text" disabled placeholder="선택하기" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> : 
+                                        <input type="text" placeholder="직접입력" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> 
+                                        }  
+                                        <span><MdArrowDropDown/></span>
+                                    </div>
+                                    {isDomainSelect && <ul>
+                                        <li><button type="button" onClick={getEmailDomain}>naver.com</button></li>
+                                        <li><button type="button" onClick={getEmailDomain}>gmail.com</button></li>
+                                        <li><button type="button" onClick={getEmailDomain}>hanmail.com</button></li>
+                                        <li><button type="button" onClick={getEmailDomain}>kakao.com</button></li>
+                                        <li><button type="button" onClick={getEmailDomain}>daum.net</button></li>
+                                        <li><button type="button" onClick={getEmailDomain}>직접입력</button></li>
+                                    </ul>}
                                 </div>
-                                {isDomainSelect && <ul>
-                                    <li><button type="button" onClick={getEmailDomain}>naver.com</button></li>
-                                    <li><button type="button" onClick={getEmailDomain}>gmail.com</button></li>
-                                    <li><button type="button" onClick={getEmailDomain}>hanmail.com</button></li>
-                                    <li><button type="button" onClick={getEmailDomain}>kakao.com</button></li>
-                                    <li><button type="button" onClick={getEmailDomain}>daum.net</button></li>
-                                    <li><button type="button" onClick={getEmailDomain}>직접입력</button></li>
-                                </ul>}
                             </div>
+                            <div className='txt'>이메일 형식으로 입력해 주세요.</div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>휴대폰<span className='icon_star'>*</span></span>
                         <div>
-                            <input type="text"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
-                            <button type="button" className="get_number">인증번호 받기</button>
+                            <input type="number"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
+                            <div className="txt">휴대폰 번호를 입력해 주세요.</div>
                         </div>
+                        <div><button type="button" className="get_number">인증번호 받기</button></div>
                     </div>
                     <div className="f_wrap">
                         <span>주소<span className='icon_star'>*</span></span>
@@ -137,7 +163,7 @@ export default function SignUp() {
                         </div>
                     </div>
                     <div className="f_wrap">
-                        <span>성별<span className='icon_star'>*</span></span>
+                        <span>성별</span>
                         <div className='gender_area'>
                             <label className="radio_box">
                                 <div className='radio'>
@@ -163,7 +189,7 @@ export default function SignUp() {
                         </div>
                     </div>
                     <div className="f_wrap birth">
-                        <span>생년월일<span className='icon_star'>*</span></span>
+                        <span>생년월일</span>
                         <div>
                             <input type="text" placeholder='YYYY' name="birth1" ref={refs.birth1Ref} onChange={handleChangeForm} />
                             <span>/</span>
@@ -173,23 +199,23 @@ export default function SignUp() {
                         </div>
                     </div>
                     <div className="f_wrap recommend_area">
-                        <span>추가입력 사항<span className='icon_star'>*</span></span>
+                        <span>추가입력 사항</span>
                         <div>
                             <label className="radio_box">
                                 <div className='radio'>
-                                    <input type="radio" value="" />
+                                    <input type="radio" value="" onClick={() =>setIsRecommendId(!isRecommendId)} />
                                 <div>
                                 </div></div>
                                 친구초대 추천인 아이디
                             </label>
-                            <div className='option'>
+                           {isRecommendId && <div className='option'>
                                 <div><input type="text" placeholder='추천인 아이디 입력' /><button type="button">아이디 확인</button></div>
                                 <ul>
                                     <li>가입 후 7일 이내 첫 주문 배송완료 시, 친구초대 적립금이 지급됩니다.</li>
                                     <li>ID 입력시, 대소문자 및 띄어쓰기에 유의 부탁드립니다.</li>
                                     <li>가입 이후는 수정이 불가능합니다.</li>
                                 </ul>
-                            </div>
+                            </div> }
                         </div>
                     </div>
                     {/* 이용약관 */}
@@ -198,7 +224,7 @@ export default function SignUp() {
                         <div>
                             <div className='total'>
                                 <Checkbox value="" text="전체 동의합니다."/>
-                                <div className='info_txt'>선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.</div>
+                                <div className='info_txt' >선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.</div>
                             </div>
                             <div>
                                 <label className='check_box'>
@@ -226,7 +252,7 @@ export default function SignUp() {
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
-                                    <strong>(필수)</strong>
+                                    <strong>(선택)</strong>
                                 </label> 
                                 <button type="button">약관보기</button>
                             </div>
@@ -236,6 +262,7 @@ export default function SignUp() {
                                         <div><GoCheck /></div>
                                     </div>
                                     무료배송, 할인쿠폰 등 혜택/정보 수신 동의
+                                    <strong>(선택)</strong>
                                 </label>
                                 <div>
                                     <label className='check_box'>
@@ -258,7 +285,7 @@ export default function SignUp() {
                                         <div><GoCheck /></div>
                                     </div>
                                     본인은 만 14세 이상입니다.
-                                    <strong>(필수)</strong> 
+                                    <strong>(선택)</strong> 
                                 </label>
                             </div>
                         </div>

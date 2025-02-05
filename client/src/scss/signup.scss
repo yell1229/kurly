@@ -121,9 +121,10 @@
                 width: 139px;
                 padding-top: 12px;
             }
-            & > div{
+            & > div:nth-child(2){
+                width: 333px;
                 input:not([type='radio']):not([type='checkbox']){
-                    width: 333px;
+                    width:100%;
                     height: 46px;
                     padding: 0px 11px 1px 15px;
                     border-radius: 4px;
@@ -132,18 +133,6 @@
                     font-size: 16px;
                     line-height: 1.5;
                     color: rgb(51, 51, 51);
-                }
-                .get_number{
-                    width:120px;
-                    height: 44px;
-                    margin-left: 8px;
-                    border-radius: 3px;
-                    text-align: center;
-                    font-weight: 500;
-                    font-size: 14px;
-                    border:1px solid rgb(221, 221, 221);
-                    color: rgb(221, 221, 221);
-                    cursor: pointer;
                 }
                 .btn_search_addr{
                     display:block;
@@ -170,12 +159,36 @@
                     justify-content: start;
                     gap:50px; 
                 }
+                .txt{
+                    margin-top:8px;
+                    font-size: 13px;
+                    color: rgb(240, 63, 64);
+                }
             }
-            
+            .get_number,
+            .get_dblcheck{
+                width:120px;
+                height: 44px;
+                margin-left: 8px;
+                border-radius: 3px;
+                text-align: center;
+                font-weight: 500;
+                font-size: 14px;
+                border:1px solid rgb(221, 221, 221);
+                color: rgb(221, 221, 221);
+                cursor: pointer;
+            }
             &.recommend_area{
+                & > div{
+                    padding-top:8px;
+                }
                 .option{
+                    position:relative;
                     margin-top:30px;
                     button{
+                        position:absolute;
+                        top:0;
+                        right:-130px;
                         width:120px;
                         height: 44px;
                         margin-left: 8px;
@@ -219,7 +232,7 @@
                     color: rgb(51, 51, 51);
                     & > input[type='text']{
                         width:96px;
-                        border:0;
+                        border:0 !important;
                         text-align:center;
                         background:transparent;
                     }
@@ -293,8 +306,8 @@
                     z-index:10;
                     .default{
                         position:relative;
-                        input{
-                            width:100% !important;
+                        input[type='text']{
+                            width:100%;
                             height: 46px;
                             line-height: 46px;
                             font-weight: 400;
