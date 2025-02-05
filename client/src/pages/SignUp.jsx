@@ -1,49 +1,138 @@
-import React from 'react';
+import React,{useRef, useState} from 'react';
 
 import Checkbox from '../components/Checkbox.jsx';
 import RadioBox from '../components/RadioBox.jsx';
 import '../scss/signup.scss';
 import { GoCheck } from "react-icons/go";
+import { MdArrowDropDown } from "react-icons/md";
 
 export default function SignUp() {
+    const [isDomainInput, setIsDomainInput] = useState(true);
+    const [isDomainSelect, setIsDomainSelect] = useState(false);
+    const refs = {
+        idRef: useRef(null),
+        pwdRef: useRef(null),
+        cpwdRef: useRef(null),
+        nameRef: useRef(null),
+        emailRef: useRef(null),
+        emaildomainRef: useRef(null),
+        phoneRef: useRef(null),
+        addressRef: useRef(null),
+        genderRef: useRef(null),
+        birth1Ref: useRef(null),
+        birth2Ref: useRef(null),
+        birth3Ref: useRef(null)
+    };
+    const init = {
+        id: "",
+        pwd: "",
+        cpwd: "",
+        name: "",
+        email: "",
+        emaildomain: "",
+        phone: "",
+        address: "",
+        gender: "",
+        birth1: "",
+        birth2: "",
+        birth3: "",
+    };
+    const [formData, setFormData] = useState(init);
+    
+    // input change event
+    const handleChangeForm = (e) => {
+        const {name,value} = e.target;
+        if(name === 'emaildomain'){
+            setFormData({...formData, emaildomain:value});
+        }else{
+            setFormData({...formData, [name]:value});
+        }
+    }
+
+    // domain select
+    const getEmailDomain = (e) => {
+        const text = e.target.innerText;
+        
+        if(text !== '직접입력'){
+            refs.emaildomainRef.current.value = text;
+            setIsDomainSelect(!isDomainSelect);
+            setFormData({...formData, emaildomain:text});
+        }else{
+            setIsDomainInput(false);
+            refs.emaildomainRef.current.focus();
+            setIsDomainSelect(false);
+        }
+        
+    }
+    
+    // validate
+    const validate = () =>{
+        // 빈 문자열 확인
+    }
+
+    // login
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('formData ===> ', formData);
+    }
+
     return (
         <div className="signup">
             <h2>회원가입</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="form_area">
                     <div className="top_info"><span className='icon_star'>*</span> 필수입력사항</div>
 
                     <div className="f_wrap">
                         <span>아이디<span className='icon_star'>*</span></span>
-                        <div><input type="text" placeholder='아이디를 입력해주세요' /></div>
+                        <div><input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' /></div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호<span className='icon_star'>*</span></span>
-                        <div><input type="password" placeholder='비밀번호를 입력해주세요' /></div>
+                        <div><input type="password" name="pwd" ref={refs.pwdRef} onChange={handleChangeForm} placeholder='비밀번호를 입력해주세요' /></div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호확인<span className='icon_star'>*</span></span>
-                        <div><input type="password" placeholder='비밀번호를 한번 더 입력해주세요' /></div>
+                        <div><input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} placeholder='비밀번호를 한번 더 입력해주세요' /></div>
                     </div>
                     <div className="f_wrap">
                         <span>이름<span className='icon_star'>*</span></span>
-                        <div><input type="text" placeholder='이름을 입력해 주세요' /></div>
+                        <div><input type="text"  name="name" ref={refs.nameRef} onChange={handleChangeForm} placeholder='이름을 입력해 주세요' /></div>
                     </div>
                     <div className="f_wrap">
                         <span>이메일<span className='icon_star'>*</span></span>
-                        <div><input type="text" placeholder='예: marketkurly' /></div>
+                        <div className='email'>
+                            <input type="text"  name="email" ref={refs.emailRef} onChange={handleChangeForm} placeholder='예: marketkurly' />
+                            <div className="select">
+                                <div className="default" onClick={() =>{setIsDomainSelect(!isDomainSelect)}}>
+                                    { isDomainInput ? 
+                                    <input type="text" disabled placeholder="선택하기" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> : 
+                                    <input type="text" placeholder="직접입력" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> 
+                                    }  
+                                    <span><MdArrowDropDown/></span>
+                                </div>
+                                {isDomainSelect && <ul>
+                                    <li><button type="button" onClick={getEmailDomain}>naver.com</button></li>
+                                    <li><button type="button" onClick={getEmailDomain}>gmail.com</button></li>
+                                    <li><button type="button" onClick={getEmailDomain}>hanmail.com</button></li>
+                                    <li><button type="button" onClick={getEmailDomain}>kakao.com</button></li>
+                                    <li><button type="button" onClick={getEmailDomain}>daum.net</button></li>
+                                    <li><button type="button" onClick={getEmailDomain}>직접입력</button></li>
+                                </ul>}
+                            </div>
+                        </div>
                     </div>
                     <div className="f_wrap">
                         <span>휴대폰<span className='icon_star'>*</span></span>
                         <div>
-                            <input type="text" placeholder='숫자만 입력해주세요.' />
+                            <input type="text"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
                             <button type="button" className="get_number">인증번호 받기</button>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>주소<span className='icon_star'>*</span></span>
                         <div>
-                            <button type="button" className='btn_search_addr'>주소 검색</button>
+                            <button type="button"  name="address" ref={refs.addressRef} onChange={handleChangeForm} className='btn_search_addr'>주소 검색</button>
                             <em>배송지에 따라 상품 정보가 달라질 수 있습니다.</em>
                         </div>
                     </div>
@@ -52,21 +141,21 @@ export default function SignUp() {
                         <div className='gender_area'>
                             <label className="radio_box">
                                 <div className='radio'>
-                                    <input type="radio" name="gender" value="m"  />
+                                    <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="m"  />
                                 <div>
                                 </div></div>
                                 남자
                             </label>
                             <label className="radio_box">
                                 <div className='radio'>
-                                    <input type="radio" name="gender" value="f"  />
+                                    <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="f"  />
                                 <div>
                                 </div></div>
                                 여자
                             </label>
                             <label className="radio_box">
                                 <div className='radio'>
-                                    <input type="radio" name="gender" value="default" defaultChecked />
+                                    <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="default" defaultChecked />
                                 <div>
                                 </div></div>
                                 선택안함
@@ -76,11 +165,11 @@ export default function SignUp() {
                     <div className="f_wrap birth">
                         <span>생년월일<span className='icon_star'>*</span></span>
                         <div>
-                            <input type="text" placeholder='YYYY' />
+                            <input type="text" placeholder='YYYY' name="birth1" ref={refs.birth1Ref} onChange={handleChangeForm} />
                             <span>/</span>
-                            <input type="text" placeholder='MM' />
+                            <input type="text" placeholder='MM' name="birth2" ref={refs.birth2Ref} onChange={handleChangeForm} />
                             <span>/</span>
-                            <input type="text" placeholder='DD' />
+                            <input type="text" placeholder='DD' name="birth3" ref={refs.birth3Ref} onChange={handleChangeForm} />
                         </div>
                     </div>
                     <div className="f_wrap recommend_area">
