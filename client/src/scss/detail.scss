@@ -325,8 +325,9 @@
         width:1010px;
         margin-top:90px;
         nav{
-            // position:sticky;
-            top:56px;
+            position:sticky;
+            // top:56px;
+            top:0;
             width:1010px;
             z-index:10;
             ul{
@@ -351,6 +352,7 @@
                     }
                     &.on{
                         background-color:transparent;
+                        color:$main-color;
                     }
                 }
             }

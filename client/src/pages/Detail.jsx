@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useRef, useState, useEffect} from 'react';
 import Header from '../components/common/Header.jsx';
 import Footer from '../components/common/Footer.jsx';
 import { GoHeart } from "react-icons/go";
@@ -14,6 +14,63 @@ import { HiOutlineEmojiHappy } from "react-icons/hi";
 import '../scss/detail.scss';
 
 export default function Detail() {
+    const refs = {
+        tab1Ref:useRef(null),
+        tab2Ref:useRef(null),
+        tab3Ref:useRef(null),
+        tab4Ref:useRef(null),
+        navRef:useRef(null)
+    }
+    let [offset,setOffset] = useState([]);
+
+    useEffect(() =>{
+        
+        const updateOffsets = () => {
+            setOffset([
+                refs.tab1Ref.current?.offsetTop,
+                refs.tab2Ref.current?.offsetTop,
+                refs.tab3Ref.current?.offsetTop,
+                refs.tab4Ref.current?.offsetTop
+            ]);
+        };
+        setTimeout(updateOffsets,1000);
+
+        console.log('offset',offset); //[] 빈 값. gpt 확인해줘
+
+        const scrollCheck = () =>{
+            console.log('window',window.scrollY);
+            if(window.scrollY > offset[0] && window.scrollY < offset[1]){
+                // const children = refs.navRef.current.children;
+                // children.classList.remove('on');
+                // children.first
+                // refs.tab1Ref.current.classList.add('on');
+                console.log('1번');
+                
+                
+            }else if(window.scrollY > offset[1] && window.scrollY < offset[2]){
+                // refs.tab2Ref.current.classList.add('on');
+                console.log('2번');
+            }
+            
+        }
+        scrollCheck();
+        
+        window.addEventListener('scroll',scrollCheck);
+    },[offset]);
+
+    // tab nav click event
+    const tabActive = (e, target) => {
+        const children = e.target.parentElement.children;
+        for(let tab of children){
+            tab.classList.remove('on');
+        }
+        e.target.classList.add('on');
+
+        target.current.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+
+    
     return (
         <div>
             <div className="detail_area">
@@ -92,16 +149,16 @@ export default function Detail() {
                 </div>
                 <div className="detail_tap_area">
                     <nav>
-                        <ul>
-                            <li>상품설명</li>
-                            <li>상세정보</li>
-                            <li>후기(1,234)</li>
-                            <li>문의</li>
+                        <ul ref={refs.navRef}>
+                            <li onClick={(e) => tabActive(e,refs.tab1Ref)} className='on'>상품설명</li>
+                            <li onClick={(e) => tabActive(e,refs.tab2Ref)}>상세정보</li>
+                            <li onClick={(e) => tabActive(e,refs.tab3Ref)}>후기(1,234)</li>
+                            <li onClick={(e) => tabActive(e,refs.tab4Ref)}>문의</li>
                         </ul>
                     </nav>
                     <div className="tab_box">
                         {/* 1 상품설명 */}
-                        <div className="tab_product_info">
+                        <div className="tab_product_info" ref={refs.tab1Ref}>
                             <ul>
                                 <li><img src="https://placehold.co/1010x400?text=img01" alt="" /></li>
                                 <li><img src="https://placehold.co/1010x400?text=img02" alt="" /></li>
@@ -110,7 +167,7 @@ export default function Detail() {
                             </ul>
                         </div>
                         {/* 2 상세정보 */}
-                        <div className="tab_detail_info">
+                        <div className="tab_detail_info" ref={refs.tab2Ref}>
                             <ul className='product_img'>
                                 <li><img src="https://placehold.co/1010x400?text=detail_01" alt="" /></li>
                                 <li><img src="https://placehold.co/1010x400?text=detail_02" alt="" /></li>
@@ -293,7 +350,7 @@ export default function Detail() {
                             </div>
                         </div>
                         {/* 3 상품 후기 */}
-                        <div className="tab_review_info">
+                        <div className="tab_review_info" ref={refs.tab3Ref}>
                             <div className="tit_area"> 
                                 <strong>상품 후기</strong>
                             </div>
@@ -380,7 +437,7 @@ export default function Detail() {
                             </div>
                         </div>
                         {/* 4 상품 문의 */}
-                        <div className="tab_inquire_info">
+                        <div className="tab_inquire_info" ref={refs.tab4Ref}>
                             <div className="tit_area"> 
                                 <strong>상품 문의</strong>
                                 <ul>
