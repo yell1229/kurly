@@ -113,6 +113,7 @@ export default function Header() {
                                 <li><a href="">특가/혜택</a></li>
                             </ul>
                         </nav>
+                        <div className="btn_delivery"><Link to="/goods/new">상품등록</Link></div>
                         <div className="btn_delivery"><span>샛별·하루</span> 배송안내</div>
                     </div>
                 </div>

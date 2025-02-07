@@ -27,6 +27,8 @@ export default function Detail() {
         nav3Ref:useRef(null),
         nav4Ref:useRef(null)
     }
+    const btmCartRef = useRef(null);
+    const [btnCheck, setBtnCheck] = useState(false);
     const [offset,setOffset] = useState([]);
 
     useEffect(() =>{
@@ -39,11 +41,10 @@ export default function Detail() {
                 window.scrollY + refs.tab4Ref.current?.getBoundingClientRect().top
             ]);
         };
+
         setTimeout(updateOffsets,1000);
-        console.log('offset-->',offset);
         
         const scrollCheck = () =>{
-            console.log('window',window.scrollY);
             if(window.scrollY < offset[0]){
                 navClass(tabRefs.nav1Ref);       
             }else if(window.scrollY >= offset[0] && window.scrollY < offset[1]){
@@ -56,6 +57,11 @@ export default function Detail() {
                 navClass(tabRefs.nav4Ref);
             }
             
+            if(window.scrollY > 400){
+                btmCartRef.current.classList.add('scroll');
+            }else{
+                btmCartRef.current.classList.remove('scroll');
+            }
         }
         scrollCheck();
         
@@ -76,7 +82,20 @@ export default function Detail() {
         target.current.scrollIntoView({behavior: "smooth", block: "start"});
     }
 
-
+    // btm add cart btn
+    const openCart = () => {
+        if(btmCartRef.current){
+            if(btnCheck === false){
+                btmCartRef.current.classList.remove('scroll');
+                btmCartRef.current.classList.add('active');
+                return setBtnCheck(!btnCheck);
+            }else{
+                btmCartRef.current.classList.remove('active');
+                btmCartRef.current.classList.add('scroll');
+                return setBtnCheck(!btnCheck);
+            }
+        }
+    }
     
     return (
         <div>
@@ -487,18 +506,30 @@ export default function Detail() {
                         </div>
                     </div>
                 </div>
-                <div className="btm_cart_area">
+
+                <div className="btm_cart_area" ref={btmCartRef}>
                     <div className="cont_area">
-                        <div className="label">상품선택<span><IoIosArrowDown /></span></div>
-                        <select>
-                            <option value="default">상품을 선택해주세요</option>
-                            <option value=""></option>
-                        </select>
-                        <div className="total_price"><span>총 상품금액:</span><strong>165,750원</strong></div>
-                        <div className="btns">
-                            <div className="heart"><GoHeart /></div>
-                            <div className="bell"><VscBell /></div>
-                            <div className="add_cart">장바구니 담기</div>
+                        <div className="label" onClick={openCart}>상품선택<span><IoIosArrowDown /></span></div>
+
+                        <div className='box_wrap'>
+                            <span class="product_name">[랑콤]  NEW 제니피끄 얼티미트 세럼 50ml 설날 선물세트</span>
+                            <div className="count_box">
+                                <div className="count">
+                                    <button type="button">-</button>
+                                    <div>1</div>
+                                    <button type="button">+</button>
+                                </div>
+                                <div className="price"><strong>165,750원</strong></div>
+                            </div>
+                        </div>
+
+                        <div className="total_price"><span>총 상품금액:</span><strong>165,750</strong><em>원</em></div>
+                        <div className='btns_wrap'>
+                            <div className="btns">
+                                <div className="heart"><GoHeart /></div>
+                                <div className="bell"><VscBell /></div>
+                                <div className="add_cart">장바구니 담기</div>
+                            </div>
                         </div>
                     </div>
                 </div>
