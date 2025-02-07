@@ -1,10 +1,12 @@
 import React from 'react';
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineChatBubbleLeftEllipsis } from "react-icons/hi2";
+import { Link } from 'react-router-dom';
 
 export default function ProductThumb({slideImg}) {
     return (
         <div className="box">
+            <Link to={slideImg.src}>
                 <div className="thumb">
                     <img src={slideImg.img} alt="" />
                     { slideImg.isLive && <div className="ban_top_left">라이브특가</div> }
@@ -23,6 +25,7 @@ export default function ProductThumb({slideImg}) {
                     </div>
                     <div className="review_num"><HiOutlineChatBubbleLeftEllipsis className='icon' />999+</div>
                 </div>
+            </Link>
         </div>
     );
 }

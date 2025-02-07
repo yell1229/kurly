@@ -1,67 +1,36 @@
-import React,{useRef} from 'react';
+import React,{useState, useEffect} from 'react';
 import { TfiArrowUp } from "react-icons/tfi";
 import SlideList from '../SlideList.jsx';
-import { Navigation, Pagination,Autoplay } from 'swiper/modules';
+import axios from 'axios';
 
 export default function Aside() {
-    
+    const [productList, setProductList ]= useState([]);
+
     const handleScrollTop = () => {
         window.scroll({
             top:0,
             behavior:'smooth'
         });
     };
-    const slidecontrol = {
-        slideControl : {
-        modules : [Navigation, Pagination, Autoplay] ,
-        spaceBetween : 2 ,
-        slidesPerView : 'auto' ,
-        slidesPerGroup : 1 ,
-        direction : 'vertical' ,
-        centeredSlides : false ,
-        speed : 500 ,
-        freeMode : true ,
-        loop : false ,
-        className : "slider" ,
-        height : 209 ,
-        navigation : {nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'}    
-        },
-        slideImg : [
-            {
-                "img":"https://picsum.photos/60/80",
-                "src":"http://www.naver.com"
-            },
-            {
-                "img":"https://picsum.photos/60/80",
-                "src":"http://www.naver.com"
-            },
-            {
-                "img":"https://picsum.photos/60/80",
-                "src":"http://www.naver.com"
-            },
-            {
-                "img":"https://picsum.photos/60/80",
-                "src":"http://www.naver.com"
-            },
-            {
-                "img":"https://picsum.photos/60/80",
-                "src":"http://www.naver.com"
-            }
-        ]
-    }
+
+    useEffect(() =>{
+        axios.get('/data/productList.json')
+                .then(res => setProductList(res.data))
+                .catch(err => console.log(err));
+    },[]);
     
     
     return (
         <>
             {/* start of aside nav */}
             <aside className='ban_q_aside'>
-                <a href=""><img src="./images/deliveryInfo.jpg" alt="" /></a>
+                <a href=""><img src="/images/deliveryInfo.jpg" alt="" /></a>
                 <ul>
                     <li><a href="">컬리 고객 제도</a></li>
                     <li><a href="">컬리 큐레이터</a></li>
                     <li><a href="">레시피</a></li>
                 </ul>
-                <SlideList classname="aside_slide" slideControls={slidecontrol} />
+                <SlideList classname="aside_slide" imageList={productList} />
             </aside>
             {/* end of aside nav */}
 

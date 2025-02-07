@@ -1,0 +1,18 @@
+[
+    {
+        "img":"https://picsum.photos/id/1/1200/370",
+        "src":"https://www.kurly.com/main"
+    },
+    {
+        "img":"https://picsum.photos/id/2/1200/370",
+        "src":"https://www.coupang.com/"
+    },
+    {
+        "img":"https://picsum.photos/id/3/1200/370",
+        "src":"https://www.naver.com/"
+    },
+    {
+        "img":"https://picsum.photos/id/4/1200/370",
+        "src":"https://github.com/"
+    }
+]

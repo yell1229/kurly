@@ -481,7 +481,7 @@
                 }
                 .refund_area{
                     .box_area{
-
+                        margin-top:-1px;
                         .info{
                             display: flex;
                             position: relative;
@@ -1016,6 +1016,161 @@
                         border: 0px none;
                         font-size: 14px;
                     }
+                }
+            }
+        }
+    }
+}
+.product_list{
+    position: relative;
+    .inner{
+        display:flex;
+        justify-content: space-between;
+        width: 1050px;
+        margin: 0 auto;
+        padding: 40px 0;
+        gap: 31px 18px;
+        flex-wrap: wrap;
+    }
+    .box{
+        display: block;
+        width: 249px;
+        color: rgb(51, 51, 51);
+        cursor: pointer;
+        .thumb{
+            position:relative;
+            width:100%;
+            height:320px;
+            border-radius: 4px;
+            overflow: hidden;
+            .ban_top_left{
+                position:absolute;
+                top: 8px;
+                left: 8px;
+                padding: 6px 8px;
+                background-color: rgb(189, 118, 255);
+                color: rgb(255, 255, 255);
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 19px;
+                border-radius: 4px;
+            }
+            .ban_btm_right{
+                position:absolute;
+                bottom: 0;
+                right: 0;
+                width:76px;
+                height:31px;
+                line-height:31px;
+                text-align:center;
+                background-color: rgb(141, 66, 212);
+                color: rgb(255, 255, 255);
+                font-size: 14px;
+                font-weight: 500;
+                border-radius: 4px 0 0 0;
+            }
+            .ban_btm_line{
+                position: absolute;
+                width: 100%;
+                left: 0px;
+                bottom: 0px;
+                background-color: rgba(0, 0, 0, 0.4);
+                padding: 8px 0px;
+                color: rgb(255, 255, 255);
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 21px;
+                text-align:center;
+            }
+            &:hover img{
+                transform:scale(1.2);
+                transition: 0.3s ease-in-out;
+            }
+        }
+        .product_detail_area{
+            display:flex;
+            flex-direction: column;
+            
+            width:100%;
+            .cart{
+                    width: 100%;
+                    height: 36px;
+                    margin-top: 6px;
+                    padding-bottom: 1px;
+                    font-size: 16px;
+                    line-height: 29px;
+                    border: 1px solid rgb(221, 221, 221);
+                    border-radius: 4px;
+                    color: rgb(51, 51, 51);
+                    .icon{
+                        transform:translateY(2px);
+                        font-size:18px;
+                        color:inherit;
+                        padding-right:4px;
+                    }
+            }
+            .info_txt{
+                margin-top:9px;
+                span{
+                    display:block;
+                    margin-bottom: 8px;
+                    font-size: 14px;
+                    color: rgb(153, 153, 153);
+                    line-height: 1.38;
+                    word-break: break-word;
+                }
+                strong{
+                    display:block;
+                    margin-top: 8px;
+                    font-size: 16px;
+                    line-height: 1.45;
+                    color: rgb(51, 51, 51);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    letter-spacing: normal;
+                    word-break: break-word;
+                    overflow-wrap: break-word;
+                }
+            }
+            .discount{
+                & > em{
+                    padding-top: 4px;
+                    font-size: 14px;
+                    line-height: 20px;
+                    text-decoration: line-through;
+                    color: rgb(181, 181, 181);
+                }
+                & > div{
+                        
+                    span{ 
+                        font-size: 16px;
+                        line-height: 24px;
+                        margin-right: 7px;
+                        font-weight: 700;
+                        color: rgb(250, 98, 47);
+                    }
+                    strong{
+                        font-size: 16px;
+                        line-height: 24px;
+                        font-weight: 700;
+                        color: rgb(34, 34, 34);
+                    }
+                }
+            }
+            .review_num{
+                padding-top: 9px;
+                font-size: 12px;
+                line-height: 17px;
+                color: rgb(167, 178, 188);
+                .icon{
+                    font-size:14px;
+                    color: rgb(167, 178, 188);
+                    margin-right:2px;
+                    transform:translateY(3px)
                 }
             }
         }

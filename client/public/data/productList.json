@@ -1,0 +1,53 @@
+[
+    {
+        "pid":1,
+        "img":"https://picsum.photos/id/5/500/700",
+        "src":"/goods/detail",
+        "isLive":true,
+        "isPayback":true
+    },
+    {
+        "pid":2,
+        "img":"https://picsum.photos/id/6/500/700",
+        "src":"/goods/detail",
+        "isLive":true,
+        "istotalPrice" : "141,930"
+    },
+    {
+        "pid":3,
+        "img":"https://picsum.photos/id/7/500/700",
+        "src":"/goods/detail",
+        "isLive":true,
+        "isPayback":"페이백"
+    },
+    {
+        "pid":4,
+        "img":"https://picsum.photos/id/8/500/700",
+        "src":"/goods/detail"
+    },
+    {
+        "pid":5,
+        "img":"https://picsum.photos/id/9/500/700",
+        "src":"/goods/detail",
+        "isLive":true,
+        "istotalPrice" : "141,930"
+    },
+    {
+        "pid":6,
+        "img":"https://picsum.photos/id/10/500/700",
+        "src":"/goods/detail",
+        "isLive":true
+    },
+    {
+        "pid":7,
+        "img":"https://picsum.photos/id/11/500/700",
+        "src":"/goods/detail",
+        "isPayback":true
+    },
+    {
+        "pid":8,
+        "img":"https://picsum.photos/id/12/500/700",
+        "src":"/goods/detail",
+        "isPayback":true
+    }
+]

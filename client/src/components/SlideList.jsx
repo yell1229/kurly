@@ -15,14 +15,59 @@ import '../scss/slider.scss';
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
 
-export default function SlideList({classname,slideControls}) {
+export default function SlideList({classname,imageList}) {
+    const wideSlideControl = {
+        modules : [Navigation, Pagination, Autoplay] ,
+        slidesPerView:1 ,
+        centeredSlides : true,
+        navigation: true,
+        autoplay : {
+            delay: 4500,
+            disableOnInteraction: true,
+        },
+        pagination : {
+            type: 'fraction',
+            },
+        speed : 500 ,
+        loop : true ,
+        className : "slider"
+    };
+
+    const tab4Control = {
+        modules : [Navigation, Pagination, Autoplay] ,
+        spaceBetween :18 ,
+        slidesPerView : 4 ,
+        slidesPerGroup : 4 ,
+        freeMode : true ,
+        centeredSlides  : false ,
+        speed : 500 ,
+        loop : false ,
+        className : "slider",
+        navigation : {nextEl: '.slider_tab4 .swiper-button-next', prevEl: '.slider_tab4 .swiper-button-prev'}
+    };
+
+    const asideControl = {
+        modules : [Navigation, Pagination, Autoplay] ,
+        spaceBetween : 2 ,
+        slidesPerView : 'auto' ,
+        slidesPerGroup : 1 ,
+        direction : 'vertical' ,
+        centeredSlides : false ,
+        speed : 500 ,
+        freeMode : true ,
+        loop : false ,
+        className : "slider" ,
+        height : 209 ,
+        navigation : {nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'}    
+    };
+
 
     return (
         <>
             {/* main top */}
             {classname === 'top_slider' && <div className={classname}>
-                <Swiper {...slideControls.slideControl} >
-                    {slideControls.slideImg && slideControls.slideImg.map((img) =>
+                <Swiper {...wideSlideControl} >
+                    {imageList && imageList.map((img) =>
                         <SwiperSlide style={{background:"#666"}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
                     )}
                 </Swiper>
@@ -32,11 +77,11 @@ export default function SlideList({classname,slideControls}) {
             {
                 classname === 'slider_tab4' && <div className={classname}>
                 <div>
-                    <Swiper {...slideControls.slideControl} >
-                        {slideControls.slideImg && slideControls.slideImg.map((img) =>
+                    <Swiper {...tab4Control} >
+                        {imageList && imageList.map((img) =>
                             <SwiperSlide><Link to={img.src}><ProductThumb slideImg={img} /></Link></SwiperSlide>
                         )}
-                        <SwiperSlide><div className="more"><span>전체보기</span></div> </SwiperSlide>
+                        <SwiperSlide><Link to="/goods/list"><div className="more"><span>전체보기</span></div></Link></SwiperSlide>
                     </Swiper>
                     <div className="swiper-button-prev"></div>
                     <div className="swiper-button-next"></div>
@@ -48,8 +93,8 @@ export default function SlideList({classname,slideControls}) {
             {
                 classname === 'aside_slide' && <div className={classname}>
                     <div className='tit'>최근 본 상품</div>
-                    <Swiper  {...slideControls.slideControl} >   
-                        {slideControls.slideImg && slideControls.slideImg.map((img) =>
+                    <Swiper  {...asideControl} >   
+                        {imageList && imageList.map((img) =>
                             <SwiperSlide><a href={img.src}><img src={img.img} alt={img.src} /></a></SwiperSlide>
                         ) }
                     </Swiper>
