@@ -10,7 +10,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 import ProductInfo from '../components/detail/ProductInfo.jsx';
 import DetailInfo from '../components/detail/DetailInfo.jsx';
-import ReviewInfo from '../components/detail/ReviewInfo.js';
+import ReviewInfo from '../components/detail/ReviewInfo.jsx';
 import InquireInfo from '../components/detail/InquireInfo.jsx';
 
 import '../scss/detail.scss';

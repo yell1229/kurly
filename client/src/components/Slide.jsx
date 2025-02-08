@@ -24,10 +24,10 @@ export default function Slide() {
                     onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}
                     navigation
-                    // autoplay={{ // 자동 재생
-                    //     delay: 4500, // 지연 시간 (한 슬라이더에 머물르는 시간)
-                    //     disableOnInteraction: true, // 마우스 제어 이후 자동 재생을 막을지 말지
-                    // }}
+                    autoplay={{ // 자동 재생
+                        delay: 4500, // 지연 시간 (한 슬라이더에 머물르는 시간)
+                        disableOnInteraction: true, // 마우스 제어 이후 자동 재생을 막을지 말지
+                    }}
                     pagination={{
                         type: 'fraction',
                         }}

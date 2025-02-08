@@ -1,9 +1,20 @@
-import React from 'react';
+import React,{useRef, useState, useEffect} from 'react';
 import { LuThumbsUp } from "react-icons/lu";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import SlideList from '../SlideList.jsx';
+import axios from 'axios';
+import { IoMdClose } from "react-icons/io";
 
 export default function ReviewInfo() {
+    const [slideImg, setSlideImg] = useState([]);
+    const [dimiDisplay, setDimiDisplay] = useState(false);
+
+    useEffect(() => {
+        axios.get('/data/productList.json')
+                .then(res => setSlideImg(res.data))
+                .catch(err => console.log(err));
+    },[]);
     return (
         <div className="tab_review_info">
             <div className="tit_area"> 
@@ -11,7 +22,7 @@ export default function ReviewInfo() {
             </div>
             <div className='thumb_list'>
                 <ul>
-                    <li><img src="https://picsum.photos/124/124" alt="" /></li>
+                    <li onClick={() => {setDimiDisplay(true)}}><img src="https://picsum.photos/124/124" alt="" /></li>
                     <li><img src="https://picsum.photos/124/124" alt="" /></li>
                     <li><img src="https://picsum.photos/124/124" alt="" /></li>
                     <li><img src="https://picsum.photos/124/124" alt="" /></li>
@@ -90,6 +101,15 @@ export default function ReviewInfo() {
                     <button type="button"><IoIosArrowForward /></button>
                 </div>
             </div>
+            { dimiDisplay && <div className='dim_layer_area'>
+                <div className="content">
+                    <button onClick={() =>{setDimiDisplay(!dimiDisplay)}}><IoMdClose /></button>
+                    <div className="tit">사진후기</div>
+                    <div className="slide_area">
+                        <SlideList classname="pop_slide" imageList={slideImg} />
+                    </div>
+                </div>
+            </div>}
         </div>
     );
 }

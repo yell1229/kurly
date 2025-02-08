@@ -14,70 +14,71 @@ import '../scss/slider.scss';
 
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
+import { MdArrowBackIos } from "react-icons/md";
+import { MdArrowForwardIos } from "react-icons/md";
 
 export default function SlideList({classname,imageList}) {
-    const wideSlideControl = {
-        modules : [Navigation, Pagination, Autoplay] ,
-        slidesPerView:1 ,
-        centeredSlides : true,
-        navigation: true,
-        autoplay : {
-            delay: 4500,
-            disableOnInteraction: true,
-        },
-        pagination : {
-            type: 'fraction',
-            },
-        speed : 500 ,
-        loop : true ,
-        className : "slider"
-    };
-
-    const tab4Control = {
-        modules : [Navigation, Pagination, Autoplay] ,
-        spaceBetween :18 ,
-        slidesPerView : 4 ,
-        slidesPerGroup : 4 ,
-        freeMode : true ,
-        centeredSlides  : false ,
-        speed : 500 ,
-        loop : false ,
-        className : "slider",
-        navigation : {nextEl: '.slider_tab4 .swiper-button-next', prevEl: '.slider_tab4 .swiper-button-prev'}
-    };
-
-    const asideControl = {
-        modules : [Navigation, Pagination, Autoplay] ,
-        spaceBetween : 2 ,
-        slidesPerView : 'auto' ,
-        slidesPerGroup : 1 ,
-        direction : 'vertical' ,
-        centeredSlides : false ,
-        speed : 500 ,
-        freeMode : true ,
-        loop : false ,
-        className : "slider" ,
-        height : 209 ,
-        navigation : {nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'}    
-    };
-
-
     return (
         <>
             {/* main top */}
             {classname === 'top_slider' && <div className={classname}>
-                <Swiper {...wideSlideControl} >
+                <Swiper 
+                    modules = {[Navigation, Pagination, Autoplay]}
+                    slidesPerView= {1}
+                    centeredSlides = {true}
+                    navigation= {true}
+                    autoplay = {{
+                        delay: 4500,
+                        disableOnInteraction: true,
+                    }}
+                    pagination = {{
+                        type: 'fraction'
+                        }}
+                    speed = {500 }
+                    loop = {true }
+                    className = {"slider"}
+                >
                     {imageList && imageList.map((img) =>
                         <SwiperSlide style={{background:"#666"}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
                     )}
                 </Swiper>
             </div>}
 
+            {/* detail pop */}
+            {classname === 'pop_slide' && <div className={classname}>
+                <Swiper
+                    modules = {[Navigation, Pagination]}
+                    slidesPerView= {1}
+                    centeredSlides = {true}
+                    speed = {500}
+                    loop = {true}
+                    className = {"slider"}
+                    navigation = {{nextEl: '.pop_slide .swiper-next', prevEl: '.pop_slide .swiper-prev'} }  
+                >
+                    {imageList && imageList.map((img) =>
+                        <SwiperSlide><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
+                    )}
+                </Swiper>
+                <div className="swiper-prev"><MdArrowBackIos /></div>
+                <div className="swiper-next"><MdArrowForwardIos  /></div>
+            </div>}
+
             {/* main contents */}
             {
                 classname === 'slider_tab4' && <div className={classname}>
                 <div>
-                    <Swiper {...tab4Control} >
+                    <Swiper 
+                         modules = {[Navigation, Pagination, Autoplay]}
+                         spaceBetween = {18}
+                         slidesPerView = {4}
+                         slidesPerGroup = {4}
+                         freeMode = {true}
+                         centeredSlides  = {false}
+                         speed = {500}
+                         loop= {false}
+                         className = { "slider"}
+                         navigation = {{nextEl: '.slider_tab4 .swiper-button-next', prevEl: '.slider_tab4 .swiper-button-prev'}}
+                    >
                         {imageList && imageList.map((img) =>
                             <SwiperSlide><Link to={img.src}><ProductThumb slideImg={img} /></Link></SwiperSlide>
                         )}
@@ -93,7 +94,20 @@ export default function SlideList({classname,imageList}) {
             {
                 classname === 'aside_slide' && <div className={classname}>
                     <div className='tit'>최근 본 상품</div>
-                    <Swiper  {...asideControl} >   
+                    <Swiper 
+                         modules = {[Navigation, Pagination, Autoplay]}
+                         spaceBetween = {2}
+                         slidesPerView = {'auto'}
+                         slidesPerGroup ={ 1 }
+                         direction = {'vertical' }
+                         centeredSlides = {false}
+                         speed = {500 }
+                         freeMode = {true}
+                         loop = {false}
+                         className = {"slider"}
+                         height = {209 }
+                         navigation = {{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'} }  
+                    >   
                         {imageList && imageList.map((img) =>
                             <SwiperSlide><a href={img.src}><img src={img.img} alt={img.src} /></a></SwiperSlide>
                         ) }

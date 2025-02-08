@@ -1176,3 +1176,40 @@
         }
     }
 }
+.dim_layer_area{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,.5);
+    z-index:10;
+    .content{
+        position:absolute;
+        top:50%;
+        left:50%;
+        width: 800px;
+        height:685px;
+        margin: 0px auto;
+        padding:20px 50px 50px;
+        background-color: #fff;
+        border-radius: 12px;
+        transform:translate(-50%, -50%);
+        & > button{
+            position:absolute;
+            top:20px;
+            right:20px;
+            font-size:30px;
+            color:#333;
+        }
+        .tit{
+            padding-bottom: 20px;
+            font-weight: 500;
+            font-size: 24px;
+            line-height: 30px;
+            letter-spacing: -0.5px;
+            color: rgb(51, 51, 51);
+            border-bottom: 1px solid rgb(244, 244, 244);
+        }
+    }
+}
