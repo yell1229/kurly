@@ -24,6 +24,30 @@ export default function SignUp() {
         birth2Ref: useRef(null),
         birth3Ref: useRef(null)
     };
+    const msgRef = {
+        idRef: useRef(null),
+        pwdRef: useRef(null),
+        cpwdRef: useRef(null),
+        nameRef: useRef(null),
+        emailRef: useRef(null),
+        // emaildomainRef: useRef(null),
+        phoneRef: useRef(null),
+        addressRef: useRef(null),
+        genderRef: useRef(null),
+        birth1Ref: useRef(null),
+        birth2Ref: useRef(null),
+        birth3Ref: useRef(null)
+    }
+    const totalRef = useRef(null);
+    const agreeRef = {
+        agree1Ref: useRef(null),
+        agree2Ref: useRef(null),
+        agree3Ref: useRef(null),
+        eventTotalRef: useRef(null),
+        smsRef: useRef(null),
+        emailRef: useRef(null),
+        ageRef: useRef(null)
+    }
     const init = {
         id: "",
         pwd: "",
@@ -39,6 +63,20 @@ export default function SignUp() {
         birth3: "",
     };
     const [formData, setFormData] = useState(init);
+    const errMsg=[
+        {"name":"id","msg":"아이디를 입력해주세요."},
+        {"name":"pwd","msg":"비밀번호를 입력해주세요."},
+        {"name":"cpwd","msg":"동일한 비밀번호를 입력해주세요."},
+        {"name":"name","msg":"이름을 입력해주세요."},
+        {"name":"emaile","msg":"이메일 형식으로 입력해 주세요."},
+        {"name":"maildomain","msg":"이메일 형식으로 입력해 주세요."},
+        {"name":"phone","msg":"휴대폰 번호를 입력해 주세요."},
+        {"name":"address","msg":"주소를 선택해주세요."},
+        {"name":"gender","msg":"성별을 선택해주세요."},
+        {"name":"birth1","msg":"태어난 년도 4자리를 정확하게 입력해주세요."},
+        {"name":"birth2","msg":"태어난 월을 정확하게 입력해주세요."},
+        {"name":"birth3","msg":"태어난 날짜를 정확하게 입력해주세요."}
+    ]
     
     // input change event
     const handleChangeForm = (e) => {
@@ -68,15 +106,29 @@ export default function SignUp() {
     
     // validate
     const validate = () =>{
-        let result = true;
-        // 빈 문자열 확인
-        if(refs.idRef.current.value ===''){
-            alert('아이디를 입력해주세요.')
-            result = false;
-        }else if(refs.pwdRef.current.value ===''){
-            alert('비밀번호를 입력해주세요.')
-            result = false;
+        const refValues = Object.entries(refs);
+        const arrayErrMsg = Object.entries(errMsg);
+        
+        for(let i=0; i< refValues.length; i++){
+           const ref = refValues[i][1];
+           const msg = arrayErrMsg[i][1];
+           if(ref.current.name === 'emaildomain'){
+                alert('email');
+                ref.current.focus();
+                return false;
+           }else if(ref.current.value===''){
+                if(ref.current.name === msg.name ){
+                    console.log(msg.msg);
+                    
+                    ref.current.focus();
+                    return false;
+                }
+                
+            }
         }
+
+        
+
     }
 
     // login
@@ -85,6 +137,34 @@ export default function SignUp() {
         if(validate()) console.log('formData ===> ', formData);
     }
     
+    //이용약관 동의
+    const checkAll = (e) => {
+        const total = totalRef.current.checked;
+        const list = Object.values(agreeRef);
+        if(total === true){
+            list.map((ref) => {
+                if(ref.current.checked === false){
+                    ref.current.checked = true;
+                }
+            })
+        }else{
+            list.map((ref) => {
+                if(ref.current.checked === true){
+                    ref.current.checked = false;
+                }
+            })
+        } 
+    }
+
+    const deleteCheckAll = () => {
+        totalRef.current.checked= false;
+        // if(agreeRef.smsRef.current.checked === false){
+        //     agreeRef.eventTotalRef.current.checked=false;
+        // }else if(agreeRef.emailRef.current.checked === false){
+        //     agreeRef.eventTotalRef.current.checked=false;
+        // }
+    }
+
     return (
         <div className="signup">
             <h2>회원가입</h2>
@@ -96,7 +176,7 @@ export default function SignUp() {
                         <span>아이디<span className='icon_star'>*</span></span>
                         <div>
                             <input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' minLength={6} maxLength={16} />
-                            <div className='txt'>아이디를 입력해주세요.</div>
+                            <div className='txt' ref={msgRef.idRef}></div>
                         </div>
                         <div><button type="button" className="get_dblcheck">아이디 중복체크</button></div>
                     </div>
@@ -104,28 +184,28 @@ export default function SignUp() {
                         <span>비밀번호<span className='icon_star'>*</span></span>
                         <div>
                             <input type="password" name="pwd" ref={refs.pwdRef} onChange={handleChangeForm} placeholder='비밀번호를 입력해주세요' />
-                            <div className='txt'>비밀번호를 입력해주세요.</div>
+                            <div className='txt' ref={msgRef.idRef}>비밀번호를 입력해주세요.</div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호확인<span className='icon_star'>*</span></span>
                         <div>
                             <input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} placeholder='비밀번호를 한번 더 입력해주세요' />
-                            <div className='txt'>동일한 비밀번호를 입력</div>
+                            <div className='txt' ref={msgRef.idRef}>동일한 비밀번호를 입력</div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>이름<span className='icon_star'>*</span></span>
                         <div>
                             <input type="text"  name="name" ref={refs.nameRef} onChange={handleChangeForm} placeholder='이름을 입력해 주세요' />
-                            <div className='txt'>이름을 입력해주세요.</div>
+                            <div className='txt' ref={msgRef.idRef}>이름을 입력해주세요.</div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>이메일<span className='icon_star'>*</span></span>
                         <div>
                             <div className='email'>
-                                <input type="email"  name="email" ref={refs.emailRef} onChange={handleChangeForm} placeholder='예: marketkurly' />
+                                <input type="text"  name="email" ref={refs.emailRef} onChange={handleChangeForm} placeholder='예: marketkurly' />
                                 <div className="select">
                                     <div className="default" onClick={() =>{setIsDomainSelect(!isDomainSelect)}}>
                                         { isDomainInput ? 
@@ -144,14 +224,14 @@ export default function SignUp() {
                                     </ul>}
                                 </div>
                             </div>
-                            <div className='txt'>이메일 형식으로 입력해 주세요.</div>
+                            <div className='txt' ref={msgRef.idRef}>이메일 형식으로 입력해 주세요.</div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>휴대폰<span className='icon_star'>*</span></span>
                         <div>
                             <input type="number"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
-                            <div className="txt">휴대폰 번호를 입력해 주세요.</div>
+                            <div className="txt" ref={msgRef.idRef}>휴대폰 번호를 입력해 주세요.</div>
                         </div>
                         <div><button type="button" className="get_number">인증번호 받기</button></div>
                     </div>
@@ -164,38 +244,44 @@ export default function SignUp() {
                     </div>
                     <div className="f_wrap">
                         <span>성별</span>
-                        <div className='gender_area'>
-                            <label className="radio_box">
-                                <div className='radio'>
-                                    <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="m"  />
-                                <div>
-                                </div></div>
-                                남자
-                            </label>
-                            <label className="radio_box">
-                                <div className='radio'>
-                                    <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="f"  />
-                                <div>
-                                </div></div>
-                                여자
-                            </label>
-                            <label className="radio_box">
-                                <div className='radio'>
-                                    <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="default" defaultChecked />
-                                <div>
-                                </div></div>
-                                선택안함
-                            </label>
+                        <div className="depth2">
+                            <div className='gender_area'>
+                                <label className="radio_box">
+                                    <div className='radio'>
+                                        <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="m"  />
+                                    <div>
+                                    </div></div>
+                                    남자
+                                </label>
+                                <label className="radio_box">
+                                    <div className='radio'>
+                                        <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="f"  />
+                                    <div>
+                                    </div></div>
+                                    여자
+                                </label>
+                                <label className="radio_box">
+                                    <div className='radio'>
+                                        <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="default" defaultChecked />
+                                    <div>
+                                    </div></div>
+                                    선택안함
+                                </label>
+                            </div>
+                            <div className='txt' ref={msgRef.idRef}>이메일 형식으로 입력해 주세요.</div>
                         </div>
                     </div>
                     <div className="f_wrap birth">
                         <span>생년월일</span>
-                        <div>
-                            <input type="text" placeholder='YYYY' name="birth1" ref={refs.birth1Ref} onChange={handleChangeForm} />
-                            <span>/</span>
-                            <input type="text" placeholder='MM' name="birth2" ref={refs.birth2Ref} onChange={handleChangeForm} />
-                            <span>/</span>
-                            <input type="text" placeholder='DD' name="birth3" ref={refs.birth3Ref} onChange={handleChangeForm} />
+                        <div className="depth2">
+                            <div>
+                                <input type="text" placeholder='YYYY' name="birth1" ref={refs.birth1Ref} onChange={handleChangeForm} />
+                                <span>/</span>
+                                <input type="text" placeholder='MM' name="birth2" ref={refs.birth2Ref} onChange={handleChangeForm} />
+                                <span>/</span>
+                                <input type="text" placeholder='DD' name="birth3" ref={refs.birth3Ref} onChange={handleChangeForm} />
+                            </div>
+                            <div className='txt' ref={msgRef.idRef}>이메일 형식으로 입력해 주세요.</div>
                         </div>
                     </div>
                     <div className="f_wrap recommend_area">
@@ -223,12 +309,17 @@ export default function SignUp() {
                         <span>이용약관동의<span className='icon_star'>*</span></span>
                         <div>
                             <div className='total'>
-                                <Checkbox value="" text="전체 동의합니다."/>
+                                <label className='check_box'>
+                                    <div className='check'><input type="checkbox" ref={totalRef} onChange={checkAll} />
+                                        <div><GoCheck /></div>
+                                    </div>
+                                    전체 동의합니다.
+                                </label>
                                 <div className='info_txt' >선택항목에 동의하지 않은 경우도 회원가입 및 일반적인 서비스를 이용할 수 있습니다.</div>
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  value="" />
+                                    <div className='check'><input type="checkbox"  ref={agreeRef.agree1Ref} checked={false} onChange={deleteCheckAll} />
                                         <div><GoCheck /></div>
                                     </div>
                                     이용약관 동의
@@ -238,7 +329,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  value="" />
+                                    <div className='check'><input type="checkbox" ref={agreeRef.agree2Ref} checked={false} onChange={deleteCheckAll} />
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
@@ -248,7 +339,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  value="" />
+                                    <div className='check'><input type="checkbox"  ref={agreeRef.agree3Ref} checked={false} onChange={deleteCheckAll} />
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
@@ -258,7 +349,7 @@ export default function SignUp() {
                             </div>
                             <div className='option'>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  value="" />
+                                    <div className='check'><input type="checkbox"  ref={agreeRef.eventTotalRef} checked={false} onChange={deleteCheckAll} />
                                         <div><GoCheck /></div>
                                     </div>
                                     무료배송, 할인쿠폰 등 혜택/정보 수신 동의
@@ -266,13 +357,13 @@ export default function SignUp() {
                                 </label>
                                 <div>
                                     <label className='check_box'>
-                                        <div className='check'><input type="checkbox"  value="" />
+                                        <div className='check'><input type="checkbox"  ref={agreeRef.smsRef} checked={false} onChange={deleteCheckAll} />
                                             <div><GoCheck /></div>
                                         </div>
                                         SMS
                                     </label>
                                     <label className='check_box'>
-                                        <div className='check'><input type="checkbox"  value="" />
+                                        <div className='check'><input type="checkbox"  ref={agreeRef.emailRef} checked={false} onChange={deleteCheckAll} />
                                             <div><GoCheck /></div>
                                         </div>
                                         이메일
@@ -281,7 +372,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  value="" />
+                                    <div className='check'><input type="checkbox"  ref={agreeRef.ageRef} checked={false} onChange={deleteCheckAll} />
                                         <div><GoCheck /></div>
                                     </div>
                                     본인은 만 14세 이상입니다.
