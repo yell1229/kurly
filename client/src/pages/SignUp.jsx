@@ -19,7 +19,9 @@ export default function SignUp() {
         emaildomainRef: useRef(null),
         phoneRef: useRef(null),
         addressRef: useRef(null),
-        genderRef: useRef(null),
+        genderMaleRef: useRef(null),
+        genderFemaleRef: useRef(null),
+        genderDefaultRef: useRef(null),
         birth1Ref: useRef(null),
         birth2Ref: useRef(null),
         birth3Ref: useRef(null)
@@ -30,7 +32,7 @@ export default function SignUp() {
         cpwdRef: useRef(null),
         nameRef: useRef(null),
         emailRef: useRef(null),
-        // emaildomainRef: useRef(null),
+        emaildomainRef: useRef(null),
         phoneRef: useRef(null),
         addressRef: useRef(null),
         genderRef: useRef(null),
@@ -64,18 +66,18 @@ export default function SignUp() {
     };
     const [formData, setFormData] = useState(init);
     const errMsg=[
-        {"name":"id","msg":"아이디를 입력해주세요."},
-        {"name":"pwd","msg":"비밀번호를 입력해주세요."},
-        {"name":"cpwd","msg":"동일한 비밀번호를 입력해주세요."},
-        {"name":"name","msg":"이름을 입력해주세요."},
-        {"name":"emaile","msg":"이메일 형식으로 입력해 주세요."},
-        {"name":"maildomain","msg":"이메일 형식으로 입력해 주세요."},
-        {"name":"phone","msg":"휴대폰 번호를 입력해 주세요."},
-        {"name":"address","msg":"주소를 선택해주세요."},
-        {"name":"gender","msg":"성별을 선택해주세요."},
-        {"name":"birth1","msg":"태어난 년도 4자리를 정확하게 입력해주세요."},
-        {"name":"birth2","msg":"태어난 월을 정확하게 입력해주세요."},
-        {"name":"birth3","msg":"태어난 날짜를 정확하게 입력해주세요."}
+        {"name":"id","ref":msgRef.idRef , "msg":"아이디를 입력해주세요."},
+        {"name":"pwd","ref":msgRef.pwdRef ,"msg":"비밀번호를 입력해주세요."},
+        {"name":"cpwd","ref":msgRef.cpwdRef ,"msg":"동일한 비밀번호를 입력해주세요."},
+        {"name":"name","ref":msgRef.nameRef ,"msg":"이름을 입력해주세요."},
+        {"name":"email","ref":msgRef.emailRef ,"msg":"이메일 형식으로 입력해 주세요."},
+        {"name":"maildomain","ref":msgRef.emaildomainRef ,"msg":"이메일 형식으로 입력해 주세요."},
+        {"name":"phone","ref":msgRef.phoneRef ,"msg":"휴대폰 번호를 입력해 주세요."},
+        {"name":"address","ref":msgRef.addressRef ,"msg":"주소를 선택해주세요."},
+        {"name":"gender","ref":msgRef.genderRef ,"msg":"성별을 선택해주세요."},
+        {"name":"year","ref":msgRef.yearRef ,"msg":"태어난 년도 4자리를 정확하게 입력해주세요."},
+        {"name":"month","ref":msgRef.monthRef ,"msg":"태어난 월을 정확하게 입력해주세요."},
+        {"name":"day","ref":msgRef.dayRef ,"msg":"태어난 날짜를 정확하게 입력해주세요."}
     ]
     
     // input change event
@@ -112,25 +114,32 @@ export default function SignUp() {
         for(let i=0; i< refValues.length; i++){
            const ref = refValues[i][1];
            const msg = arrayErrMsg[i][1];
-           if(ref.current.name === 'emaildomain'){
-                alert('email');
-                ref.current.focus();
-                return false;
-           }else if(ref.current.value===''){
-                if(ref.current.name === msg.name ){
-                    console.log(msg.msg);
-                    
-                    ref.current.focus();
-                    return false;
+           console.log('msg',msg);
+           
+            if(ref.current){
+                if(ref.current.name === 'emaildomain'){
+                    if(ref.current.value===''){
+                        ref.current.focus();
+                        return false;
+                    }            
+               }else if(ref.current.name === 'gender'){
+                    if(refs.genderDefaultRef.current && refs.genderDefaultRef.current.checked) {
+                        msg.ref.current.innerText=msg.msg;
+                        return false;
+                    }
+               }else if(ref.current.value===''){
+                    if(ref.current.name === msg.name ){
+                        console.log(msg.msg, msg.name);
+                        msg.ref.current.innerText=msg.msg;
+    
+                        ref.current.focus();
+                        return false;
+                    }  
                 }
-                
             }
         }
-
-        
-
     }
-
+    
     // login
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -184,21 +193,21 @@ export default function SignUp() {
                         <span>비밀번호<span className='icon_star'>*</span></span>
                         <div>
                             <input type="password" name="pwd" ref={refs.pwdRef} onChange={handleChangeForm} placeholder='비밀번호를 입력해주세요' />
-                            <div className='txt' ref={msgRef.idRef}>비밀번호를 입력해주세요.</div>
+                            <div className='txt' ref={msgRef.pwdRef}></div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호확인<span className='icon_star'>*</span></span>
                         <div>
                             <input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} placeholder='비밀번호를 한번 더 입력해주세요' />
-                            <div className='txt' ref={msgRef.idRef}>동일한 비밀번호를 입력</div>
+                            <div className='txt' ref={msgRef.cpwdRef}></div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>이름<span className='icon_star'>*</span></span>
                         <div>
                             <input type="text"  name="name" ref={refs.nameRef} onChange={handleChangeForm} placeholder='이름을 입력해 주세요' />
-                            <div className='txt' ref={msgRef.idRef}>이름을 입력해주세요.</div>
+                            <div className='txt' ref={msgRef.nameRef}></div>
                         </div>
                     </div>
                     <div className="f_wrap">
@@ -224,22 +233,24 @@ export default function SignUp() {
                                     </ul>}
                                 </div>
                             </div>
-                            <div className='txt' ref={msgRef.idRef}>이메일 형식으로 입력해 주세요.</div>
+                            <div className='txt' ref={msgRef.emailRef}></div>
                         </div>
                     </div>
                     <div className="f_wrap">
                         <span>휴대폰<span className='icon_star'>*</span></span>
                         <div>
                             <input type="number"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
-                            <div className="txt" ref={msgRef.idRef}>휴대폰 번호를 입력해 주세요.</div>
+                            <div className="txt" ref={msgRef.phoneRef}></div>
                         </div>
-                        <div><button type="button" className="get_number">인증번호 받기</button></div>
+                        {/* <div><button type="button" className="get_number">인증번호 받기</button></div> */}
                     </div>
                     <div className="f_wrap">
                         <span>주소<span className='icon_star'>*</span></span>
                         <div>
-                            <button type="button"  name="address" ref={refs.addressRef} onChange={handleChangeForm} className='btn_search_addr'>주소 검색</button>
+                            <button type="button"  name="address"  className='btn_search_addr'>주소 검색</button>
+                            <input type="text" ref={refs.addressRef} onChange={handleChangeForm} />
                             <em>배송지에 따라 상품 정보가 달라질 수 있습니다.</em>
+                            <div className='txt' ref={msgRef.addressRef}></div>
                         </div>
                     </div>
                     <div className="f_wrap">
@@ -248,40 +259,40 @@ export default function SignUp() {
                             <div className='gender_area'>
                                 <label className="radio_box">
                                     <div className='radio'>
-                                        <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="m"  />
+                                        <input type="radio" name="gender" ref={refs.genderMaleRef} onChange={handleChangeForm} value="m"  />
                                     <div>
                                     </div></div>
                                     남자
                                 </label>
                                 <label className="radio_box">
                                     <div className='radio'>
-                                        <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="f"  />
+                                        <input type="radio" name="gender" ref={refs.genderFemaleRef} onChange={handleChangeForm} value="f"  />
                                     <div>
                                     </div></div>
                                     여자
                                 </label>
                                 <label className="radio_box">
                                     <div className='radio'>
-                                        <input type="radio" name="gender" ref={refs.genderRef} onChange={handleChangeForm} value="default" defaultChecked />
+                                        <input type="radio" name="gender" ref={refs.genderDefaultRef} onChange={handleChangeForm} value="default" defaultChecked />
                                     <div>
                                     </div></div>
                                     선택안함
                                 </label>
                             </div>
-                            <div className='txt' ref={msgRef.idRef}>이메일 형식으로 입력해 주세요.</div>
+                            <div className='txt' ref={msgRef.genderRef}></div>
                         </div>
                     </div>
                     <div className="f_wrap birth">
                         <span>생년월일</span>
                         <div className="depth2">
                             <div>
-                                <input type="text" placeholder='YYYY' name="birth1" ref={refs.birth1Ref} onChange={handleChangeForm} />
+                                <input type="text" placeholder='YYYY' name="year" ref={refs.yearRef} onChange={handleChangeForm} />
                                 <span>/</span>
-                                <input type="text" placeholder='MM' name="birth2" ref={refs.birth2Ref} onChange={handleChangeForm} />
+                                <input type="text" placeholder='MM' name="month" ref={refs.monthRef} onChange={handleChangeForm} />
                                 <span>/</span>
-                                <input type="text" placeholder='DD' name="birth3" ref={refs.birth3Ref} onChange={handleChangeForm} />
+                                <input type="text" placeholder='DD' name="day" ref={refs.dayRef} onChange={handleChangeForm} />
                             </div>
-                            <div className='txt' ref={msgRef.idRef}>이메일 형식으로 입력해 주세요.</div>
+                            <div className='txt' ref={msgRef.birth1Ref}></div>
                         </div>
                     </div>
                     <div className="f_wrap recommend_area">

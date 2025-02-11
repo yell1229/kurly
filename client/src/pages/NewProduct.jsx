@@ -1,11 +1,36 @@
-import React from 'react';
+import React,{useState} from 'react';
 import '../scss/new_product.scss';
+import ImageUpload from '../components/ImageUpload.jsx';
+import axios from 'axios';
 
 export default function NewProduct() {
+    const [fname, setFname] = useState({});
+    const [previewImg, setPreviewImg] = useState({});
+    const [formData, setFormData] = useState('');
+    const [currentImg, setCurrentImg] = useState('');
+
+    const getFileName = (filenames) => {
+        setFname(filenames);
+        setPreviewImg(`http://localhost:9000/${filenames.uploadFileName}`);
+        setCurrentImg(previewImg.replace(/\\/g, '/'));
+        // setCurrentImg(previewImg);
+        setFormData(filenames);
+    }
+    console.log('previewImg',previewImg); // previewImg upload_files\1739284677715-KakaoTalk_20240213_211724594_02.jpg
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        axios.post('http://localhost:9000/product/new',formData)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err));
+
+    }
+
     return (
         <div className="new_product">
             <h2>상품입력</h2>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="form_area">
                     <div className="f_wrap">
                         <span>상품이름</span>
@@ -24,6 +49,17 @@ export default function NewProduct() {
                         <div>
                             <input type="text" name="id" placeholder='' />
                         </div>
+                    </div>
+                    <div className="f_wrap">
+                        <span>대표이미지</span>
+                        <div>
+                            <ImageUpload getFileName={getFileName} />
+                            <div>
+                                <input type="text" name="upload" value={fname.uploadFileName} readOnly />
+                                <input type="text" name="source" value={fname.sourceFileName} readOnly />
+                            </div>
+                        </div>
+                        <div><img src={currentImg} alt="" /></div>
                     </div>
                 </div>
 
