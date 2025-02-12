@@ -141,10 +141,12 @@
                     overflow: hidden;
                     width: 333px;
                     height: 44px;
+                    line-height: 44px;
                     border-radius: 4px;
                     color: rgb(95, 0, 128);
                     background-color: rgb(255, 255, 255);
                     border: 1px solid rgb(95, 0, 128);
+                    cursor: pointer;
                     & + em{
                         display:block;
                         display: block;
@@ -154,6 +156,7 @@
                         color: rgb(102, 102, 102);
                     }
                 }
+                
                 &.gender_area{
                     display:flex;
                     justify-content: start;
@@ -163,6 +166,9 @@
                     margin-top:8px;
                     font-size: 13px;
                     color: rgb(240, 63, 64);
+                }
+                &.postcode_area > *{
+                    margin-bottom:10px;
                 }
             }
             .depth2{

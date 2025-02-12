@@ -51,6 +51,25 @@ export default function NewProduct() {
                         </div>
                     </div>
                     <div className="f_wrap">
+                        <span>라이브특가</span>
+                        <div className='event'>
+                            <label className="radio_box">
+                                <div className='radio'>
+                                    <input type="radio" name="event" value="1" />
+                                <div>
+                                </div></div>
+                                선택
+                            </label>
+                            <label className="radio_box">
+                                <div className='radio'>
+                                    <input type="radio" name="event" value="0" defaultChecked />
+                                <div>
+                                </div></div>
+                                선택안함
+                            </label>
+                        </div>
+                    </div>
+                    <div className="f_wrap upload_file">
                         <span>대표이미지</span>
                         <div>
                             <ImageUpload getFileName={getFileName} />
@@ -59,7 +78,7 @@ export default function NewProduct() {
                                 <input type="text" name="source" value={fname.sourceFileName} readOnly />
                             </div>
                         </div>
-                        <div><img src={currentImg} alt="" /></div>
+                        <div className='img'><img src={currentImg} alt="" /></div>
                     </div>
                 </div>
 

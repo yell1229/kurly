@@ -1,7 +1,6 @@
 import React,{useRef, useState} from 'react';
+import Postcode from '../components/Postcode.jsx';
 
-import Checkbox from '../components/Checkbox.jsx';
-import RadioBox from '../components/RadioBox.jsx';
 import '../scss/signup.scss';
 import { GoCheck } from "react-icons/go";
 import { MdArrowDropDown } from "react-icons/md";
@@ -10,6 +9,7 @@ export default function SignUp() {
     const [isDomainInput, setIsDomainInput] = useState(true);
     const [isDomainSelect, setIsDomainSelect] = useState(false);
     const [isRecommendId, setIsRecommendId] = useState(false);
+
     const refs = {
         idRef: useRef(null),
         pwdRef: useRef(null),
@@ -18,13 +18,8 @@ export default function SignUp() {
         emailRef: useRef(null),
         emaildomainRef: useRef(null),
         phoneRef: useRef(null),
-        addressRef: useRef(null),
-        genderMaleRef: useRef(null),
-        genderFemaleRef: useRef(null),
-        genderDefaultRef: useRef(null),
-        birth1Ref: useRef(null),
-        birth2Ref: useRef(null),
-        birth3Ref: useRef(null)
+        address1Ref: useRef(null),
+        address2Ref: useRef(null)
     };
     const msgRef = {
         idRef: useRef(null),
@@ -34,11 +29,8 @@ export default function SignUp() {
         emailRef: useRef(null),
         emaildomainRef: useRef(null),
         phoneRef: useRef(null),
-        addressRef: useRef(null),
-        genderRef: useRef(null),
-        birth1Ref: useRef(null),
-        birth2Ref: useRef(null),
-        birth3Ref: useRef(null)
+        address1Ref: useRef(null),
+        address2Ref: useRef(null)
     }
     const totalRef = useRef(null);
     const agreeRef = {
@@ -58,7 +50,8 @@ export default function SignUp() {
         email: "",
         emaildomain: "",
         phone: "",
-        address: "",
+        address1: "",
+        address2: "",
         gender: "",
         birth1: "",
         birth2: "",
@@ -73,11 +66,8 @@ export default function SignUp() {
         {"name":"email","ref":msgRef.emailRef ,"msg":"이메일 형식으로 입력해 주세요."},
         {"name":"maildomain","ref":msgRef.emaildomainRef ,"msg":"이메일 형식으로 입력해 주세요."},
         {"name":"phone","ref":msgRef.phoneRef ,"msg":"휴대폰 번호를 입력해 주세요."},
-        {"name":"address","ref":msgRef.addressRef ,"msg":"주소를 선택해주세요."},
-        {"name":"gender","ref":msgRef.genderRef ,"msg":"성별을 선택해주세요."},
-        {"name":"year","ref":msgRef.yearRef ,"msg":"태어난 년도 4자리를 정확하게 입력해주세요."},
-        {"name":"month","ref":msgRef.monthRef ,"msg":"태어난 월을 정확하게 입력해주세요."},
-        {"name":"day","ref":msgRef.dayRef ,"msg":"태어난 날짜를 정확하게 입력해주세요."}
+        {"name":"address1","ref":msgRef.address1Ref ,"msg":"주소를 검색해주세요."},
+        {"name":"address2","ref":msgRef.address2Ref ,"msg":"나머지 주소를 입력해주세요."}
     ]
     
     // input change event
@@ -88,8 +78,19 @@ export default function SignUp() {
         }else{
             setFormData({...formData, [name]:value});
         }
+        errMsg.map((target) => {
+            if(target.name === name) { 
+                    if(value ==='') target.ref.current.innerText= target.msg ;
+                    else target.ref.current.innerText= ''
+            }
+        })
     }
-
+    // address
+    const setAddress = (addr) => {
+        refs.address1Ref.current.value=addr;
+        setFormData({...formData,'address1':addr});    
+        msgRef.address1Ref.current.innerText='';
+    }
     // domain select
     const getEmailDomain = (e) => {
         const text = e.target.innerText;
@@ -114,7 +115,6 @@ export default function SignUp() {
         for(let i=0; i< refValues.length; i++){
            const ref = refValues[i][1];
            const msg = arrayErrMsg[i][1];
-           console.log('msg',msg);
            
             if(ref.current){
                 if(ref.current.name === 'emaildomain'){
@@ -122,22 +122,29 @@ export default function SignUp() {
                         ref.current.focus();
                         return false;
                     }            
-               }else if(ref.current.name === 'gender'){
-                    if(refs.genderDefaultRef.current && refs.genderDefaultRef.current.checked) {
-                        msg.ref.current.innerText=msg.msg;
-                        return false;
-                    }
-               }else if(ref.current.value===''){
-                    if(ref.current.name === msg.name ){
-                        console.log(msg.msg, msg.name);
-                        msg.ref.current.innerText=msg.msg;
-    
+            //    }else if(ref.current.name === 'gender'){
+            //         if(refs.genderDefaultRef.current && refs.genderDefaultRef.current.checked) {
+            //             msg.ref.current.innerText=msg.msg;
+            //             return false;
+            //         }
+                }else if(ref.current.name === 'address1'){
+                    if(ref.current.value===''){
                         ref.current.focus();
+                        msg.ref.current.innerText=msg.msg;
                         return false;
                     }  
                 }
+               else if(ref.current.value===''){
+                    if(ref.current.name === msg.name ){
+                        console.log(msg.msg, msg.name);
+                        msg.ref.current.innerText=msg.msg;
+                        ref.current.focus();
+                        return false;
+                    } 
+                }
             }
         }
+        return true;
     }
     
     // login
@@ -246,11 +253,13 @@ export default function SignUp() {
                     </div>
                     <div className="f_wrap">
                         <span>주소<span className='icon_star'>*</span></span>
-                        <div>
-                            <button type="button"  name="address"  className='btn_search_addr'>주소 검색</button>
-                            <input type="text" ref={refs.addressRef} onChange={handleChangeForm} />
-                            <em>배송지에 따라 상품 정보가 달라질 수 있습니다.</em>
-                            <div className='txt' ref={msgRef.addressRef}></div>
+                        <div className='postcode_area'>
+                            <Postcode setAddress={setAddress} />
+                            <div className='txt' ref={msgRef.address1Ref}></div>
+                            <input type="text" name="address1" ref={refs.address1Ref} onChange={handleChangeForm} />
+                            <input type="text" name="address2" ref={refs.address2Ref}  onChange={handleChangeForm} placeholder='나머지 주소' />
+                            <div className='txt' ref={msgRef.address2Ref}></div>
+                            <em>배송지에 따라 상품 정보가 달라질 수 있습니다.</em> 
                         </div>
                     </div>
                     <div className="f_wrap">
@@ -259,40 +268,40 @@ export default function SignUp() {
                             <div className='gender_area'>
                                 <label className="radio_box">
                                     <div className='radio'>
-                                        <input type="radio" name="gender" ref={refs.genderMaleRef} onChange={handleChangeForm} value="m"  />
+                                        <input type="radio" name="gender" onChange={handleChangeForm} value="m"  />
                                     <div>
                                     </div></div>
                                     남자
                                 </label>
                                 <label className="radio_box">
                                     <div className='radio'>
-                                        <input type="radio" name="gender" ref={refs.genderFemaleRef} onChange={handleChangeForm} value="f"  />
+                                        <input type="radio" name="gender" onChange={handleChangeForm} value="f"  />
                                     <div>
                                     </div></div>
                                     여자
                                 </label>
                                 <label className="radio_box">
                                     <div className='radio'>
-                                        <input type="radio" name="gender" ref={refs.genderDefaultRef} onChange={handleChangeForm} value="default" defaultChecked />
+                                        <input type="radio" name="gender" onChange={handleChangeForm} value="default" defaultChecked />
                                     <div>
                                     </div></div>
                                     선택안함
                                 </label>
                             </div>
-                            <div className='txt' ref={msgRef.genderRef}></div>
+                            <div className='txt'></div>
                         </div>
                     </div>
                     <div className="f_wrap birth">
                         <span>생년월일</span>
                         <div className="depth2">
                             <div>
-                                <input type="text" placeholder='YYYY' name="year" ref={refs.yearRef} onChange={handleChangeForm} />
+                                <input type="text" placeholder='YYYY' name="year" onChange={handleChangeForm} />
                                 <span>/</span>
-                                <input type="text" placeholder='MM' name="month" ref={refs.monthRef} onChange={handleChangeForm} />
+                                <input type="text" placeholder='MM' name="month" onChange={handleChangeForm} />
                                 <span>/</span>
-                                <input type="text" placeholder='DD' name="day" ref={refs.dayRef} onChange={handleChangeForm} />
+                                <input type="text" placeholder='DD' name="day" onChange={handleChangeForm} />
                             </div>
-                            <div className='txt' ref={msgRef.birth1Ref}></div>
+                            <div className='txt'></div>
                         </div>
                     </div>
                     <div className="f_wrap recommend_area">
