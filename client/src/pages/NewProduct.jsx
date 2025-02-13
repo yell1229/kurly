@@ -6,6 +6,8 @@ import axios from 'axios';
 export default function NewProduct() {
     const refs = {
         brendRef:useRef(null),
+        depth1Ref:useRef(null),
+        depth2Ref:useRef(null),
         subjectRef:useRef(null),
         descriptionRef:useRef(null),
         priceRef:useRef(null),
@@ -13,6 +15,8 @@ export default function NewProduct() {
     };
     const initForm = {
         brend:'',
+        depth1:'',
+        depth2:'',
         subject:'',
         description:'',
         price:'',
@@ -21,7 +25,20 @@ export default function NewProduct() {
     let [formData, setFormData] = useState(initForm);
     const [fname, setFname] = useState({});
     const [previewImg, setPreviewImg] = useState('');
-
+    const depth1List = [
+        {name:"depth1", value:'100', text:"스킨케어"},
+        {name:"depth1", value:'101', text:"헤어ㆍ바디"}
+    ];
+    const depth2List = [
+        {name:"depth2", value:'001', text:"스킨ㆍ미스트ㆍ패드"},
+        {name:"depth2", value:'002', text:"에센스ㆍ앰플ㆍ로션"},
+        {name:"depth2", value:'003', text:"크림ㆍ오일"},
+        {name:"depth2", value:'004', text:"클렌징"},
+        {name:"depth2", value:'005', text:"마스크팩"},
+        {name:"depth2", value:'006', text:"선케어"},
+        {name:"depth2", value:'007', text:"베이스메이크업"},
+        {name:"depth2", value:'008', text:"립메이크업"}
+    ];
 
     const getFileName = (filenames) => {
         setFname(filenames);
@@ -63,10 +80,25 @@ export default function NewProduct() {
             <h2>상품입력</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form_area">
-                <div className="f_wrap">
+                    <div className="f_wrap">
                         <span>브랜드명</span>
                         <div>
                             <input type="text" name="brend" ref={refs.brendRef} onChange={changeFormData} placeholder='' />
+                        </div>
+                    </div>
+                    <div className="f_wrap">
+                        <span>상품카테고리</span>
+                        <div>
+                            <select name="depth1" onChange={changeFormData}>
+                                { depth1List.map((opt,i) =>
+                                    <option name={opt.name} value={opt.value} key={i} ref={refs.depth1Ref}>{opt.text}</option>
+                                )}
+                            </select>
+                            <select name="depth2"onChange={changeFormData}>
+                            { depth2List.map((opt,i) =>
+                                    <option name={opt.name} value={opt.value} key={i} ref={refs.depth2Ref}>{opt.text}</option>
+                                )}
+                            </select>
                         </div>
                     </div>
                     <div className="f_wrap">
