@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path';
 import productRouter from './router/productRouter.js';
 import uploadRouter from './router/uploadRouter.js';
+import memberRouter from './router/memberRouter.js';
 
 const server = express();
 const port = 9000;
@@ -17,6 +18,7 @@ server.use('/upload_files', express.static(path.join("upload_files"))); // expre
 // 미들웨어
 server.use('/product',productRouter);
 server.use('/uploads',uploadRouter);
+server.use('/member',memberRouter);
 
 server.listen(port,() => {
     console.log(`start------ ->> ${port}`);   

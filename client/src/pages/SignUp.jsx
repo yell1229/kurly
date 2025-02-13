@@ -1,5 +1,6 @@
 import React,{useRef, useState} from 'react';
 import Postcode from '../components/Postcode.jsx';
+import axios from 'axios';
 
 import '../scss/signup.scss';
 import { GoCheck } from "react-icons/go";
@@ -150,7 +151,11 @@ export default function SignUp() {
     // login
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(validate()) console.log('formData ===> ', formData);
+        // if(validate()) console.log('formData ===> ', formData);
+
+        axios.post('http://localhost:9000/member/login',formData)
+                .then(res => console.log(res.data))
+                .catch(err => console.log(err));
     }
     
     //이용약관 동의

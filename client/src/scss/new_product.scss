@@ -107,6 +107,17 @@
                 justify-content: start;
                 gap:50px; 
             }
+            select{
+                height:46px;
+                margin-right:10px;
+                padding: 0 10px;
+                line-height:46px;
+                border-radius: 4px;
+                border: 1px solid rgb(221, 221, 221);
+                &:focus{
+                    border:1px solid #000;
+                }
+            }
         }
         
     }
