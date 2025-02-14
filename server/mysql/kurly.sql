@@ -36,6 +36,7 @@ insert into kurly_product(
     
 select * from kurly_product;
 
+
 -- 회원가입
 create table kurly_signup(
 	pid 				int 				primary key 	auto_increment,
@@ -64,3 +65,15 @@ insert into kurly_signup(
 	values('hong', '1234', '홍길동', 'aa@naver.com','010-0000-0000', '강남구', 'm', '19990122');
     
     select * from kurly_signup;
+    
+    show tables;
+    
+select 	
+		pid,
+		concat('http://localhost:9000/',title_image) as img,
+		title,
+        description as subTit,
+        price,
+        dc,
+        truncate((price * ((100 - dc)*0.01)),0) as dcPrice
+from kurly_product;

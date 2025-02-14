@@ -4,8 +4,10 @@ import ImageUpload from '../components/ImageUpload.jsx';
 import ImageUploadMultiple from '../components/ImageUploadMultiple.jsx';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewProduct() {
+    const navigate = useNavigate();
     const refs = {
         brendRef:useRef(null),
         depth1Ref:useRef(null),
@@ -15,6 +17,7 @@ export default function NewProduct() {
         priceRef:useRef(null),
         dcRef:useRef(null)
     };
+    const eventRef = useRef(null);
     const initForm = {
         brend:'',
         depth1:'',
@@ -81,11 +84,18 @@ export default function NewProduct() {
         e.preventDefault();
         
         formData ={...formData,"uploadImg":fname.uploadFileName,"orgImg":fname.sourceFileName };
-        if(validator() )console.log('formData',formData);
+        if(validator() ) {
+            console.log('formData',formData);
         
-        // axios.post('http://localhost:9000/product/new',formData)
-        //         .then(res => console.log(res.data))
-        //         .catch(err => console.log(err));
+            axios.post('http://localhost:9000/product/new',formData)
+                    .then(res => {
+                        if(res.data.result_rows === 1){
+                            alert('상품이 등록되었습니다.');
+                            setTimeout(()=>{navigate('/goods/list')} ,1000);
+                        }
+                    })
+                    .catch(err => console.log(err));
+        }
 
     }
 
@@ -147,7 +157,7 @@ export default function NewProduct() {
                         <div className='event'>
                             <label className="radio_box">
                                 <div className='radio'>
-                                    <input type="radio" name="event" value="1" />
+                                    <input type="radio" name="event" value="1" ref={eventRef}/>
                                 <div>
                                 </div></div>
                                 선택
@@ -172,7 +182,7 @@ export default function NewProduct() {
                         </div>
                         <div className='img'><img src={previewImg} alt="" /></div>
                     </div>
-                    <div className="f_wrap upload_file">
+                    {/* <div className="f_wrap upload_file">
                         <span>상세 이미지들</span>
                         <div>
                             <ImageUploadMultiple getFileName={getFileName} />
@@ -182,7 +192,7 @@ export default function NewProduct() {
                             </div>
                         </div>
                         <div className='img'><img src={previewImg} alt="" /></div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="btn">

@@ -19,7 +19,7 @@ export default function Kurly() {
                 .catch(err => console.log(err));
     },[]);
 
-console.log('topImageList ===> ',topImageList);
+//console.log('topImageList ===> ',topImageList);
 
     return (
         <>
