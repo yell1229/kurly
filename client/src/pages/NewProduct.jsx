@@ -1,7 +1,6 @@
-import React,{useRef, useState} from 'react';
+import React,{useEffect, useRef, useState} from 'react';
 import '../scss/new_product.scss';
 import ImageUpload from '../components/ImageUpload.jsx';
-import ImageUploadMultiple from '../components/ImageUploadMultiple.jsx';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -25,23 +24,26 @@ export default function NewProduct() {
         subject:'',
         description:'',
         price:'',
-        dc:''
+        dc:'',
+        event:''
     }
     let [formData, setFormData] = useState(initForm);
     const [fname, setFname] = useState({});
     const [previewImg, setPreviewImg] = useState('');
+    const [navList, setNavList] = useState([]);
+    const [navSub, setNavSub] = useState([]);
+    const [selectNavSub,setSelectNavSub] = useState(null);
 
-    const depth2List = [
-                {value:'default', text:"선택"},
-                {value:'001', text:"스킨ㆍ미스트ㆍ패드"},
-                {value:'002', text:"에센스ㆍ앰플ㆍ로션"},
-                {value:'003', text:"크림ㆍ오일"},
-                {value:'004', text:"클렌징"},
-                {value:'005', text:"마스크팩"},
-                {value:'006', text:"선케어"},
-                {value:'007', text:"베이스메이크업"},
-                {value:'008', text:"립메이크업"}
-            ];
+    useEffect(() => {
+        axios.get('http://localhost:3000/data/newProductOption.json')
+            .then(res => {
+                setNavList(res.data);
+                setNavSub(res.data[1].depth2);
+            })
+            .catch(err => console.log(err))
+    },[]);
+
+
 
     const getFileName = (filenames) => {
         setFname(filenames);
@@ -51,9 +53,14 @@ export default function NewProduct() {
     const changeFormData = (e) => {
         const {name, value} = e.target;
         setFormData({...formData, [name] : value})
-        if(name === 'depth1') console.log('check');
+        if(name === 'depth1'){
+            setSelectNavSub(navSub[e.target.selectedIndex -1]);         
+        } 
         
     }
+
+    
+    
     //validator
     const validator = () => {
         const newRef = Object.entries(refs);
@@ -83,7 +90,7 @@ export default function NewProduct() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        formData ={...formData,"uploadImg":fname.uploadFileName,"orgImg":fname.sourceFileName };
+        formData ={...formData,"uploadImg":fname.uploadFileName,"orgImg":fname.sourceFileName,"event":eventRef.current.value };
         if(validator() ) {
             console.log('formData',formData);
         
@@ -98,7 +105,7 @@ export default function NewProduct() {
         }
 
     }
-
+    
     return (
         <div className="new_product">
             <h2>상품입력</h2>
@@ -110,22 +117,29 @@ export default function NewProduct() {
                             <input type="text" name="brend" ref={refs.brendRef} onChange={changeFormData} placeholder='' />
                         </div>
                     </div>
-                    <div className="f_wrap">
+                    <div className="f_wrap select_area">
                         <span>상품카테고리</span>
                         <div>
-                        <Form.Select  name="depth1" onChange={changeFormData} ref={refs.depth1Ref}>
-                            <option value="default" defaultChecked>선택</option>
-                            <option value="101">스킨케어</option>
-                            <option value="102">로션</option>
-                        </Form.Select>
-
-                            <Form.Select name="depth2" onChange={changeFormData} ref={refs.depth2Ref}>
-                                {
-                                depth2List.map((opt,i) =>
-                                        <option name="depth2" value={opt.value} key={i}>{opt.text}</option>
+                            <Form.Select  name="depth1" onChange={changeFormData} ref={refs.depth1Ref}>
+                                { navList.length > 0 && navList[0].depth1 ?(
+                                    navList[0].depth1 && navList[0].depth1.map((menu, i) =>
+                                        <option value={menu.value} key={i} >{menu.text}</option>
+                                    )) 
+                                    :(
+                                        <option value="default">Loading...</option>
                                     )
                                 }
-                            </Form.Select> 
+                            </Form.Select>
+                            <Form.Select  name="depth2" onChange={changeFormData} ref={refs.depth2Ref}>
+                                { selectNavSub !== null ?(
+                                    selectNavSub && selectNavSub.map((menu,i) =>
+                                        <option value={menu.value} key={i}>{menu.text}</option>
+                                    )) :
+                                    (
+                                        <option value="default">Loading...</option>
+                                    )
+                                }
+                            </Form.Select>
                         </div>
                     </div>
                     <div className="f_wrap">
@@ -176,23 +190,12 @@ export default function NewProduct() {
                         <div>
                             <ImageUpload getFileName={getFileName} />
                             <div>
-                                <input type="text" name="upload" value={fname.uploadFileName} readOnly />
-                                <input type="text" name="source" value={fname.sourceFileName} readOnly />
+                                <input type="text" name="upload" value={fname.uploadFileName} hidden />
+                                <input type="text" name="source" value={fname.sourceFileName} hidden />
                             </div>
                         </div>
                         <div className='img'><img src={previewImg} alt="" /></div>
                     </div>
-                    {/* <div className="f_wrap upload_file">
-                        <span>상세 이미지들</span>
-                        <div>
-                            <ImageUploadMultiple getFileName={getFileName} />
-                            <div>
-                                <input type="text" name="upload" value={fname.uploadFileName} readOnly />
-                                <input type="text" name="source" value={fname.sourceFileName} readOnly />
-                            </div>
-                        </div>
-                        <div className='img'><img src={previewImg} alt="" /></div>
-                    </div> */}
                 </div>
 
                 <div className="btn">
