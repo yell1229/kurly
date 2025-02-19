@@ -1,15 +1,17 @@
 import React,{useRef, useState} from 'react';
 import Postcode from '../components/Postcode.jsx';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 import '../scss/signup.scss';
 import { GoCheck } from "react-icons/go";
 import { MdArrowDropDown } from "react-icons/md";
 
 export default function SignUp() {
+    const navigate = useNavigate();
     const [isDomainInput, setIsDomainInput] = useState(true);
     const [isDomainSelect, setIsDomainSelect] = useState(false);
-    const [isRecommendId, setIsRecommendId] = useState(false);
+    const [idCheck, setIdCheck] = useState('default');
 
     const refs = {
         idRef: useRef(null),
@@ -148,44 +150,89 @@ export default function SignUp() {
         return true;
     }
     
-    // login
+    //id 중복
+    const handleIdCheck = () => {
+        const id = refs.idRef.current;
+        // 아이디가 비어있는지 확인
+        if(id.value === ''){
+            id.focus();
+            msgRef.idRef.current.innerText=errMsg[0].msg;
+            return false;
+        }
+        //사용가능한 id인지 DB데이터와 비교
+        axios.post('http://localhost:9000/member/idcheck',{'id':id.value})
+                .then(res =>{
+                     if(res.data.result === 1){
+                        msgRef.idRef.current.innerText='새로운 아이디를 입력해주세요.';
+                    }else{
+                        msgRef.idRef.current.innerText = '사용 가능한 아이디입니다.';
+                        setIdCheck('ok');
+                    }
+                })
+                .catch(err => console.log(err));
+
+    }
+    // 비밀번호
+    const handlePwdCheck = () => {
+        console.log('비밀번호 확인');
+        
+        const pwd = refs.pwdRef.current;
+        const cpwd = refs.cpwdRef.current;
+        if(pwd.value ===''){
+            pwd.focus();
+            msgRef.pwdRef.current.innerText=errMsg[1].msg;
+            return false;
+        }else if(cpwd.value ===''){
+            cpwd.focus();
+            msgRef.cpwdRef.current.innerText=errMsg[2].msg;
+            return false;
+        }else{
+            if(pwd.value == cpwd.value){
+                msgRef.cpwdRef.current.innerText='';
+                return false;
+            }else{
+                cpwd.focus();
+                msgRef.cpwdRef.current.innerText=errMsg[2].msg;
+                return false;
+            }
+        }
+    }
+
+    // signup
     const handleSubmit = (e) => {
         e.preventDefault();
-        // if(validate()) console.log('formData ===> ', formData);
-
-        axios.post('http://localhost:9000/member/login',formData)
-                .then(res => console.log(res.data))
-                .catch(err => console.log(err));
+        if(validate()){
+            if(idCheck==='default'){
+                alert('아이디 중복체크를 해주세요.');
+                return false;
+            }else{
+                axios.post('http://localhost:9000/member/signup',formData)
+                    .then(res => {
+                        if(res.data.result_rows === 1){
+                            alert(`회원가입에 성공하셨습니다.\n메인화면으로 이동합니다.`);
+                            setTimeout(() =>{navigate('/')},1000);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            }  
+        }
     }
-    
+    const [checked, setChecked] = useState([]);
     //이용약관 동의
-    const checkAll = (e) => {
-        const total = totalRef.current.checked;
-        const list = Object.values(agreeRef);
-        if(total === true){
-            list.map((ref) => {
-                if(ref.current.checked === false){
-                    ref.current.checked = true;
-                }
-            })
-        }else{
-            list.map((ref) => {
-                if(ref.current.checked === true){
-                    ref.current.checked = false;
-                }
-            })
-        } 
+    const handleAgreeChange = (e) => {
+        const name = e.target.name;
+        if(!checked.includes(e.target.name)){
+            setChecked([...checked, name ]);
+            e.target.checked=true;
+        } else{
+            e.target.checked=false;
+        }
     }
 
-    const deleteCheckAll = () => {
-        totalRef.current.checked= false;
-        // if(agreeRef.smsRef.current.checked === false){
-        //     agreeRef.eventTotalRef.current.checked=false;
-        // }else if(agreeRef.emailRef.current.checked === false){
-        //     agreeRef.eventTotalRef.current.checked=false;
-        // }
+    console.log('checked',checked);
+    if(checked.length === 7){
+        totalRef.current.checked=true;
     }
-
     return (
         <div className="signup">
             <h2>회원가입</h2>
@@ -196,10 +243,11 @@ export default function SignUp() {
                     <div className="f_wrap">
                         <span>아이디<span className='icon_star'>*</span></span>
                         <div>
-                            <input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' minLength={6} maxLength={16} />
+                            {/* <input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' minLength={6} maxLength={16} /> */}
+                            <input type="text" name="id" ref={refs.idRef} onChange={handleChangeForm} placeholder='아이디를 입력해주세요' />
                             <div className='txt' ref={msgRef.idRef}></div>
                         </div>
-                        <div><button type="button" className="get_dblcheck">아이디 중복체크</button></div>
+                        <div><button type="button" className="get_dblcheck" onClick={handleIdCheck}>아이디 중복체크</button></div>
                     </div>
                     <div className="f_wrap">
                         <span>비밀번호<span className='icon_star'>*</span></span>
@@ -211,7 +259,7 @@ export default function SignUp() {
                     <div className="f_wrap">
                         <span>비밀번호확인<span className='icon_star'>*</span></span>
                         <div>
-                            <input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} placeholder='비밀번호를 한번 더 입력해주세요' />
+                            <input type="password" name="cpwd" ref={refs.cpwdRef} onChange={handleChangeForm} onBlur={handlePwdCheck}placeholder='비밀번호를 한번 더 입력해주세요' />
                             <div className='txt' ref={msgRef.cpwdRef}></div>
                         </div>
                     </div>
@@ -251,7 +299,7 @@ export default function SignUp() {
                     <div className="f_wrap">
                         <span>휴대폰<span className='icon_star'>*</span></span>
                         <div>
-                            <input type="number"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
+                            <input type="text"  name="phone" ref={refs.phoneRef} onChange={handleChangeForm} placeholder='숫자만 입력해주세요.' />
                             <div className="txt" ref={msgRef.phoneRef}></div>
                         </div>
                         {/* <div><button type="button" className="get_number">인증번호 받기</button></div> */}
@@ -314,19 +362,20 @@ export default function SignUp() {
                         <div>
                             <label className="radio_box">
                                 <div className='radio'>
-                                    <input type="radio" value="" onClick={() =>setIsRecommendId(!isRecommendId)} />
+                                    {/* <input type="radio" value="" onClick={() =>setIsRecommendId(!isRecommendId)} /> */}
+                                    <input type="radio" value="" />
                                 <div>
                                 </div></div>
                                 친구초대 추천인 아이디
                             </label>
-                           {isRecommendId && <div className='option'>
+                           {/* {isRecommendId && <div className='option'>
                                 <div><input type="text" placeholder='추천인 아이디 입력' /><button type="button">아이디 확인</button></div>
                                 <ul>
                                     <li>가입 후 7일 이내 첫 주문 배송완료 시, 친구초대 적립금이 지급됩니다.</li>
                                     <li>ID 입력시, 대소문자 및 띄어쓰기에 유의 부탁드립니다.</li>
                                     <li>가입 이후는 수정이 불가능합니다.</li>
                                 </ul>
-                            </div> }
+                            </div> } */}
                         </div>
                     </div>
                     {/* 이용약관 */}
@@ -335,7 +384,7 @@ export default function SignUp() {
                         <div>
                             <div className='total'>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" ref={totalRef} onChange={checkAll} />
+                                    <div className='check'><input type="checkbox" ref={totalRef} />
                                         <div><GoCheck /></div>
                                     </div>
                                     전체 동의합니다.
@@ -344,7 +393,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  ref={agreeRef.agree1Ref} checked={false} onChange={deleteCheckAll} />
+                                    <div className='check'><input type="checkbox" name="agree1"  ref={agreeRef.agree1Ref} onChange={handleAgreeChange} />
                                         <div><GoCheck /></div>
                                     </div>
                                     이용약관 동의
@@ -354,7 +403,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" ref={agreeRef.agree2Ref} checked={false} onChange={deleteCheckAll} />
+                                    <div className='check'><input type="checkbox" name="agree2" ref={agreeRef.agree2Ref} onChange={handleAgreeChange} />
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
@@ -364,7 +413,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  ref={agreeRef.agree3Ref} checked={false} onChange={deleteCheckAll} />
+                                    <div className='check'><input type="checkbox" name="agree3"  ref={agreeRef.agree3Ref} onChange={handleAgreeChange} />
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
@@ -374,7 +423,7 @@ export default function SignUp() {
                             </div>
                             <div className='option'>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  ref={agreeRef.eventTotalRef} checked={false} onChange={deleteCheckAll} />
+                                    <div className='check'><input type="checkbox"  name="agree4" ref={agreeRef.eventTotalRef} onChange={handleAgreeChange} />
                                         <div><GoCheck /></div>
                                     </div>
                                     무료배송, 할인쿠폰 등 혜택/정보 수신 동의
@@ -382,13 +431,13 @@ export default function SignUp() {
                                 </label>
                                 <div>
                                     <label className='check_box'>
-                                        <div className='check'><input type="checkbox"  ref={agreeRef.smsRef} checked={false} onChange={deleteCheckAll} />
+                                        <div className='check'><input type="checkbox" name="agree5"  ref={agreeRef.smsRef} onChange={handleAgreeChange} />
                                             <div><GoCheck /></div>
                                         </div>
                                         SMS
                                     </label>
                                     <label className='check_box'>
-                                        <div className='check'><input type="checkbox"  ref={agreeRef.emailRef} checked={false} onChange={deleteCheckAll} />
+                                        <div className='check'><input type="checkbox" name="agree6"  ref={agreeRef.emailRef} onChange={handleAgreeChange} />
                                             <div><GoCheck /></div>
                                         </div>
                                         이메일
@@ -397,7 +446,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  ref={agreeRef.ageRef} checked={false} onChange={deleteCheckAll} />
+                                    <div className='check'><input type="checkbox" name="agree7"  ref={agreeRef.ageRef} onChange={handleAgreeChange} />
                                         <div><GoCheck /></div>
                                     </div>
                                     본인은 만 14세 이상입니다.
