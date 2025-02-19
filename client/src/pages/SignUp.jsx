@@ -217,30 +217,31 @@ export default function SignUp() {
             }  
         }
     }
-    //const [checked, setChecked] = useState(new set());
+    const [checkList, setCheckList] = useState([]);
+    const checkedLength = checkList.length;
     //이용약관 동의
     const handleAgreeChange = (e) => {
         const name = e.target.name;
-        const updateSet = new Set(name);
-        // if(!checked.includes(e.target.name)){
-        //     setChecked([...checked, name ]);
-        //     e.target.checked=true;
-        // } else{
-        //     e.target.checked=false;
-        // }
-        if(updateSet.has(name)){
-            updateSet.delete(name)
-        }else{
-            updateSet.add(name);
-        }
-        console.log('updateSet',updateSet);
+        const isChecked = checkList.includes(name);
+        console.log('isChecked',isChecked);
         
+        if(isChecked){
+            setCheckList((prev) =>prev.filter((el) => el !== name));
+        }else{
+            setCheckList((prev)=>[...prev, name]);
+        }
     }
+    console.log('checkList',checkList);
+    const toggleAllChecked = ({target:{checked}}) =>{
+        const refs = Object.entries(agreeRef).map(([key,ref])=> ref.current.name)
+        if(checked){
+            setCheckList(refs);
+        }else{
+            setCheckList([]);
+        }
+    }
+    console.log('checkedLength' , checkedLength); // (7) [undefined, undefined, undefined, undefined, undefined, undefined, undefined]
     
-    // console.log('checked',checked);
-    // if(checked.length === 7){
-    //     totalRef.current.checked=true;
-    // }
     return (
         <div className="signup">
             <h2>회원가입</h2>
@@ -392,7 +393,7 @@ export default function SignUp() {
                         <div>
                             <div className='total'>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" ref={totalRef} />
+                                    <div className='check'><input type="checkbox" ref={totalRef} onChange={toggleAllChecked} checked={checkedLength === 7} />
                                         <div><GoCheck /></div>
                                     </div>
                                     전체 동의합니다.
@@ -401,7 +402,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" name="agree1"  ref={agreeRef.agree1Ref} onChange={handleAgreeChange} />
+                                    <div className='check'><input type="checkbox" name="agree1"  ref={agreeRef.agree1Ref} onChange={handleAgreeChange} checked={checkList.includes("agree1")} />
                                         <div><GoCheck /></div>
                                     </div>
                                     이용약관 동의
@@ -411,7 +412,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" name="agree2" ref={agreeRef.agree2Ref} onChange={handleAgreeChange} />
+                                    <div className='check'><input type="checkbox" name="agree2" ref={agreeRef.agree2Ref} onChange={handleAgreeChange} checked={checkList.includes("agree2")} />
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
@@ -421,7 +422,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" name="agree3"  ref={agreeRef.agree3Ref} onChange={handleAgreeChange} />
+                                    <div className='check'><input type="checkbox" name="agree3"  ref={agreeRef.agree3Ref} onChange={handleAgreeChange} checked={checkList.includes("agree3")} />
                                         <div><GoCheck /></div>
                                     </div>
                                     개인정보 수집∙이용 동의
@@ -431,7 +432,7 @@ export default function SignUp() {
                             </div>
                             <div className='option'>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox"  name="agree4" ref={agreeRef.eventTotalRef} onChange={handleAgreeChange} />
+                                    <div className='check'><input type="checkbox"  name="agree4" ref={agreeRef.eventTotalRef} onChange={handleAgreeChange} checked={checkList.includes("agree4")} />
                                         <div><GoCheck /></div>
                                     </div>
                                     무료배송, 할인쿠폰 등 혜택/정보 수신 동의
@@ -439,13 +440,13 @@ export default function SignUp() {
                                 </label>
                                 <div>
                                     <label className='check_box'>
-                                        <div className='check'><input type="checkbox" name="agree5"  ref={agreeRef.smsRef} onChange={handleAgreeChange} />
+                                        <div className='check'><input type="checkbox" name="agree5"  ref={agreeRef.smsRef} onChange={handleAgreeChange} checked={checkList.includes("agree5")} />
                                             <div><GoCheck /></div>
                                         </div>
                                         SMS
                                     </label>
                                     <label className='check_box'>
-                                        <div className='check'><input type="checkbox" name="agree6"  ref={agreeRef.emailRef} onChange={handleAgreeChange} />
+                                        <div className='check'><input type="checkbox" name="agree6"  ref={agreeRef.emailRef} onChange={handleAgreeChange} checked={checkList.includes("agree6")} />
                                             <div><GoCheck /></div>
                                         </div>
                                         이메일
@@ -454,7 +455,7 @@ export default function SignUp() {
                             </div>
                             <div>
                                 <label className='check_box'>
-                                    <div className='check'><input type="checkbox" name="agree7"  ref={agreeRef.ageRef} onChange={handleAgreeChange} />
+                                    <div className='check'><input type="checkbox" name="agree7"  ref={agreeRef.ageRef} onChange={handleAgreeChange} checked={checkList.includes("agree7")} />
                                         <div><GoCheck /></div>
                                     </div>
                                     본인은 만 14세 이상입니다.
