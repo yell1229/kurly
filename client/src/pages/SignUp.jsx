@@ -217,22 +217,30 @@ export default function SignUp() {
             }  
         }
     }
-    const [checked, setChecked] = useState([]);
+    //const [checked, setChecked] = useState(new set());
     //이용약관 동의
     const handleAgreeChange = (e) => {
         const name = e.target.name;
-        if(!checked.includes(e.target.name)){
-            setChecked([...checked, name ]);
-            e.target.checked=true;
-        } else{
-            e.target.checked=false;
+        const updateSet = new Set(name);
+        // if(!checked.includes(e.target.name)){
+        //     setChecked([...checked, name ]);
+        //     e.target.checked=true;
+        // } else{
+        //     e.target.checked=false;
+        // }
+        if(updateSet.has(name)){
+            updateSet.delete(name)
+        }else{
+            updateSet.add(name);
         }
+        console.log('updateSet',updateSet);
+        
     }
-
-    console.log('checked',checked);
-    if(checked.length === 7){
-        totalRef.current.checked=true;
-    }
+    
+    // console.log('checked',checked);
+    // if(checked.length === 7){
+    //     totalRef.current.checked=true;
+    // }
     return (
         <div className="signup">
             <h2>회원가입</h2>
