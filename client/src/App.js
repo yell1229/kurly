@@ -5,6 +5,7 @@ import Detail from "./pages/Detail.jsx";
 import Login from "./pages/Login.jsx";
 import Layout from "./pages/Layout.jsx";
 import SignUp from './pages/SignUp.jsx';
+import Cart from './pages/Cart.jsx';
 import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
 
@@ -21,6 +22,7 @@ export default function App() {
                     <Route path="/member/login" element={<Login />} />
                     <Route path="/member/signup" element={<SignUp />} />
                     <Route path="/goods/new" element={<NewProduct />} />
+                    <Route path="/cart" element={<Cart />} />
                 </Route>
             </Routes>
         </BrowserRouter>
