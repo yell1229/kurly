@@ -1,0 +1,19 @@
+.tab{
+    position:fixed;
+    top:120px;
+    left:0;
+    display:flex;
+    width:100%;
+    justify-content: space-between;
+    background-color:#fff;
+    z-index:100;
+    li{
+        width:25%;
+        text-align:center;
+        height:50px;
+        line-height:50px;
+        &.active{
+            color:red;
+        }
+    }
+}

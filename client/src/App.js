@@ -10,6 +10,7 @@ import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
 
 import './scss/kurly.scss';
+import Test from './pages/Test.jsx';
 
 export default function App() {
     return (
@@ -23,6 +24,7 @@ export default function App() {
                     <Route path="/member/signup" element={<SignUp />} />
                     <Route path="/goods/new" element={<NewProduct />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/test" element={<Test />} />
                 </Route>
             </Routes>
         </BrowserRouter>
