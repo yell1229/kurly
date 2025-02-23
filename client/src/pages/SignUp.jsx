@@ -1,4 +1,4 @@
-import React,{useRef, useState} from 'react';
+import React,{useEffect, useRef, useState} from 'react';
 import Postcode from '../components/Postcode.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -223,15 +223,31 @@ export default function SignUp() {
     const handleAgreeChange = (e) => {
         const name = e.target.name;
         const isChecked = checkList.includes(name);
-        console.log('isChecked',isChecked);
-        
+
         if(isChecked){
-            setCheckList((prev) =>prev.filter((el) => el !== name));
+            if(name === 'agree4'){
+                setCheckList((prev) =>prev.filter((el) => !['agree4','agree5','agree6'].includes(el)));
+            }else{
+                setCheckList((prev) =>prev.filter((el) => el !== name));
+            }
         }else{
+            if(name === 'agree4'){
+                setCheckList((prev)=>[...prev, 'agree4','agree5','agree6']);
+            }
             setCheckList((prev)=>[...prev, name]);
         }
     }
-    console.log('checkList',checkList);
+
+    useEffect(() =>{
+        if(agreeRef.smsRef.current.checked && agreeRef.emailRef.current.checked && !agreeRef.eventTotalRef.current.checked){
+            setCheckList((prev)=>[...prev, 'agree4']);
+        }else if( !agreeRef.smsRef.current.checked || !agreeRef.emailRef.current.checked){
+            if(agreeRef.eventTotalRef.current.checked){
+                setCheckList((prev) => prev.filter((el) => el !== 'agree4'));
+            }
+        }
+    },[checkList]);
+
     const toggleAllChecked = ({target:{checked}}) =>{
         const refs = Object.entries(agreeRef).map(([key,ref])=> ref.current.name)
         if(checked){
@@ -240,7 +256,6 @@ export default function SignUp() {
             setCheckList([]);
         }
     }
-    console.log('checkedLength' , checkedLength); // (7) [undefined, undefined, undefined, undefined, undefined, undefined, undefined]
     
     return (
         <div className="signup">
