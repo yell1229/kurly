@@ -47,11 +47,11 @@ export default function Footer() {
                             팩스: 070 - 7500 - 6098
                         </div>
                         <div className="links">
-                            <a href=""><img src="./images/ico_instagram.png" alt="인스타그램" /></a>
-                            <a href=""><img src="./images/ico_fb.png" alt="페이스북" /></a>
-                            <a href=""><img src="./images/ico_blog.png" alt="네이버블로그" /></a>
-                            <a href=""><img src="./images/ico_naverpost.png" alt="네이버포스트" /></a>
-                            <a href=""><img src="./images/ico_youtube.png" alt="유투브" /></a>
+                            <a href=""><img src="./images/ico_instagram.png" referrerPolicy="no-referrer" alt="인스타그램" /></a>
+                            <a href=""><img src="./images/ico_fb.png" referrerPolicy="no-referrer" alt="페이스북" /></a>
+                            <a href=""><img src="./images/ico_blog.png" referrerPolicy="no-referrer" alt="네이버블로그" /></a>
+                            <a href=""><img src="./images/ico_naverpost.png" referrerPolicy="no-referrer" alt="네이버포스트" /></a>
+                            <a href=""><img src="./images/ico_youtube.png" referrerPolicy="no-referrer" alt="유투브" /></a>
                         </div>
                     </div>
                 </div>

@@ -33,9 +33,22 @@ export default function Detail({cartInfo}) {
     const [btnCheck, setBtnCheck] = useState(false);
     const [offset,setOffset] = useState([]);
 
-    // scroll test
-    //console.log('check-->>',window.scrollY + target.current?.getBoundingClientRect().top);
-
+    useEffect(() =>{
+        axios.post('http://localhost:9000/product/detail',{'pid':pid})
+                .then((res) => {
+                    setProduct(res.data[0]);                   
+                })
+                .catch((error) => console.log(error));
+    },[]);
+    const tabContents = [
+        {id:'product' , label:'상품설명' , href:'#product', component:<ProductInfo detailImgs={product.info_imgs}/>},
+        {id:'detail' , label:'상세정보' , href:'#detail', component:<DetailInfo detailImgs={product.detail_imgs} />},
+        {id:'review' , label:'후기' , href:'#review', component:<ReviewInfo src={product.image_url} name={product.name} />},
+        {id:'inquire' , label:'문의' , href:'#inquire', component:<InquireInfo src={product.image_url} name={product.name} />}
+    ];
+    const componentRef = useRef({});
+    console.log('componentRef',componentRef);
+    
     // tab nav click event
     const navClass = (ref) => {
         let children = ref.current && ref.current.parentElement ? ref.current.parentElement.children : [];
@@ -65,51 +78,7 @@ export default function Detail({cartInfo}) {
             }
         }
     }
-    useEffect(() =>{
-        axios.post('http://localhost:9000/product/detail',{'pid':pid})
-                .then((res) => {
-                    setProduct(res.data[0]);                   
-                })
-                .catch((error) => console.log(error));
-    },[]);
-
-    useEffect(() =>{
-        const updateOffsets = () => {
-            setOffset([
-                window.scrollY + refs.tab1Ref.current?.getBoundingClientRect().top,
-                window.scrollY + refs.tab2Ref.current?.getBoundingClientRect().top,
-                window.scrollY + refs.tab3Ref.current?.getBoundingClientRect().top,
-                window.scrollY + refs.tab4Ref.current?.getBoundingClientRect().top
-            ]);
-        };
-
-        setTimeout(updateOffsets,2000);
-        
-        const scrollCheck = () =>{
-            if(window.scrollY < offset[0]){
-                navClass(tabRefs.nav1Ref);       
-            }else if(window.scrollY >= offset[0] && window.scrollY < offset[1]){
-                navClass(tabRefs.nav1Ref);               
-            }else if(window.scrollY >= offset[1] && window.scrollY < offset[2]){
-                navClass(tabRefs.nav2Ref);
-            }else if(window.scrollY >= offset[2] && window.scrollY < offset[3]){
-                navClass(tabRefs.nav3Ref);
-            }else if(window.scrollY >= offset[3] ){
-                navClass(tabRefs.nav4Ref);
-            }
-
-            if(btmCartRef.current){
-                if(window.scrollY > 400){
-                    btmCartRef.current.classList.add('scroll');
-                }else{
-                    btmCartRef.current.classList.remove('scroll');
-                }
-            }
-        }
-        scrollCheck();
-        
-        window.addEventListener('scroll',scrollCheck);
-    },[]);
+    
 
     // cart count
     const buttonCartCount = (type) => {
@@ -231,23 +200,13 @@ export default function Detail({cartInfo}) {
                             </ul>
                         </nav>
                         <div className="tab_box">
-                            {/* 1 상품설명 */}
-                            <div ref={refs.tab1Ref}>
-                                <ProductInfo detailImgs={product.info_imgs}/>
-                            </div>
-                            {/* 2 상세정보 */}
-
-                            <div ref={refs.tab2Ref}>
-                                <DetailInfo detailImgs={product.detail_imgs} />
-                            </div>
-                            {/* 3 상품 후기 */}
-                            <div ref={refs.tab3Ref}>
-                                <ReviewInfo src={product.image_url} name={product.name} />
-                            </div>
-                            {/* 4 상품 문의 */}
-                            <div ref={refs.tab4Ref} >
-                                <InquireInfo src={product.image_url} name={product.name} />  
-                            </div>
+                            {
+                                tabContents.map((el) =>
+                                    <div id={el.id} key={el.id} ref={componentRef.current[el.id]}>
+                                        {el.component}
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

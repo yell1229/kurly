@@ -1,11 +1,11 @@
 import express from 'express';
 import * as controller from '../controller/uploadController.js';
-import * as multipleController from '../controller/fileUploadMultiple.js';
+import * as multiController from '../controller/multiController.js';
 
 const router = express.Router();
 
 router
-    .post('/',controller.fileUpload)
-    .post('/multiple',multipleController.fileUploadMultiple);
+    .post('/file', controller.uploadFile)
+    .post('/multiple', multiController.fileUploadMultiple);
 
 export default router;

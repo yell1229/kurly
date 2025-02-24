@@ -6,6 +6,7 @@ import ReviewInfo from '../components/detail/ReviewInfo.jsx';
 import InquireInfo from '../components/detail/InquireInfo.jsx';
 import ProductMypage from './ProductMypage.jsx';
 import useFixedScroll from './useFixedScroll.js';
+import '../scss/detail.scss';
 
 export default function ProductTest() {
     const tabsData = [
@@ -16,7 +17,7 @@ export default function ProductTest() {
     ];
 
     const [activeTab, setActiveTab] = useState(tabsData[0]?.id || "");
-
+    
     const contentRefs = useRef({});
 
     

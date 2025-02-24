@@ -1,5 +1,4 @@
 import multer from 'multer';
-// 로컬의 이미지 경로를 찾는다.
 import fs from 'fs';
 import path from 'path';
 
@@ -8,35 +7,42 @@ const storage = multer.diskStorage({
       cb(null, 'upload_files/')
     },
     filename: function (req, file, cb) {
-      cb(null, Date.now()+ '-' + file.originalname)
+      cb(null, Date.now() + '_' + file.originalname  )
     }
   })
   
-const upload = multer({ storage: storage }).single('file');
+  const upload = multer({ storage: storage }).single('file');
 
-// 이미지 업로드
-export const fileUpload = (req, res) => {
-
-    upload(req, res, function (err) { // 멀터가 실행한 결과 값.
+// 파일 저장
+export const uploadFile = (req,res) => {
+    upload(req, res, function (err) {
         if (err) {
-            console.log(err);
-          
+            console.log('uploadFile',err);
+            
+          return
         }else{
-            console.log('req.file', req.file);
-            // console.log('res.req.file',res.req.file);
-            
-            // res.json({
-            //     // 저장된 폴더의 파일명
-            //     "uploadFileName": res.req.file.path, // node에서 이름에 ''없어도 되지만, 오류방지차원에서 붙여준다.
-            //     // 사용자가 선택한 원래 파일명
-            //     "sourceFileName": req.file.originalname,
-            //     "oldFile": res.req.file.filename
-            // });
-            
-            res.send({
-                "uploadFileName":res.req.file.path,
-                "sourceFileName": req.file.originalname
-            })
+			const oldFile = req.body.oldFile;
+			if(oldFile){
+				const oldFilePath = path.join('upload_files/',req.body.oldFile);
+				if(fs.existsSync(oldFilePath)){
+					try{
+						fs.unlinkSync(oldFilePath);
+						console.log('이전파일삭제 완료');
+						
+					}catch(err){
+						console.log('이전파일 삭제 실패',err);
+					}
+				}
+
+			}
+			
+			res.send({
+				'upload_name': req.file.path,
+				'org_name': req.file.originalname,
+				'oldFile':res.req.file.filename
+			})
         }
+
       })
+    
 }

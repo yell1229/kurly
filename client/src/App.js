@@ -9,25 +9,30 @@ import Cart from './pages/Cart.jsx';
 import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
 import ProductTest from './pages/ProductTest.jsx';
+import DetailTest from './pages/DetailTest.jsx';
+import {PidProvider} from './context/ProductContext.js';
 
 import './scss/kurly.scss';
 import Test from './pages/Test.jsx';
 
 export default function App() {
     return (
+        <PidProvider>
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
                     <Route path="/goods/detail/:pid" element={<Detail />} />
+                    <Route path="/goods/detail_test/:pid" element={<DetailTest />} />
                     <Route path="/goods/list" element={<ProductList />} />
                     <Route path="/member/login" element={<Login />} />
                     <Route path="/member/signup" element={<SignUp />} />
                     <Route path="/goods/new" element={<NewProduct />} />
                     <Route path="/cart" element={<Cart />} />
-                    <Route path="/test" element={<ProductTest />} />
+                    <Route path="/test/:pid" element={<ProductTest />} />
                 </Route>
             </Routes>
         </BrowserRouter>
+        </PidProvider>
     );
 }

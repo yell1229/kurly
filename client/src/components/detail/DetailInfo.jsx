@@ -2,14 +2,17 @@ import React,{useState} from 'react';
 import { SlArrowDown } from "react-icons/sl";
 import { HiOutlineEmojiHappy } from "react-icons/hi";
 
-export default function DetailInfo() {
+export default function DetailInfo({detailImgs}) {
     const [toggleBtn1, setToggleBtn1] = useState(true);
     const [toggleBtn2, setToggleBtn2] = useState(true);
     return (
         <div className="tab_detail_info">
             <ul className='product_img'>
-                <li><img src="https://placehold.co/1010x400?text=detail_01" alt="" /></li>
-                <li><img src="https://placehold.co/1010x400?text=detail_02" alt="" /></li>
+                {
+                    detailImgs && detailImgs.map((img) =>
+                        <li><img src={img} alt="" /></li>
+                )}
+
             </ul>
             <div className="why">
                 <div className="tit">WHY KURLY</div>

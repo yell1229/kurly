@@ -39,15 +39,19 @@ export const getList = async () =>{
 
     
     const sql = `
-                  select 	
-                        pid,
-                        concat('http://localhost:9000/',title_image) as img,
-                        title,
-                        description as subTit,
-                        price,
-                        dc,
-                        truncate((price * ((100 - dc)*0.01)),0) as dcPrice
-                from kurly_product  
+                  select  pid,
+                    brend,
+                    cate_depth1,
+                    cate_depth2,
+                    subject as name,
+                    sub_desc as description,
+                    format(price,0) as originalPrice,
+                    dc,
+                    concat(dc,'%') as discountRate,
+                    format((price * (100 - dc) *0.01),0) as discountedPrice,
+                    event_label,
+                    concat('http://localhost:9000/',upload_img) as image_url
+            from kurly_product 
     `;
 
     const [result] = await db.execute(sql);

@@ -1,9 +1,13 @@
 @import 'common';
+$main-color:rgb(95, 0, 128);
 
 .new_product{
     width:640px;
     margin:0 auto;
     padding-top:50px;
+    & > *{
+        box-sizing: border-box;
+    }
     h2{
         font-size: 28px;
         line-height: 35px;
@@ -50,10 +54,9 @@
                     line-height:46px !important;
                 }
                 .img{
-                    width:100px;
-                    height:120px;
-                    margin-left:auto;
-                    border: 1px solid rgb(221, 221, 221);
+                    max-width:100px;
+                    max-height:120px;
+                    margin-top:5px;
                     overflow:hidden;
                     text-align:center;
                     img{height:120px;}
@@ -66,8 +69,8 @@
                 .radio{
                     position:relative;
                     display:inline-block;
-                    width:24px;
-                    height:24px;
+                    width:25px;
+                    height:25px;
                     overflow:hidden;
                     font-size:14px;
                     input{
@@ -84,6 +87,7 @@
                         position:relative;
                         width:24px;
                         height:24px;
+                        line-height:24px;
                         border: 1px solid rgb(221, 221, 221);
                         border-radius: 50%;
                         &:after{
@@ -121,6 +125,18 @@
             &.select_area{
                 >div:nth-child(2){
                     flex-grow:1;
+                }
+            }
+            .preview_list{
+                display:flex;
+                justify-content: left;
+                flex-wrap:wrap;
+                gap:5px;
+                li{
+                    width:80px;
+                    height:100px;
+                    overflow: hidden;
+                    img{width:100%;}
                 }
             }
         }
