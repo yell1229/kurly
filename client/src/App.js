@@ -14,6 +14,7 @@ import {PidProvider} from './context/ProductContext.js';
 
 import './scss/kurly.scss';
 import Test from './pages/Test.jsx';
+import ScrollTest from './pages/ScrollTest.jsx';
 
 export default function App() {
     return (
@@ -30,6 +31,7 @@ export default function App() {
                     <Route path="/goods/new" element={<NewProduct />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/test/:pid" element={<ProductTest />} />
+                    <Route path="/scroll" element={<ScrollTest />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -1,0 +1,31 @@
+.scoll_area{
+    .box{
+        height:1000px;
+        &:nth-child(1){
+            background-color: pink;
+        }
+        &:nth-child(1){
+            background-color: green;
+        }
+        &:nth-child(1){
+            background-color: lightblue;
+        }
+    }
+}
+.nav_area{
+    position:fixed;
+    top:0;
+    left:0;
+    display:flex;
+    justify-content: space-between;
+    width:100%;
+    background: #fff;
+    section{
+        border:1px solid #000;
+        width:100%;
+        text-align:center;
+        &.active{
+            background: pink;
+        }
+    }
+}

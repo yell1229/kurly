@@ -38,4 +38,13 @@ create table kurly_product(
 desc kurly_signup_me;
 select count(id) as result from kurly_signup_me
 	where id='test1';
-
+select * from kurly_product;
+select 	
+                        pid,
+                        concat('http://localhost:9000/',title_image) as img,
+                        title,
+                        description as subTit,
+                        price,
+                        dc,
+                        truncate((price * ((100 - dc)*0.01)),0) as dcPrice
+                from kurly_product  ;
