@@ -3,10 +3,10 @@ import {db} from './db.js';
 // 상품등록
 export const resigerProduct = async (formData ) => {
     console.log('formData',formData);
-    
+
     const sql=`
-                insert into kurly_product(
-                                    brend,
+                insert into product(
+                                    brand,
                                     cate_depth1,
                                     cate_depth2,
                                     subject,
@@ -35,8 +35,8 @@ export const resigerProduct = async (formData ) => {
         formData.dc || 0,
         formData.delivery ,
         formData.event || 0,
-        formData.uploadImg || null,
-        formData.orgImg || null,
+        JSON.stringify([formData.uploadImg]) || null,
+        JSON.stringify([formData.orgImg]) || null,
         formData.infoImgs || null,
         formData.orgInfoImgs || null,
         formData.detailImgs || null,
@@ -51,7 +51,7 @@ export const resigerProduct = async (formData ) => {
 export const getList = async () => {
     const sql =`
                 select  pid,
-                    brend as brand,
+                    brand,
                     cate_depth1,
                     cate_depth2,
                     subject as name,
@@ -62,11 +62,11 @@ export const getList = async () => {
                     format((price * (100 - dc) *0.01),0) as discountedPrice,
                     event_label,
                     concat('http://localhost:9000/',upload_img) as image_url
-            from kurly_product
+            from product
     `;
 
     const [result] = await db.execute(sql);
-    console.log('result--------------->>',result);
+
     return result;
 }
 
@@ -75,7 +75,7 @@ export const getDetail = async({pid}) => {
     console.log('pid',pid);
     const sql = `
             select  pid,
-                    brend as brand,
+                    brand,
                     cate_depth1,
                     cate_depth2,
                     subject as name,
@@ -86,10 +86,10 @@ export const getDetail = async({pid}) => {
                     format((price * (100 - dc) *0.01),0) as discountedPrice,
                     truncate((price * (100 - dc) *0.01),0) as dcPrice,
                     event_label,
-                    concat('http://localhost:9000/',upload_img) as image_url,
+                    upload_img as image_url,
                     info_imgs,
                     detail_imgs
-            from kurly_product
+            from product
             where pid = ?
     `;
     const [result] = await db.execute(sql,[pid]);

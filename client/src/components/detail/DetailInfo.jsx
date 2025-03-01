@@ -9,8 +9,8 @@ export default function DetailInfo({detailImgs}) {
         <div className="tab_detail_info">
             <ul className='product_img'>
                 {
-                    detailImgs && detailImgs.map((img) =>
-                        <li><img src={img} alt="" /></li>
+                    detailImgs && detailImgs.map((img,i) =>
+                        <li><img src={`http://localhost:9000/${img}`}  key={i} alt="" /></li>
                 )}
 
             </ul>

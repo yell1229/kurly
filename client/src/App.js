@@ -11,13 +11,13 @@ import ProductList from './pages/ProductList.jsx';
 import ProductTest from './pages/ProductTest.jsx';
 import DetailTest from './pages/DetailTest.jsx';
 import {PidProvider} from './context/ProductContext.js';
+import { AuthProvider } from './components/auth/AuthContext.js';
 
 import './scss/kurly.scss';
-import Test from './pages/Test.jsx';
-import ScrollTest from './pages/ScrollTest.jsx';
 
 export default function App() {
     return (
+        <AuthProvider>
         <PidProvider>
         <BrowserRouter>
             <Routes>
@@ -30,11 +30,10 @@ export default function App() {
                     <Route path="/member/signup" element={<SignUp />} />
                     <Route path="/goods/new" element={<NewProduct />} />
                     <Route path="/cart" element={<Cart />} />
-                    <Route path="/test/:pid" element={<ProductTest />} />
-                    <Route path="/scroll" element={<ScrollTest />} />
                 </Route>
             </Routes>
         </BrowserRouter>
         </PidProvider>
+        </AuthProvider>
     );
 }

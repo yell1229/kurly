@@ -1,9 +1,11 @@
-import React,{useRef, useState} from 'react';
+import React,{useContext, useRef, useState} from 'react';
 import ImageMultiUpload from './ImageMultiUpload.jsx';
+import {AuthContext} from '../auth/AuthContext.js';
 import { MdClose } from "react-icons/md";
 import axios from 'axios';
 
-export default function WritePopup({src, name, checkIsTrue, file,getPopupData}) {
+export default function WritePopup({src, name,pid, checkIsTrue, file, setUpdate}) {
+    const {isLogin} = useContext(AuthContext);
     const titleRef = useRef(null);
     const textareaRef = useRef(null);
     let [textCount, setTextCount] = useState(0);
@@ -39,20 +41,38 @@ export default function WritePopup({src, name, checkIsTrue, file,getPopupData}) 
             textareaRef.current.focus();
             return false;
         }
+        return true;
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        formData = {...formData,'images':fnames.uploadname};
-        getPopupData(formData);     
+        const id = localStorage.getItem('user_id');
+        if(validator()){
+            if(fnames.uploadname){
+                formData = {...formData,'images':fnames.uploadname, 'id':id, 'pid':pid};      
+                axios.post('http://localhost:9000/review',formData)
+                    .then(res =>{
+                        if(res.data.affectedRows === 1)  setUpdate(1)
+                    })
+                    .catch(err => console.log(err));
+           } else{
+                formData = {...formData, 'id':id, 'pid':pid};                 
+                axios.post('http://localhost:9000/inquire',formData)
+                    .then(res =>{
+                        if(res.data.affectedRows === 1)  setUpdate(1)
+                    })
+                    .catch(err => console.log(err));
+           }
+           checkIsTrue(false);
+        }
     }
 
     return (
          <div className="inquire_area">
                     <div className="box_area" style={{height : file ? '800px' : '690px'}}>
-                        <div className="tit">상품 문의하기<button type="button" onClick={() => checkIsTrue(false)}><MdClose /></button></div>
+                        <div className="tit">{ file ? '상품 리뷰 쓰기' : '상품 문의하기' }<button type="button" onClick={() => checkIsTrue(false)}><MdClose /></button></div>
                         <div className="product">
-                            <div className="thumb"> <img src={src} alt={name} /></div>
+                            <div className="thumb"> <img src={`http://localhost:9000/${src}`} alt={name} /></div>
                             <div>{name}</div>
                         </div>
                         <form onSubmit={handleSubmit}>
@@ -109,7 +129,7 @@ export default function WritePopup({src, name, checkIsTrue, file,getPopupData}) 
                                 </div> 
                             </div>
                             <div className="btns">
-                                <button type='reset'>취소</button>
+                                <button type='reset' onClick={() => checkIsTrue(false)}>취소</button>
                                 <button type='submit'>등록</button>
                             </div>
                         </form>

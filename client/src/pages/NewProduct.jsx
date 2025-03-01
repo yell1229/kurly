@@ -1,6 +1,7 @@
 import React,{useEffect, useRef, useState} from 'react';
 import '../scss/new_product.scss';
-import ImageUpload from '../components/ImageUpload.jsx';
+import ImageUpload from '../components/detail/ImageUpload.jsx';
+import ImageMultiUpload from '../components/detail/ImageMultiUpload.jsx';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +18,7 @@ export default function NewProduct() {
         dcRef:useRef(null)
     };
     const eventRef = useRef(null);
+    const deliveryRef = useRef(null);
     const initForm = {
         brend:'',
         depth1:'',
@@ -25,11 +27,17 @@ export default function NewProduct() {
         description:'',
         price:'',
         dc:'',
-        event:''
+        event:'',
+        uploadImg:'',
+        orgImg:''
     }
     let [formData, setFormData] = useState(initForm);
     const [fname, setFname] = useState({});
+    const [fnames, setFnames] = useState({});
+    const [fnames2, setFnames2] = useState({});
     const [previewImg, setPreviewImg] = useState('');
+    const [previewList, setPreviewList] = useState([]);
+    const [previewList2, setPreviewList2] = useState([]);
     const [navList, setNavList] = useState([]);
     const [navSub, setNavSub] = useState([]);
     const [selectNavSub,setSelectNavSub] = useState(null);
@@ -44,11 +52,20 @@ export default function NewProduct() {
     },[]);
 
 
-
-    const getFileName = (filenames) => {
+    // upload file
+    const getFileName = (filenames) => {       
         setFname(filenames);
-        setPreviewImg(`http://localhost:9000/${filenames.uploadFileName}`);
+        setPreviewImg(`http://localhost:9000/${filenames.upload_name}`);
     }
+    const getMultiFilesName = (filenames) => {
+        setFnames(filenames);
+        setPreviewList(filenames.uploadname)
+    }
+    const getMultiFilesName2 = (filenames) => {
+        setFnames2(filenames);
+        setPreviewList2(filenames.uploadname)
+    }
+
     // input formdata
     const changeFormData = (e) => {
         const {name, value} = e.target;
@@ -58,9 +75,7 @@ export default function NewProduct() {
         } 
         
     }
-
-    
-    
+ 
     //validator
     const validator = () => {
         const newRef = Object.entries(refs);
@@ -90,18 +105,31 @@ export default function NewProduct() {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        formData ={...formData,"uploadImg":fname.uploadFileName,"orgImg":fname.sourceFileName,"event":eventRef.current.value };
+        formData ={...formData,"uploadImg":fname.upload_name,
+                    "orgImg":fname.org_name,
+                    "event":eventRef.current.value,
+                    "infoImgs":fnames.uploadname, 
+                    "orgInfoImgs":fnames.originalname,
+                    "detailImgs":fnames2.uploadname, 
+                    "orgDetailImgs":fnames2.originalname,
+                    "delivery":deliveryRef.current.value 
+                };
         if(validator() ) {
-            console.log('formData',formData);
-        
+           console.log('formData',formData);
+            
             axios.post('http://localhost:9000/product/new',formData)
-                    .then(res => {
-                        if(res.data.result_rows === 1){
-                            alert('상품이 등록되었습니다.');
-                            setTimeout(()=>{navigate('/goods/list')} ,1000);
-                        }
-                    })
+                    .then(res =>{
+                            if(res.data.affectedRows === 1){
+                                alert(`상품이 등록되었습니다.\n리스트화면으로 이동합니다.`);
+                                setTimeout(() =>{
+                                    navigate('/goods/list')
+                                },1000);
+                            }else{
+                                alert('상품등록에 실패했습니다.\n다시 입력해주세요.');
+                            }
+                        })
                     .catch(err => console.log(err));
+            
         }
 
     }
@@ -167,6 +195,16 @@ export default function NewProduct() {
                         </div>
                     </div>
                     <div className="f_wrap">
+                        <span>포장타입</span>
+                        <div>
+                            <Form.Select  name="delivery"  ref={deliveryRef}>
+                                <option value="상온">상온</option>
+                                <option value="냉장">냉장</option>
+                                <option value="냉동">냉동</option>
+                            </Form.Select>
+                        </div>
+                    </div>
+                    <div className="f_wrap">
                         <span>라이브특가</span>
                         <div className='event'>
                             <label className="radio_box">
@@ -186,15 +224,49 @@ export default function NewProduct() {
                         </div>
                     </div>
                     <div className="f_wrap upload_file">
-                        <span>대표이미지</span>
+                        <span>대표이미지(1)</span>
                         <div>
                             <ImageUpload getFileName={getFileName} />
                             <div>
-                                <input type="text" name="upload" value={fname.uploadFileName} hidden />
-                                <input type="text" name="source" value={fname.sourceFileName} hidden />
+                                <input type="text" name="upload" value={fname.upload_name} hidden />
+                                <input type="text" name="source" value={fname.org_name} hidden />
                             </div>
+                            <div className='img'>{ previewImg&& <img src={previewImg} alt="" /> }</div>
                         </div>
-                        <div className='img'><img src={previewImg} alt="" /></div>
+                    </div>
+                    <div className="f_wrap upload_file">
+                        <span>상품설명 이미지들</span>
+                        <div>
+                            <ImageMultiUpload getMultiFilesName={getMultiFilesName} />
+                            <div>
+                                <input type="text" name="upload" value={fnames.uploadname} hidden />
+                                <input type="text" name="source" value={fnames.originalname} hidden />
+                            </div>
+                        </div>           
+                    </div>
+                    <div className="f_wrap upload_file">
+                        <ul className='preview_list'>
+                            { previewList && previewList.map((file) =>
+                                <li><img src={file}/></li>
+                            )}
+                        </ul>
+                    </div>
+                    <div className="f_wrap upload_file">
+                        <span>상세정보 이미지들</span>
+                        <div>
+                            <ImageMultiUpload getMultiFilesName={getMultiFilesName2} />
+                            <div>
+                                <input type="text" name="upload" value={fnames2.uploadname} hidden />
+                                <input type="text" name="source" value={fnames2.originalname} hidden />
+                            </div>
+                        </div>           
+                    </div>
+                    <div className="f_wrap upload_file">
+                        <ul className='preview_list'>
+                            { previewList2 && previewList2.map((file) =>
+                                <li><img src={file}/></li>
+                            )}
+                        </ul>
                     </div>
                 </div>
 
@@ -205,4 +277,3 @@ export default function NewProduct() {
         </div>
     );
 }
-

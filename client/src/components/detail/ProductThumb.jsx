@@ -1,23 +1,13 @@
-import React,{useContext} from 'react';
+import React from 'react';
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineChatBubbleLeftEllipsis } from "react-icons/hi2";
 import { Link } from 'react-router-dom';
-import { PidContext } from '../../context/ProductContext.js';
 
 export default function ProductThumb({product}) {
-    const {pidArr, setPidArr} = useContext(PidContext);
-    const getPid = () => {
-        if(pidArr.length < 10){
-            setPidArr([product.pid, ...pidArr]);
-        }else{
-            setPidArr([...pidArr.slice(1), product.pid]);
-        }
-        localStorage.setItem('viewProducts',pidArr);
-    }
     
     return (
         <div className="box">
-            <Link key={product.pid} to={`/goods/detail/${product.pid}`} onClick={getPid}>
+            <Link key={product.pid} to={`/goods/detail/${product.pid}`}>
                 <div className="thumb">
                     <img src={product.image_url} alt="" />
                     { product.isLive && <div className="ban_top_left">라이브특가</div> }
