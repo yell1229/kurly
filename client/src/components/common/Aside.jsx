@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from 'react';
+import AsideSlide from './AsideSlide.jsx';
 import { TfiArrowUp } from "react-icons/tfi";
 import SlideList from '../SlideList.jsx';
 import axios from 'axios';
@@ -30,7 +31,7 @@ export default function Aside() {
                     <li><a href="">컬리 큐레이터</a></li>
                     <li><a href="">레시피</a></li>
                 </ul>
-                <SlideList classname="aside_slide" imageList={productList} />
+                <AsideSlide />
             </aside>
             {/* end of aside nav */}
 

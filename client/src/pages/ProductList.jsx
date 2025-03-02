@@ -11,6 +11,7 @@ export default function ProductList() {
                 .then(res => setProductList(res.data))
                 .catch(err => console.log(err));
     },[]);
+    console.log('productList',productList);
     
     return (
         <div className='product_list'>

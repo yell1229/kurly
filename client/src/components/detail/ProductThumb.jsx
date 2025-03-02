@@ -9,7 +9,7 @@ export default function ProductThumb({product}) {
         <div className="box">
             <Link key={product.pid} to={`/goods/detail/${product.pid}`}>
                 <div className="thumb">
-                    <img src={product.image_url} alt="" />
+                    <img src={`http://localhost:9000/${product.image_url}`} alt="" />
                     { product.isLive && <div className="ban_top_left">라이브특가</div> }
                     { product.isPayback && <div className="ban_btm_line">최대혜택가 141,930원</div> }
                     { product.isPayback && <div className="ban_btm_right">페이백</div> }

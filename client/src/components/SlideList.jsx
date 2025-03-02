@@ -1,4 +1,4 @@
-import React,{useCallback, useRef} from 'react';
+import React from 'react';
 // slide
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination,Autoplay , Scrollbar, A11y } from 'swiper/modules';
@@ -88,33 +88,6 @@ export default function SlideList({classname,imageList}) {
                     <div className="swiper-button-next"></div>
                 </div>
             </div>
-            }
-
-            {/* aside */}
-            {
-                classname === 'aside_slide' && <div className={classname}>
-                    <div className='tit'>최근 본 상품</div>
-                    <Swiper 
-                         modules = {[Navigation, Pagination, Autoplay]}
-                         spaceBetween = {2}
-                         slidesPerView = {'auto'}
-                         slidesPerGroup ={ 1 }
-                         direction = {'vertical' }
-                         centeredSlides = {false}
-                         speed = {500 }
-                         freeMode = {true}
-                         loop = {false}
-                         className = {"slider"}
-                         height = {209 }
-                         navigation = {{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'} }  
-                    >   
-                        {imageList && imageList.map((img) =>
-                            <SwiperSlide><a href={img.src}><img src={img.img} alt={img.src} /></a></SwiperSlide>
-                        ) }
-                    </Swiper>
-                    <div className="swiper-prev"><IoIosArrowUp /></div>
-                    <div className="swiper-next"><IoIosArrowDown /></div>
-                </div>
             }
         </>
     );

@@ -20,3 +20,10 @@ export const getDetail = async (req,res) => {
     res.json(result);
     res.end();
 }
+
+// pid list
+export const getItem = async (req,res) => { 
+    const result = await repository.getItem(req.body);
+    res.json(result);
+    res.end();
+}
