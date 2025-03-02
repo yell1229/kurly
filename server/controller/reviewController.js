@@ -16,7 +16,7 @@ export const getReviewList = async (req,res) => {
 
 // review 전체 이미지 가져오기
 export const getTotalImages = async (req,res) => {  
-    const result = await repository.getTotalImages();
+    const result = await repository.getTotalImages(req.body);
     res.json(result);
     res.end();
 }

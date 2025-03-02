@@ -22,7 +22,6 @@ export default function AsideSlide() {
             .then(res =>setClickIatem(res.data))
             .catch(err =>console.log(err));
     },[pid]);
-    console.log('pid',pid);
     
     return (
         <div className="aside_slide">

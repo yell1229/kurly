@@ -27,3 +27,9 @@ export const getItem = async (req,res) => {
     res.json(result);
     res.end();
 }
+// pid filter list
+export const getFilterItem = async (req,res) => { 
+    const result = await repository.getFilterItem(req.body);
+    res.json(result);
+    res.end();
+}

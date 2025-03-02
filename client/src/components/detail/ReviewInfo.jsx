@@ -34,7 +34,7 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
                 })
                 .catch(err => console.log(err));
                 
-        axios.post('http://localhost:9000/review/getImages')
+        axios.post('http://localhost:9000/review/getImages',{"pid":pid})
                 .then(res => {
                     let newList = [];
                     for(let item of res.data){

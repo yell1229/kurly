@@ -12,8 +12,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import '../scss/slider.scss';
 
-import { IoIosArrowDown } from "react-icons/io";
-import { IoIosArrowUp } from "react-icons/io";
 import { MdArrowBackIos } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 
@@ -82,7 +80,7 @@ export default function SlideList({classname,imageList}) {
                         {imageList && imageList.map((img) =>
                             <SwiperSlide><Link to={img.src}><ProductThumb slideImg={img} /></Link></SwiperSlide>
                         )}
-                        <SwiperSlide><Link to="/goods/list"><div className="more"><span>전체보기</span></div></Link></SwiperSlide>
+                        <SwiperSlide><Link to="/goods/all"><div className="more"><span>전체보기</span></div></Link></SwiperSlide>
                     </Swiper>
                     <div className="swiper-button-prev"></div>
                     <div className="swiper-button-next"></div>

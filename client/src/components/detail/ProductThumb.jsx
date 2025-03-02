@@ -4,6 +4,7 @@ import { HiOutlineChatBubbleLeftEllipsis } from "react-icons/hi2";
 import { Link } from 'react-router-dom';
 
 export default function ProductThumb({product}) {
+    console.log('product',product);
     
     return (
         <div className="box">
@@ -24,7 +25,7 @@ export default function ProductThumb({product}) {
                         <em>{product.originalPrice}</em>
                         <div><span>{product.discountRate}</span><strong>{product.discountedPrice}</strong></div>
                     </div>
-                    <div className="review_num"><HiOutlineChatBubbleLeftEllipsis className='icon' />999+</div>
+                    <div className="review_num"><HiOutlineChatBubbleLeftEllipsis className='icon' />{product.count}</div>
                 </div>
             </Link>
         </div>

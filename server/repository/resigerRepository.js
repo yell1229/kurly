@@ -108,6 +108,29 @@ export const getItem = async({pid}) => {
             where pid in (${array.join(',')})
     `;
     const [result] = await db.execute(sql,pid);
+    return result;
+}
+// filter pid list
+export const getFilterItem = async({pid}) => {
+    const array = [];
+    pid.forEach((item) => array.push('?'));
+    const sql = `
+            select  pid,
+                    brand,
+                    cate_depth1,
+                    cate_depth2,
+                    subject as name,
+                    sub_desc as description,
+                    format(price,0) as originalPrice,
+                    dc,
+                    concat(dc,'%') as discountRate,
+                    format((price * (100 - dc) *0.01),0) as discountedPrice,
+                    event_label,
+                    upload_img as image_url
+            from product
+            where pid in (${array.join(',')})
+    `;
+    const [result] = await db.execute(sql,pid);
     console.log('result',result)
     return result;
 }

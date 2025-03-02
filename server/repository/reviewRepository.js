@@ -43,10 +43,10 @@ export const getReviewList =  async({pid}) => {
 
 
 // review 전체 이미지 가져오기
-export const getTotalImages =  async() => { 
+export const getTotalImages =  async({pid}) => { 
     const sql = `
     select images from reviews
-    where images;
+    where images and pid = ?
     `;
     
     const [result] = await db.execute(sql);

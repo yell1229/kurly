@@ -8,8 +8,7 @@ import SignUp from './pages/SignUp.jsx';
 import Cart from './pages/Cart.jsx';
 import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
-import ProductTest from './pages/ProductTest.jsx';
-import DetailTest from './pages/DetailTest.jsx';
+import TotalList from './pages/TotalList.jsx';
 import {PidProvider} from './context/ProductContext.js';
 import { AuthProvider } from './components/auth/AuthContext.js';
 
@@ -24,8 +23,8 @@ export default function App() {
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
                     <Route path="/goods/detail/:pid" element={<Detail />} />
-                    <Route path="/goods/detail_test/:pid" element={<DetailTest />} />
                     <Route path="/goods/list" element={<ProductList />} />
+                    <Route path="/goods/all" element={<TotalList />} />
                     <Route path="/member/login" element={<Login />} />
                     <Route path="/member/signup" element={<SignUp />} />
                     <Route path="/goods/new" element={<NewProduct />} />
