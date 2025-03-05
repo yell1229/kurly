@@ -19,7 +19,7 @@ export default function TopContent() {
                 <span>[최대 82%]혜택 상품만! 스킨부터 바디로션까지</span>
             </div>
             <div className="product_list_wrap">
-                <SlideList classname="slider_tab4" imageList={list} />
+                <SlideList classname="slider_tab4" product={list} />
             </div>
             <Link className='btn_total' to="/goods/all">전체보기</Link>
         </div>

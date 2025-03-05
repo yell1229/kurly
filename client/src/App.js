@@ -9,16 +9,16 @@ import Cart from './pages/Cart.jsx';
 import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
 import TotalList from './pages/TotalList.jsx';
-import {PidProvider} from './context/ProductContext.js';
 import { AuthProvider } from './components/auth/AuthContext.js';
+import ScrollToTop from './components/common/ScrollToTop.jsx';
 
 import './scss/kurly.scss';
 
 export default function App() {
     return (
         <AuthProvider>
-        <PidProvider>
         <BrowserRouter>
+            <ScrollToTop>
             <Routes>
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Main />} />
@@ -31,8 +31,8 @@ export default function App() {
                     <Route path="/cart" element={<Cart />} />
                 </Route>
             </Routes>
+            </ScrollToTop>
         </BrowserRouter>
-        </PidProvider>
         </AuthProvider>
     );
 }

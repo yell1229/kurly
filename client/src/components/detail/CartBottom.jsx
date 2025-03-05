@@ -15,7 +15,7 @@ export default function CartBottom({product, openCart, buttonCartCount,cartAddIt
                 <div className="label" onClick={openCart}>상품선택<span><IoIosArrowDown /></span></div>
 
                 <div className='box_wrap'>
-                    <span class="product_name">[랑콤]  NEW 제니피끄 얼티미트 세럼 50ml 설날 선물세트</span>
+                    <span className="product_name">[랑콤]  NEW 제니피끄 얼티미트 세럼 50ml 설날 선물세트</span>
                     <div className="count_box">
                         <div className="count">
                             <button type="button" onClick={()=>{buttonCartCount('-')}}>-</button>

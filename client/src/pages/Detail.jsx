@@ -1,4 +1,4 @@
-import React,{useRef, useState, useEffect, useContext} from 'react';
+import React,{useRef, useState, useEffect, useContext, useCallback} from 'react';
 import { useParams ,useNavigate } from "react-router-dom";
 import { VscBell } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
@@ -18,7 +18,6 @@ import '../scss/detail.scss';
 export default function Detail() {
     const {isLogin} = useContext(AuthContext);
     const {loginCheck} = useLogin();
-    const navigate = useNavigate();
     const scrolls = [
         {id:'상품설명', ref:useRef(null)},
         {id:'상세정보', ref:useRef(null)},
@@ -55,9 +54,9 @@ export default function Detail() {
                 })
                 .catch((error) => console.log(error));
     },[]);
-
+    
     useEffect(()=>{
-        if(product.pid){   
+        if(product.pid && !heart){   
             const checkArray = JSON.parse(localStorage.getItem('heartList')) || [];
             if(checkArray && product.pid){
                 const samePid = checkArray.includes(product.pid);
@@ -65,7 +64,7 @@ export default function Detail() {
             }
             
         }
-    },[product.pid]);
+    },[product.pid, heart]);
 
     useEffect(()=>{
         const pidArray = JSON.parse(localStorage.getItem('viewProducts')) || [];
@@ -95,10 +94,12 @@ export default function Detail() {
     }
     // 장바구니 데이터
     const cartAddItem = () => {
+
         
     }
-    // 찜하기
-    const handleAddHeart = () => {
+
+    // 찜하기 
+    const handleAddHeart = useCallback(() => {
         if(isLogin){
             let heartList =  JSON.parse(localStorage.getItem('heartList')) || [];
             const samePid = heartList.includes(product.pid);
@@ -115,8 +116,7 @@ export default function Detail() {
         }else{
             loginCheck();
         }
-        
-    }  
+    }, [isLogin, pid, product.pid, loginCheck]);
     
 
     return (
@@ -175,7 +175,7 @@ export default function Detail() {
                                 <li>
                                     <span>상품선택</span>
                                     <div className='box_wrap'>
-                                        <span class="product_name">{product.name}</span>
+                                        <span className="product_name">{product.name}</span>
                                         <div className="count_box">
                                             <div className="count">
                                                 <button type="button"onClick={()=>{buttonCartCount('-')}}>-</button>
@@ -229,4 +229,3 @@ export default function Detail() {
         </div>
     );
 }
-

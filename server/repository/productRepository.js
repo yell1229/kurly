@@ -29,9 +29,7 @@ export const registerProduct = async (formData) => {
     ]
 
     const [result] = await db.execute(sql, values);
-    console.log('result 확인', result);
     
-
     return {"result_rows": result.affectedRows};
 }
 
@@ -55,6 +53,5 @@ export const getList = async () =>{
     `;
 
     const [result] = await db.execute(sql);
-    console.log('check',result);
     return result;
 }

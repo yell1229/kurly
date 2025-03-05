@@ -96,7 +96,7 @@ export default function WritePopup({src, name,pid, checkIsTrue, file, setUpdate}
                                 <span>내용</span>
                                 <div className='text_form'>
                                     <textarea name="text" id="" ref={textareaRef} onChange={getValues}></textarea>
-                                    { isTextarea && <div class="textarea_info" onClick={()=>{setIsTextarea(!isTextarea)}}>
+                                    { isTextarea && <div className="textarea_info" onClick={()=>{setIsTextarea(!isTextarea)}}>
                                         <strong>상품문의 작성 전 확인해 주세요</strong>
                                         <ul>
                                             <li>답변은 영업일 기준 2~3일 소요됩니다.</li>

@@ -169,7 +169,7 @@ export default function Detail({cartInfo}) {
                                 <li>
                                     <span>상품선택</span>
                                     <div className='box_wrap'>
-                                        <span class="product_name">{product.name}</span>
+                                        <span className="product_name">{product.name}</span>
                                         <div className="count_box">
                                             <div className="count">
                                                 <button type="button"onClick={()=>{buttonCartCount('-')}}>-</button>

@@ -4,7 +4,6 @@ import { HiOutlineChatBubbleLeftEllipsis } from "react-icons/hi2";
 import { Link } from 'react-router-dom';
 
 export default function ProductThumb({product}) {
-    console.log('product',product);
     
     return (
         <div className="box">

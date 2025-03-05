@@ -15,7 +15,7 @@ export const getList = async (req, res) => {
 }
 
 // 상품페이지
-export const getDetail = async (req,res) => {
+export const getDetail = async (req,res) => {   
     const result = await repository.getDetail(req.body);
     res.json(result);
     res.end();
@@ -27,8 +27,9 @@ export const getItem = async (req,res) => {
     res.json(result);
     res.end();
 }
+
 // pid filter list
-export const getFilterItem = async (req,res) => { 
+export const getFilterItem = async (req,res) => {  
     const result = await repository.getFilterItem(req.body);
     res.json(result);
     res.end();

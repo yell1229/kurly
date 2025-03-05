@@ -16,14 +16,12 @@ export default function Kurly() {
                 .catch(err => console.log(err));
     },[]);
 
-//console.log('topImageList ===> ',topImageList);
-
     return (
         <>
             {/* start of container_area */}
             <div className="container_area">
 
-                <SlideList classname="top_slider" imageList={topImageList} />
+                <SlideList classname="top_slider" product={topImageList} />
 
                 
                 <TopContent />

@@ -15,7 +15,7 @@ import '../scss/slider.scss';
 import { MdArrowBackIos } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 
-export default function SlideList({classname,imageList}) {
+export default function SlideList({classname, product}) {
     return (
         <>
             {/* main top */}
@@ -32,12 +32,12 @@ export default function SlideList({classname,imageList}) {
                     pagination = {{
                         type: 'fraction'
                         }}
-                    speed = {500 }
-                    loop = {true }
+                    speed = {500}
+                    loop = {false}
                     className = {"slider"}
                 >
-                    {imageList && imageList.map((img) =>
-                        <SwiperSlide style={{background:"#666"}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
+                    {product && product.map((img, idx) =>
+                        <SwiperSlide key={idx} style={{background:"#666"}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
                     )}
                 </Swiper>
             </div>}
@@ -53,7 +53,7 @@ export default function SlideList({classname,imageList}) {
                     className = {"slider"}
                     navigation = {{nextEl: '.pop_slide .swiper-next', prevEl: '.pop_slide .swiper-prev'} }  
                 >
-                    {imageList && imageList.map((img) =>
+                    {product && product.map((img) =>
                         <SwiperSlide><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
                     )}
                 </Swiper>
@@ -77,8 +77,8 @@ export default function SlideList({classname,imageList}) {
                          className = { "slider"}
                          navigation = {{nextEl: '.slider_tab4 .swiper-button-next', prevEl: '.slider_tab4 .swiper-button-prev'}}
                     >
-                        {imageList && imageList.map((img) =>
-                            <SwiperSlide><Link to={img.src}><ProductThumb slideImg={img} /></Link></SwiperSlide>
+                        {product && product.map((img, idx) =>
+                            <SwiperSlide key={idx}><ProductThumb product={img} /></SwiperSlide>
                         )}
                         <SwiperSlide><Link to="/goods/all"><div className="more"><span>전체보기</span></div></Link></SwiperSlide>
                     </Swiper>

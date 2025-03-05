@@ -16,6 +16,10 @@ server.use(express.urlencoded());
 server.use(cors());
 server.use('/upload_files', express.static(path.join("upload_files"))); 
 
+server.get('/test',(req,res) =>{
+    res.send('<h1>화면에 잘 보이는지 테스트 해보세요.</h1>')
+});
+
 // 상품등록
 server.use('/product', registerRouter);
 server.use('/upload', uploadRouter);

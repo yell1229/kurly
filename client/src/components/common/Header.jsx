@@ -87,16 +87,16 @@ export default function Header() {
                             <div className="menu"><HiOutlineMenu  className='icon'/>카테고리</div>
                             {checkCategory && <div className="nav_detail_category" ref={catrgoryWrapRef}>
                                 <ul className="depth1" onMouseEnter={(e)=>{ catrgoryWrapRef.current.classList.add('active')}}>
-                                    {navList.map((menu) =>
-                                        <li onMouseEnter={() => navHoverEvent(menu.id)}>
+                                    {navList.map((menu,i) =>
+                                        <li onMouseEnter={() => navHoverEvent(menu.id)} key={i}>
                                             {menu.name}
                                         </li>
                                     )}
                                 </ul>
                                 <div className="depth2">
                                     <ul>
-                                        {navIdx && navIdx.map((menu) =>
-                                            <li><a href={menu.url}>{menu.name}</a></li>
+                                        {navIdx && navIdx.map((menu, i) =>
+                                            <li key={i}><a href={menu.url}>{menu.name}</a></li>
                                         
                                         )}     
                                     </ul>

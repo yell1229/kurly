@@ -24,7 +24,6 @@ export const memberSignup = async (formData) => {
         formData.gender || 0,
         `${formData.birth1}${formData.birth2}${formData.birth3}`,        
     ];
-    console.log('values',values);
     
     const [result] = await db.execute(sql,values);
     
@@ -39,7 +38,6 @@ export const memberIdCheck = async({id}) => {
 	                        where id= ?
     `;
     const [result] = await db.execute(sql,[id]);
-    console.log('idcheck', result);
     
     return result[0];
 

@@ -25,6 +25,7 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
     const [totalImages, setTotalImages] = useState([]);
     const [update, setUpdate] = useState(0);
     const [countCheck, setCountCheck] = useState([]);
+    const [isUpdating, setIsUpdating] = useState(false); 
 
     useEffect(() => {
         axios.post('http://localhost:9000/review/getList',{'pid':pid})
@@ -34,7 +35,7 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
                 })
                 .catch(err => console.log(err));
                 
-        axios.post('http://localhost:9000/review/getImages',{"pid":pid})
+        axios.post('http://localhost:9000/review/getImages',{'pid':pid})
                 .then(res => {
                     let newList = [];
                     for(let item of res.data){
@@ -44,13 +45,20 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
                 })
                 .catch(err => console.log(err));   
     },[update]);
+    useEffect(() => {
+        reloadData();
+    },[pid]);
+    
     const reloadData = () => {
+        if(isUpdating) return;
+        setIsUpdating(true);
         axios.post('http://localhost:9000/review/getList',{'pid':pid})
                 .then(res => {
                     setData(res.data);
                     setReviewCount(res.data.length);
                 })
-                .catch(err => console.log(err));
+                .catch(err => console.log(err))
+                .finally(() => setIsUpdating(false));
     }
     const checkIsTrue = (check) => {
             setIsTrue(check);
@@ -73,25 +81,25 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
                 .catch(err => console.log(err));
     }
     // count check
-    const handleCount = (rid,index) =>{
-        if(!countCheck[index]){
+    const handleCount = (rid, index) => {
+        if (!countCheck[index]) {
             setCountCheck((prev) => {
                 const updateArray = [...prev];
                 updateArray[index] = true;
                 return updateArray;
             });
             increment(rid);
-        }else{
+        } else {
             setCountCheck((prev) => {
                 const updateArray = [...prev];
                 updateArray[index] = false;
                 return updateArray;
             });
-            if(rid !== 0) decrement(rid);
+            if (rid !== 0) {
+                decrement(rid);
+            }
         }
-        
-        
-    }
+    };
     // count
     const increment = async (rid) => {
         const result = await axios.post('http://localhost:9000/review/getPlusCount',{'rid':rid})
@@ -111,7 +119,7 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
     }
     
     return (
-        <div className="tab_review_info">
+        <div className="tab_review_info" key="tab3">
             <div className="tit_area"> 
                 <strong>상품 후기</strong>
                 <button type="button" onClick={openPopup}>등록하기</button>
@@ -120,7 +128,7 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
                 <ul>
                     {
                         totalImages && totalImages.map((img, i)=>
-                            (i  < 8 ) ? <li onClick={openTotalSlider}><img src={img} alt="" /></li> :''
+                            (i  < 8 ) ? <li onClick={openTotalSlider} key={i}><img src={img} alt="" /></li> :''
                         )
                     }
 
@@ -153,8 +161,8 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
                                         <p>{item.detail_txt}</p>
                                         <div className='thumb_list'>
                                             <ul>
-                                                {item.images && item.images.map((img)=>
-                                                    <li onClick={() => openSlider(index)}><img src={img} alt="" /></li>
+                                                {item.images && item.images.map((img, idx)=>
+                                                    <li onClick={() => openSlider(index)} key={idx}><img src={img} alt="" /></li>
                                                 )}
                                             </ul>
                                         </div>
