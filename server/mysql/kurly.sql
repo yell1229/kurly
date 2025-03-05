@@ -68,12 +68,46 @@ insert into kurly_signup(
     
     show tables;
     
-select 	
-		pid,
-		concat('http://localhost:9000/',title_image) as img,
-		title,
-        description as subTit,
-        price,
-        dc,
-        truncate((price * ((100 - dc)*0.01)),0) as dcPrice
-from kurly_product;
+SELECT 
+    pr.pid, 
+    pr.brand, 
+    pr.cate_depth1,
+	pr.cate_depth2,
+	pr.subject as name,
+	pr.sub_desc as description,
+	format(pr.price,0) as originalPrice,
+	pr.dc,
+	concat(pr.dc,'%') as discountRate,
+	format((pr.price * (100 - pr.dc) *0.01),0) as discountedPrice,
+	pr.event_label,
+	pr.upload_img as image_url,
+    COUNT(re.pid) AS review_count
+FROM 
+    product pr
+LEFT JOIN 
+    reviews re ON pr.pid = re.pid
+GROUP BY 
+    pr.pid, pr.brand;
+    
+    
+SELECT 
+        pr.pid, 
+        pr.brand, 
+        pr.cate_depth1,
+        pr.cate_depth2,
+        pr.subject as name,
+        pr.sub_desc as description,
+        format(pr.price,0) as originalPrice,
+        pr.dc,
+        concat(pr.dc,'%') as discountRate,
+        format((pr.price * (100 - pr.dc) *0.01),0) as discountedPrice,
+        pr.event_label,
+        pr.upload_img as image_url,
+        COUNT(re.pid) AS count
+FROM 
+    product pr
+LEFT JOIN 
+    reviews re ON pr.pid = re.pid
+where pr.pid in (1,2,3,4)
+GROUP BY 
+pr.pid, pr.brand;

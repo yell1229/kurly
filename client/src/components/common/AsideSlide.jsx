@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react';
 // slide
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination} from 'swiper/modules';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation , Link} from 'react-router-dom';
 import axios from 'axios';
 
 import 'swiper/css';
@@ -19,6 +19,7 @@ export default function AsideSlide() {
     const [clickItem, setClickIatem] = useState([]);
     const navigate = useNavigate();
     const { pathname } = useLocation();
+    let changePass = '';
 
     const handleTargetLink = (pid) => {
         console.log(`/goods/detail/${pid}`);
@@ -32,8 +33,7 @@ export default function AsideSlide() {
             .catch(err =>console.log(err));
         }
     },[pid]);
-    console.log('pathname',pathname);
-    
+
     return (
         <div className="aside_slide">
             <div className='tit'>최근 본 상품</div>
@@ -53,9 +53,9 @@ export default function AsideSlide() {
             >   
                 {clickItem && clickItem.map((item, idx) =>
                     <SwiperSlide key={idx}  >
-                        <div onClick={()=>handleTargetLink(item.pid)}>
+                        <Link key={item.pid} to={`/goods/detail/${item.pid}`}>
                             <img src={`http://localhost:9000/${item.image_url}`} alt='' />
-                        </div>
+                        </Link>
                     </SwiperSlide>
                 ) }
             </Swiper>

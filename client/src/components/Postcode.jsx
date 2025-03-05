@@ -20,7 +20,8 @@ export default function Postcode ({setAddress}) {
             fullAddress = fullAddress.replace(localAddress, '');
             fullAddress += (extraAddress !== '' ? ` (${extraAddress})` : '');
         }
-
+        //console.log('data',data.zonecode);
+        
         setAddress(fullAddress);
     };
 

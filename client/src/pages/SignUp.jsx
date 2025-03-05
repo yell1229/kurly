@@ -2,6 +2,7 @@ import React,{useEffect, useRef, useState} from 'react';
 import Postcode from '../components/Postcode.jsx';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Form from 'react-bootstrap/Form';
 
 import '../scss/signup.scss';
 import { GoCheck } from "react-icons/go";
@@ -24,6 +25,7 @@ export default function SignUp() {
         address1Ref: useRef(null),
         address2Ref: useRef(null)
     };
+    const emaildomainTxtRef = useRef(null);
     const msgRef = {
         idRef: useRef(null),
         pwdRef: useRef(null),
@@ -93,21 +95,6 @@ export default function SignUp() {
         refs.address1Ref.current.value=addr;
         setFormData({...formData,'address1':addr});    
         msgRef.address1Ref.current.innerText='';
-    }
-    // domain select
-    const getEmailDomain = (e) => {
-        const text = e.target.innerText;
-        
-        if(text !== '직접입력'){
-            refs.emaildomainRef.current.value = text;
-            setIsDomainSelect(!isDomainSelect);
-            setFormData({...formData, emaildomain:text});
-        }else{
-            setIsDomainInput(false);
-            refs.emaildomainRef.current.focus();
-            setIsDomainSelect(false);
-        }
-        
     }
     
     // validate
@@ -197,10 +184,15 @@ export default function SignUp() {
             }
         }
     }
+    // emailDomain
+    const handleDomainText = () => {
+        setFormData({...formData, emaildomain:emaildomainTxtRef.current.value});       
+    }
 
     // signup
     const handleSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault(); 
+        
         if(validate()){
             if(idCheck==='default'){
                 alert('아이디 중복체크를 해주세요.');
@@ -299,22 +291,20 @@ export default function SignUp() {
                         <div>
                             <div className='email'>
                                 <input type="text"  name="email" ref={refs.emailRef} onChange={handleChangeForm} placeholder='예: marketkurly' />
-                                <div className="select">
-                                    <div className="default" onClick={() =>{setIsDomainSelect(!isDomainSelect)}}>
-                                        { isDomainInput ? 
-                                        <input type="text" disabled placeholder="선택하기" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> : 
-                                        <input type="text" placeholder="직접입력" name="emaildomain" ref={refs.emaildomainRef} onInput={handleChangeForm} /> 
-                                        }  
-                                        <span><MdArrowDropDown/></span>
-                                    </div>
-                                    {isDomainSelect && <ul>
-                                        <li><button type="button" onClick={getEmailDomain}>naver.com</button></li>
-                                        <li><button type="button" onClick={getEmailDomain}>gmail.com</button></li>
-                                        <li><button type="button" onClick={getEmailDomain}>hanmail.com</button></li>
-                                        <li><button type="button" onClick={getEmailDomain}>kakao.com</button></li>
-                                        <li><button type="button" onClick={getEmailDomain}>daum.net</button></li>
-                                        <li><button type="button" onClick={getEmailDomain}>직접입력</button></li>
-                                    </ul>}
+                                <span>@</span>
+                                <div className="select">                                  
+                                    <Form.Select  name="emaildomain" ref={refs.emaildomainRef}  onChange={handleChangeForm}>
+                                        <option>선택하기</option>
+                                        <option value="naver.com">naver.com</option>
+                                        <option value="gmail.com">gmail.com</option>
+                                        <option value="hanmail.com">hanmail.com</option>
+                                        <option value="kakao.com">kakao.com</option>
+                                        <option value="daum.net">daum.net</option>
+                                        <option value="직접입력">직접입력</option>
+                                    </Form.Select>
+                                    {(refs.emaildomainRef && refs.emaildomainRef.current?.value === '직접입력' ) ?
+                                        <input type="text" placeholder='직접입력' ref={emaildomainTxtRef} onChange={handleDomainText} /> : ''
+                                    }
                                 </div>
                             </div>
                             <div className='txt' ref={msgRef.emailRef}></div>

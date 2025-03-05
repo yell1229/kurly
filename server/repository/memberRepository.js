@@ -2,27 +2,30 @@ import {db} from './db.js';
 // signup
 export const memberSignup = async (formData) => {
     const sql = `
-                insert into kurly_signup_me(
+                insert into member(
                         id,
                         pwd,
                         name,
-                        email,
+                        emailname,
+                        emaildomain,
                         phone,
                         address,
+                        zipcode,
                         gender,
-                        birth,
-                        mdate)
-                values(?, ?, ?, ?, ?, ?, ?, ?, now());
+                        reg_date)
+                values(?, ?, ?, ?, ?, ?, ?, ?, ?, now());
     `;
+
     const values=[
         formData.id,
         formData.pwd,
         formData.name,
-        `${formData.email}@${formData.emaildomain}`,
-        `${formData.phone}`,
+        formData.email,
+        formData.emaildomain,
+        formData.phone,
         `${formData.address1} ${formData.address2}`,
-        formData.gender || 0,
-        `${formData.birth1}${formData.birth2}${formData.birth3}`,        
+        formData.zipcode || '12334',
+        formData.gender || 0       
     ];
     
     const [result] = await db.execute(sql,values);
@@ -34,11 +37,25 @@ export const memberSignup = async (formData) => {
 export const memberIdCheck = async({id}) => {
     const sql = `
                 select count(id) as result 
-                            from kurly_signup_me
+                            from member
 	                        where id= ?
     `;
     const [result] = await db.execute(sql,[id]);
     
     return result[0];
+
+}
+
+// 로그인
+export const memberLogin = async({id,pwd}) => {
+    const sql = `
+                select count(id) as result 
+                            from member
+	                        where id= ? and pwd = ?
+    `;
+    const [result] = await db.execute(sql,[id,pwd]);
+    console.log('result=====>',result);
+    
+    return {'result':result[0].result};
 
 }

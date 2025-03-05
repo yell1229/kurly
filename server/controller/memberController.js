@@ -11,7 +11,6 @@ export const memberSignUp = async (req, res) => {
 
 // id 중복 체크
 export const memberIdCheck = async (req,res) => {
-    //console.log('memberIdCheck id check--> ',req.body);
     const result = await repository.memberIdCheck(req.body);
 
     res.json(result);
@@ -19,10 +18,9 @@ export const memberIdCheck = async (req,res) => {
 }
 
 // 로그인
-// export const memberLogin = async (req, res) => {
-//     //console.log('memberController req.body', req.body);
-//     const result = await repository.memberLogin(req.body);
+export const memberLogin = async (req, res) => {
+    const result = await repository.memberLogin(req.body);
 
-//     res.json(result);
-//     res.end();
-// }
+    res.json(result);
+    res.end();
+}
