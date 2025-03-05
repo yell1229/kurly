@@ -18,18 +18,30 @@ export default function Header() {
     const [navIdx, setNavIdx] = useState([]);
     const [checkCategory, setCheckCategory] = useState(false);
     const catrgoryWrapRef = useRef(null);
-
+    const navRef = useRef(null);
     useEffect(() => {
         axios.get('/data/navlist.json')
             .then((res) => setNavList(res.data))
             .catch(err => console.log(err));
     },[]);
 
+    useEffect(() => {
+        const scrollNav = () => {
+            const scrollY = window.scrollY
+            const nav = navRef.current.offsetTop;
+            if(scrollY > nav){
+                navRef.current.classList.add('fixed');
+            } else {
+                navRef.current.classList.remove('fixed');
+            }
+            
+        }
+        window.addEventListener('scroll',scrollNav);
+        return () => window.removeEventListener('scroll',scrollNav);
+    },[]);
     const navHoverEvent = (idx) =>{  
         const submenu = navList[idx -1]?.sub;
-
-        setNavIdx( Array.isArray(submenu) ? submenu : []);
-        
+        setNavIdx( Array.isArray(submenu) ? submenu : []);     
     }
 
     return (
@@ -81,7 +93,7 @@ export default function Header() {
                         <div className="cart"><BsCart2 /><span>장바구니</span></div>
                     </div>
                 </div>
-                <div className="nav_area">
+                <div className="nav_area" ref={navRef}>
                     <div className="inner">
                         <div className="category"  onMouseEnter={()=>{setCheckCategory(true)}} onMouseLeave={()=>{setCheckCategory(false)}}>
                             <div className="menu"><HiOutlineMenu  className='icon'/>카테고리</div>

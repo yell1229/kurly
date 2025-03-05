@@ -22,8 +22,7 @@ export default function AsideSlide() {
     let changePass = '';
 
     const handleTargetLink = (pid) => {
-        console.log(`/goods/detail/${pid}`);
-        navigate(`/goods/detail/${pid}`);
+        navigate(`/goods/detail/${pid}`, { replace: true });
     }
 
     useEffect(() => {
@@ -34,6 +33,10 @@ export default function AsideSlide() {
         }
     },[pid]);
 
+    useEffect(()=>{
+
+        // window.location.href = pathname;
+    },[pathname]);
     return (
         <div className="aside_slide">
             <div className='tit'>최근 본 상품</div>
@@ -52,10 +55,10 @@ export default function AsideSlide() {
                     navigation = {{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'} }  
             >   
                 {clickItem && clickItem.map((item, idx) =>
-                    <SwiperSlide key={idx}  >
-                        <Link key={item.pid} to={`/goods/detail/${item.pid}`}>
+                    <SwiperSlide key={item.pid} >
+                        <div onClick={()=>handleTargetLink(item.pid)}>
                             <img src={`http://localhost:9000/${item.image_url}`} alt='' />
-                        </Link>
+                        </div>
                     </SwiperSlide>
                 ) }
             </Swiper>
