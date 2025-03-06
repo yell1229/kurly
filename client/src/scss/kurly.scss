@@ -6,17 +6,21 @@
 
 
 .container_area{
+    &.main{
+        padding-bottom:100px;
+    }
     .banner_area{
         position:relative;
         width:$common-width;
         margin:0 auto;
         padding:40px 0;
     }
+    
+    .top_content{padding-top:50px;}
     .cont_area{
         position:relative;
         width:$common-width;
         margin:0 auto;
-        padding:40px 0;
         .tit_area{
             text-align:center;
             vertical-align: middle;

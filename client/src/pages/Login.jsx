@@ -22,9 +22,9 @@ export default function Login() {
                         setTimeout(()=>{ navigate('/') },1000);
                     }else{
                         alert('다시 입력해주세요.');
-                        // idRef.current.value='';
-                        // pwdRef.current.value='';
-                        // idRef.current.focus();
+                        idRef.current.value='';
+                        pwdRef.current.value='';
+                        idRef.current.focus();
                     }
                 })
                 .catch(err => console.log(err));
@@ -34,7 +34,7 @@ export default function Login() {
         <>
             <div className='login_area'>
                 <div className="tit">로그인</div>
-                <form onClick={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div className="form_area">
                         <div><input type="text" name="id" placeholder='아이디를 입력해주세요' ref={idRef} onChange={handleChange} /></div>
                         <div><input type="password" name="pwd" placeholder='비밀번호를 입력해주세요' ref={pwdRef} onChange={handleChange} /></div>

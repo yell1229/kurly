@@ -1,11 +1,8 @@
-import React,{useState, useEffect} from 'react';
+import React from 'react';
 import AsideSlide from './AsideSlide.jsx';
 import { TfiArrowUp } from "react-icons/tfi";
-import SlideList from '../SlideList.jsx';
-import axios from 'axios';
 
 export default function Aside() {
-    const [productList, setProductList ]= useState([]);
 
     const handleScrollTop = () => {
         window.scroll({
@@ -13,13 +10,6 @@ export default function Aside() {
             behavior:'smooth'
         });
     };
-
-    useEffect(() =>{
-        axios.get('/data/productList.json')
-                .then(res => setProductList(res.data))
-                .catch(err => console.log(err));
-    },[]);
-    
     
     return (
         <>
@@ -35,8 +25,6 @@ export default function Aside() {
             </aside>
             {/* end of aside nav */}
 
-            
-            {/* <div className="btn_top" onClick={() => topRef.scrollIntoView({ behavior: 'smooth', block: 'start'})}><TfiArrowUp /></div> */}
             <div className="btn_top" onClick={handleScrollTop}><TfiArrowUp /></div>
         </>
     );

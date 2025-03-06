@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import TopContent from '../components/main/TopContent.jsx';
-// icons
+import MidContent from '../components/main/MidContent.jsx';
 
 
 import SlideList from '../components/SlideList.jsx';
@@ -18,22 +18,13 @@ export default function Kurly() {
 
     return (
         <>
-            {/* start of container_area */}
-            <div className="container_area">
+            <div className="container_area main">
 
-                <SlideList classname="top_slider" product={topImageList} />
-
-                
+                <SlideList classname="top_slider" product={topImageList} /> 
                 <TopContent />
-
-                {/* sample ====> banner */}
-                <div className="banner_area">
-                    <a href=""><img src="./images/5502d5ec-27d9-40cc-8eb9-515c1de0bf6c.jpg" alt="" /></a>
-                </div>
-                {/* sample ====> banner */}
+                <MidContent />
 
             </div>
-            {/* end of container_area */}
         </>
     );
 }

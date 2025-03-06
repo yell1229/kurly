@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react';
 // slide
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination} from 'swiper/modules';
-import { useNavigate, useLocation , Link} from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import 'swiper/css';
@@ -18,12 +18,6 @@ export default function AsideSlide() {
     const [pid, setPid] = useState(JSON.parse(localStorage.getItem('viewProducts')) || []);
     const [clickItem, setClickIatem] = useState([]);
     const navigate = useNavigate();
-    const { pathname } = useLocation();
-    let changePass = '';
-
-    const handleTargetLink = (pid) => {
-        navigate(`/goods/detail/${pid}`, { replace: true });
-    }
 
     useEffect(() => {
         if(pid && pid.length > 0 ){
@@ -33,10 +27,7 @@ export default function AsideSlide() {
         }
     },[pid]);
 
-    useEffect(()=>{
-
-        // window.location.href = pathname;
-    },[pathname]);
+    
     return (
         <div className="aside_slide">
             <div className='tit'>최근 본 상품</div>
@@ -55,10 +46,10 @@ export default function AsideSlide() {
                     navigation = {{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'} }  
             >   
                 {clickItem && clickItem.map((item, idx) =>
-                    <SwiperSlide key={item.pid} >
-                        <div onClick={()=>handleTargetLink(item.pid)}>
+                    <SwiperSlide key={idx} >
+                        <a href={`/goods/detail/${item.pid}`}>
                             <img src={`http://localhost:9000/${item.image_url}`} alt='' />
-                        </div>
+                        </a>
                     </SwiperSlide>
                 ) }
             </Swiper>
