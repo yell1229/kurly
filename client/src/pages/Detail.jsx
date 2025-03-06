@@ -94,7 +94,14 @@ export default function Detail() {
     }
     // 장바구니 데이터
     const cartAddItem = () => {
-
+        if(isLogin){
+            const cartData = {
+                'pid':pid,
+                'qty':count
+            }
+            console.log('cartData',cartData);
+            
+        }
         
     }
 

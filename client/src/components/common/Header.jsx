@@ -1,4 +1,4 @@
-import React,{useState, useRef, useEffect} from 'react';
+import React,{useState, useRef, useEffect, useContext} from 'react';
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
 import { HiOutlineMapPin } from "react-icons/hi2";
@@ -9,8 +9,10 @@ import { TfiClose } from "react-icons/tfi";
 
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {AuthContext} from '../auth/AuthContext.js';
 
 export default function Header() {
+    const {isLogin, setIsLogin} = useContext(AuthContext);
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
@@ -58,7 +60,7 @@ export default function Header() {
                     <div className="inner">
                         <ul className="top_btns">
                             <li><Link to="/member/signup">회원가입</Link></li>   
-                            <li><Link to="/member/login">로그인</Link></li>   
+                            <li>{ isLogin ? '로그아웃' : <Link to="/member/login">로그인</Link> }</li>   
                             <li onMouseEnter={() => setCustomerBox(true)} onMouseLeave={() => setCustomerBox(false)}>고객센터 <BiSolidDownArrow className="icon" />
                                 {customerBox && <div className="sub_list">
                                     <ul>
@@ -89,8 +91,8 @@ export default function Header() {
                                 </div>
                             </div>}
                         </div>
-                        <div className="heart"><GoHeart /><span>찜하기</span></div>
-                        <div className="cart"><BsCart2 /><span>장바구니</span></div>
+                        <div className="heart"><Link to="/goods/pick"><GoHeart /></Link><span>찜하기</span></div>
+                        <div className="cart"><Link to="/cart"><BsCart2 /></Link><span>장바구니</span></div>
                     </div>
                 </div>
                 <div className="nav_area" ref={navRef}>
@@ -125,7 +127,7 @@ export default function Header() {
                                 <li><a href="">특가/혜택</a></li>
                             </ul>
                         </nav>
-                        <div className="btn_delivery"><Link to="/goods/new">상품등록</Link></div>
+                        { isLogin && <div className="btn_new_product"><Link to="/goods/new">상품등록</Link></div> }
                         <div className="btn_delivery"><span>샛별·하루</span> 배송안내</div>
                     </div>
                 </div>

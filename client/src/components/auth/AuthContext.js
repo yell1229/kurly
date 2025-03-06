@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, Children } from 'react';
+import { createContext, useState, useEffect} from 'react';
 
 export const AuthContext = createContext();
 
@@ -21,6 +21,8 @@ export const AuthProvider = ({children})=>{
     useEffect(()=>{
         const token = localStorage.getItem("token");
         setIsLogin(!!token);
+        console.log('isLogin',isLogin);
+        
     }, [])
     return(
         <AuthContext.Provider value = {{isLogin, setIsLogin, userType, setUserType}}>

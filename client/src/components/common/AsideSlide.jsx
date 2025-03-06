@@ -2,7 +2,6 @@ import React,{useEffect, useState} from 'react';
 // slide
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination} from 'swiper/modules';
-import { useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 import 'swiper/css';
@@ -17,7 +16,7 @@ import { IoIosArrowUp } from "react-icons/io";
 export default function AsideSlide() {
     const [pid, setPid] = useState(JSON.parse(localStorage.getItem('viewProducts')) || []);
     const [clickItem, setClickIatem] = useState([]);
-    const navigate = useNavigate();
+
 
     useEffect(() => {
         if(pid && pid.length > 0 ){
@@ -26,7 +25,7 @@ export default function AsideSlide() {
             .catch(err =>console.log(err));
         }
     },[pid]);
-
+    
     
     return (
         <div className="aside_slide">
