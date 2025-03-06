@@ -16,16 +16,30 @@ DB: MySQL
      🔗 https://docs.google.com/document/d/1i-fSyf0fiAIxes1XgFarcSiYTNz78uyrBF80Sx3AAgg/edit?tab=t.0  <br>
 - WBS 구글 스프레드시트 링크 <br>
      🔗 https://docs.google.com/spreadsheets/d/1efKJctb6Yvo3z2QcAqwEk18eivzJ61jYt6foYRShAQk/edit?usp=sharing  <br>
-- 배열에서 두개 이상 경로가 있는 이미지 불러오기  <br>
-     배열인 값은  쿼리에서 직접 주소를 붙이지 말고 아래처럼 태그 앞에 로컬 호스트 주소 추가하여 map을 통해 값을 추출해주세요 
-   ```
-   <img src={`http://localhost:9000/${item}`}></img> 
-   ```
-   <br>
+
+## ⚙️ 설치 라이브러리 
+### client
+```bash
+npm i
+npm i react-bootstrap
+npm i react-slick --save
+npm i slick-carousel --save
+npm i antd
+npm i react-daum-postcode
+```
+
+### server
+```bash
+npm init --yes
+npm i express --save
+npm i mysql2
+npm i cors
+npm i nodemon --save-dev
+npm i jsonwebtoken
+```
 
 ## 제작 목록
 
-In the project directory, you can run:
 
 ### `Main`
 
@@ -43,25 +57,21 @@ In the project directory, you can run:
 상품 상세페이지
 [http://localhost:3000/goods/detail](http://localhost:3000/goods/detail)
 
-### `Signup`
+
+### `Member`
 
 회원가입
 [http://localhost:3000/member/signup](http://localhost:3000/member/signup)
-
-### `Login`
 
 로그인
 [http://localhost:3000/member/login](http://localhost:3000/member/login)
 
-회원가입
-[http://localhost:3000/member/signup](http://localhost:3000/member/signup)
 
 
 
-## 기술
+## 제작 예정
 
-SASS [https://www.npmjs.com/package/sass](https://www.npmjs.com/package/sass)
-
-axios [https://www.npmjs.com/package/axios](https://www.npmjs.com/package/axios)
+장바구니 (UI 완료)
+[http://localhost:3000/cart](http://localhost:3000/cart)
 
 
