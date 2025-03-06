@@ -19,6 +19,8 @@ export default function Login() {
         axios.post('http://localhost:9000/member/login',formData)
                 .then(res => {                
                     if(res.data.result === 1) {
+                        localStorage.setItem('token',res.data.token);
+                        localStorage.setItem('user_id',formData.id);
                         setTimeout(()=>{ navigate('/') },1000);
                     }else{
                         alert('다시 입력해주세요.');

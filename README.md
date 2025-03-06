@@ -17,14 +17,14 @@ DB: MySQL
 - WBS 구글 스프레드시트 링크 <br>
      🔗 https://docs.google.com/spreadsheets/d/1efKJctb6Yvo3z2QcAqwEk18eivzJ61jYt6foYRShAQk/edit?usp=sharing  <br>
 
-## ⚙️ 설치 라이브러리 
+## 설치 라이브러리 
 ### client
 ```bash
-npm i
+npm i react-router-dom
+npm i axios
+npm i react-icons
 npm i react-bootstrap
-npm i react-slick --save
-npm i slick-carousel --save
-npm i antd
+npm i swiper
 npm i react-daum-postcode
 ```
 

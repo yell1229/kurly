@@ -1,4 +1,5 @@
 import * as repository from '../repository/memberRepository.js';
+import jwt from 'jsonwebtoken';
 
 //회원가입
 export const memberSignUp = async (req, res) => {
@@ -19,8 +20,12 @@ export const memberIdCheck = async (req,res) => {
 
 // 로그인
 export const memberLogin = async (req, res) => {
-    const result = await repository.memberLogin(req.body);
+    let result = await repository.memberLogin(req.body);
 
+    if(result.result === 1){
+        const token = jwt.sign({id:req.body.id},'HJgQhhXsvX');
+        result = {...result,"token":token} ;   
+    }
     res.json(result);
     res.end();
 }
