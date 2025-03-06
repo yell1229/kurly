@@ -1,4 +1,9 @@
 import React,{useState, useRef, useEffect, useContext} from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import {AuthContext} from '../auth/AuthContext.js';
+import Postcode from '../Postcode.jsx';
+
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
 import { HiOutlineMapPin } from "react-icons/hi2";
@@ -7,20 +12,19 @@ import { BsCart2 } from "react-icons/bs";
 import { HiOutlineMenu } from "react-icons/hi";
 import { TfiClose } from "react-icons/tfi";
 
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import {AuthContext} from '../auth/AuthContext.js';
-
 export default function Header() {
     const {isLogin, setIsLogin} = useContext(AuthContext);
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
     const [layerAddr,setLayerAddr] = useState(false);
+    const [addr,setAddr] = useState(false);
     const [navIdx, setNavIdx] = useState([]);
     const [checkCategory, setCheckCategory] = useState(false);
     const catrgoryWrapRef = useRef(null);
     const navRef = useRef(null);
+    const addrRef = useRef(null);
+    const [saveAddr, setSaveAddr ]= useState('');
     useEffect(() => {
         axios.get('/data/navlist.json')
             .then((res) => setNavList(res.data))
@@ -44,6 +48,13 @@ export default function Header() {
     const navHoverEvent = (idx) =>{  
         const submenu = navList[idx -1]?.sub;
         setNavIdx( Array.isArray(submenu) ? submenu : []);     
+    }
+
+    const setAddress = (addr) =>{
+        setAddr(true);
+        console.log(addr);
+        setSaveAddr(addr);
+        
     }
 
     return (
@@ -81,15 +92,30 @@ export default function Header() {
                         <button type="button"><BiSearch className="icon" /></button>
                     </div>
                     <div className="q_btns">
-                        <div className="search_addr" onMouseEnter={()=> setLayerAddr(true)} onMouseLeave={()=> setLayerAddr(false)}>
+                        <div className="search_addr" onMouseEnter={()=> setLayerAddr(true)} onMouseLeave={()=> setLayerAddr(false)} >
+                        
                             <HiOutlineMapPin /><span>배송지</span>
-                            {layerAddr && <div className="layer_pop">
-                                <div className="msg"><span>배송지를 등록</span>하고<br />구매 가능한 상품을 확인하세요!</div>
-                                <div className="btns">
-                                    <Link to="/member/login">로그인</Link>
-                                    <button type="button"><BiSearch />주소검색</button>
-                                </div>
-                            </div>}
+                            <input type="hidden"  ref={addrRef} />
+                            {layerAddr && 
+                            <div className="layer_pop">
+                                { (addr) ?
+                                    <>
+                                    
+                                    <div className='addr'>
+                                        <div>{addrRef.current && addrRef.current?.value ? <span>{addrRef.current.value}</span> : ''}</div>
+                                        <button>배송지 변경</button>
+                                    </div>
+                                    </> :
+                                    <>
+                                    <div className="msg"><span>배송지를 등록</span>하고<br />구매 가능한 상품을 확인하세요!</div>
+                                    <div className="btns">
+                                        <Link to="/member/login">로그인</Link>
+                                        <Postcode setAddress={setAddress} />
+                                    </div>
+                                    </> 
+                                }
+                            </div>
+                             }
                         </div>
                         <div className="heart"><Link to="/goods/pick"><GoHeart /></Link><span>찜하기</span></div>
                         <div className="cart"><Link to="/cart"><BsCart2 /></Link><span>장바구니</span></div>
