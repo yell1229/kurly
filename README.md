@@ -11,10 +11,14 @@ In the project directory, you can run:
 [http://localhost:3000](http://localhost:3000)
 
 
-### `ProductList`
+### `Product`
 
-메뉴 리스트 및 상세 페이지
-[http://localhost:3000/product](http://localhost:3000/product)
+메뉴 리스트 
+[http://localhost:3000/goods/list](http://localhost:3000/goods/list)
+상품 등록
+[http://localhost:3000/goods/new](http://localhost:3000/goods/new)
+상품 상세페이지
+[http://localhost:3000/goods/detail](http://localhost:3000/goods/detail)
 
 ### `Signup`
 
@@ -25,7 +29,8 @@ In the project directory, you can run:
 
 로그인
 [http://localhost:3000/member/login](http://localhost:3000/member/login)
-
+회원가입
+[http://localhost:3000/member/signup](http://localhost:3000/member/signup)
 
 
 
