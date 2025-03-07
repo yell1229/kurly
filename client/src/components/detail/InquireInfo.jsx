@@ -94,7 +94,7 @@ export default function InquireInfo({src, name, pid}) {
                 </thead>
                 <tbody>
                     {data && data.map((item, idx) =>
-                    <>
+                    <React.Fragment key={idx}>
                     <tr>
                         <td onClick={() => handleClick(idx)} key={idx} style={{cursor: item.answer === '답변완료' ? 'pointer':''}}>{item.subject}</td>
                         <td>연*연</td>
@@ -118,7 +118,7 @@ export default function InquireInfo({src, name, pid}) {
                                 <div></div>
                             </td>
                         </tr>}
-                    </>
+                    </React.Fragment >
                     )
                     }
                 </tbody>

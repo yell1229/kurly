@@ -1,9 +1,11 @@
-import React,{useState, useRef} from 'react';
+import React,{useState, useRef, useContext} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {AuthContext} from '../components/auth/AuthContext.js';
 import '../scss/member.scss';
 import axios from 'axios';
 
 export default function Login() {
+    const {isLogin, setIsLogin} = useContext(AuthContext);
     const idRef = useRef(null);
     const pwdRef = useRef(null);
     const [formData, setFormData] = useState({});
@@ -21,6 +23,7 @@ export default function Login() {
                     if(res.data.result === 1) {
                         localStorage.setItem('token',res.data.token);
                         localStorage.setItem('user_id',formData.id);
+                        setIsLogin(true);
                         setTimeout(()=>{ navigate('/') },1000);
                     }else{
                         alert('다시 입력해주세요.');

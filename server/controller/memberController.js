@@ -29,3 +29,10 @@ export const memberLogin = async (req, res) => {
     res.json(result);
     res.end();
 }
+
+// 주소
+export const memberAddress = async (req, res) => {
+    const result = await repository.memberAddress(req.body);
+    res.json(result);
+    res.end();
+}

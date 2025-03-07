@@ -59,3 +59,16 @@ export const memberLogin = async({id,pwd}) => {
     return {'result':result[0].result};
 
 }
+
+// 주소
+export const memberAddress = async({id}) => {
+    const sql = `
+                select address 
+                    from member 
+                    where id= ?
+    `;
+    const [result] = await db.execute(sql,[id]);
+    
+    return {'address':result[0].address};
+
+}

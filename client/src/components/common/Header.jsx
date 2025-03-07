@@ -1,6 +1,6 @@
 import React,{useState, useRef, useEffect, useContext} from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {AuthContext} from '../auth/AuthContext.js';
 import Postcode from '../Postcode.jsx';
 
@@ -14,11 +14,14 @@ import { TfiClose } from "react-icons/tfi";
 
 export default function Header() {
     const {isLogin, setIsLogin} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
     const [layerAddr,setLayerAddr] = useState(false);
     const [navIdx, setNavIdx] = useState([]);
+    const [useAddr, setUserAddr] = useState('');
     const [checkCategory, setCheckCategory] = useState(false);
     const catrgoryWrapRef = useRef(null);
     const navRef = useRef(null);
@@ -43,9 +46,38 @@ export default function Header() {
         window.addEventListener('scroll',scrollNav);
         return () => window.removeEventListener('scroll',scrollNav);
     },[]);
+    useEffect(() => {
+        // const check 
+        const check = location.pathname;
+        if(check === '/member/login' && isLogin){
+            const id = localStorage.getItem('user_id');
+            
+            axios.post('http://localhost:9000/member/getAddr',{'id':id})
+                .then(res => setUserAddr(res.data.address) )
+                .catch(err => console.log(err));
+        }
+    },[navigate]);
+
     const navHoverEvent = (idx) =>{  
         const submenu = navList[idx -1]?.sub;
         setNavIdx( Array.isArray(submenu) ? submenu : []);     
+    }
+
+    const handleLoginToggle = () => {
+        //logout
+        if(isLogin){
+            const select = window.confirm('로그아웃 하시겠습니까?');
+            if(select){
+                localStorage.removeItem('user_id');
+                localStorage.removeItem('token');
+                setIsLogin(false);
+                navigate('/');
+            }
+            
+        }else{
+            navigate('/member/login');
+        }
+        
     }
 
     return (
@@ -62,7 +94,7 @@ export default function Header() {
                     <div className="inner">
                         <ul className="top_btns">
                             <li><Link to="/member/signup">회원가입</Link></li>   
-                            <li>{ isLogin ? '로그아웃' : <Link to="/member/login">로그인</Link> }</li>   
+                            <li onClick={handleLoginToggle}>{ isLogin ? '로그아웃' : '로그인' }</li>   
                             <li onMouseEnter={() => setCustomerBox(true)} onMouseLeave={() => setCustomerBox(false)}>고객센터 <BiSolidDownArrow className="icon" />
                                 {customerBox && <div className="sub_list">
                                     <ul>
@@ -87,15 +119,22 @@ export default function Header() {
                         
                             <HiOutlineMapPin /><span>배송지</span>
                             <input type="hidden"  ref={addrRef} />
-                            {/* {layerAddr &&  */}
+                            {layerAddr && 
                             <div className="layer_pop">
-                                <div className="msg"><span>배송지를 등록</span>하고<br />구매 가능한 상품을 확인하세요!</div>
-                                <div className="btns">
-                                    <Link to="/member/login">로그인</Link>
-                                    {/* <button>주소검색</button> */}
-                                </div>
+                                { (isLogin) ?
+                                    <><div className="msg">{useAddr}</div>
+                                    <div className="btns">
+                                        <button type="button" onClick={()=> alert('mypage 준비중입니다.')}>배송지 변경</button>
+                                        {/* <Postcode setAddress={setAddress} text="배송지 변경" /> */}
+                                    </div></> :
+                                    <><div className="msg"><span>배송지를 등록</span>하고<br />구매 가능한 상품을 확인하세요!</div>
+                                    <div className="btns">
+                                        <Link to="/member/login">로그인</Link>
+                                        {/* <button>주소검색</button> */}
+                                    </div></>
+                                }
                             </div>
-                             {/* } */}
+                           }
                         </div>
                         <div className="heart"><Link to="/goods/pick"><GoHeart /></Link><span>찜하기</span></div>
                         <div className="cart"><Link to="/cart"><BsCart2 /></Link><span>장바구니</span></div>

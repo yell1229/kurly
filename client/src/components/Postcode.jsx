@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
-export default function Postcode ({setAddress}) {
+export default function Postcode ({setAddress, text}) {
     const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     const open = useDaumPostcodePopup(postcodeScriptUrl);
 
@@ -29,5 +29,5 @@ export default function Postcode ({setAddress}) {
         open({ onComplete: handleComplete });
     };
 
-    return <div className='btn_search_addr' name="address" onClick={handleClick}>주소검색</div>;
+    return <div className='btn_search_addr' name="address" onClick={handleClick}>{ text ? text : '주소검색'}</div>;
 };
