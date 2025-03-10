@@ -70,7 +70,7 @@ npm i jsonwebtoken
 
 로그인
 [http://localhost:3000/member/login](http://localhost:3000/member/login)
-![Image](https://github.com/user-attachments/assets/c064e1d0-8472-40e0-973b-74b001abd8e6)
+![Image](https://github.com/user-attachments/assets/6c6ead55-b800-4be8-9dee-cb57f9fa64d6)
 
 
 
