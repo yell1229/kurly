@@ -61,6 +61,9 @@ npm i jsonwebtoken
 
 상품 상세페이지
 [http://localhost:3000/goods/detail](http://localhost:3000/goods/detail)
+![review](https://github.com/user-attachments/assets/3fc5fde0-e20c-45c6-a506-28e83a955855)
+
+![inquire](https://github.com/user-attachments/assets/44b32833-800e-4594-8629-fc480994f051)
 
 
 
