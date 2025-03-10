@@ -62,8 +62,7 @@ npm i jsonwebtoken
 상품 상세페이지
 [http://localhost:3000/goods/detail](http://localhost:3000/goods/detail)
 
-찜하기
-![Image](https://github.com/user-attachments/assets/6c6ead55-b800-4be8-9dee-cb57f9fa64d6)
+
 
 ### `Member`
 
