@@ -73,9 +73,12 @@ npm i jsonwebtoken
 [http://localhost:3000/member/login](http://localhost:3000/member/login)
 
 
+
 ## 영상 시연
-[상품등록, 상세, 로그인, 상품문의, 후기](https://yell1229.github.io/portfolio/images/product.mp4)
-[회원가입](https://yell1229.github.io/portfolio/images/signup.mp4)
+[🔗 상품등록, 상세, 로그인, 상품문의, 후기](https://yell1229.github.io/portfolio/images/product.mp4)
+[🔗 회원가입](https://yell1229.github.io/portfolio/images/signup.mp4)
+
+
 
 ## 제작 예정
 
