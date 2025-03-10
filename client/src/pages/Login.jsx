@@ -5,7 +5,7 @@ import '../scss/member.scss';
 import axios from 'axios';
 
 export default function Login() {
-    const {isLogin, setIsLogin} = useContext(AuthContext);
+    const {isLogin, setIsLogin,setUserName,setUserAddr} = useContext(AuthContext);
     const idRef = useRef(null);
     const pwdRef = useRef(null);
     const [formData, setFormData] = useState({});
@@ -28,6 +28,8 @@ export default function Login() {
                         localStorage.setItem('user_name',res.data.name);
                         localStorage.setItem('user_addr',res.data.address);
                         setIsLogin(true);
+                        setUserName(localStorage.getItem('user_name'));
+                        setUserAddr(localStorage.getItem('user_addr'));
                         setTimeout(()=>{ navigate('/') },1000);
                     }else{
                         alert('다시 입력해주세요.');

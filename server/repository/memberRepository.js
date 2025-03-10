@@ -10,10 +10,11 @@ export const memberSignup = async (formData) => {
                         emaildomain,
                         phone,
                         address,
+                        detailaddress,
                         zipcode,
                         gender,
                         reg_date)
-                values(?, ?, ?, ?, ?, ?, ?, ?, ?, now());
+                values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now());
     `;
 
     const values=[
@@ -23,9 +24,10 @@ export const memberSignup = async (formData) => {
         formData.email,
         formData.emaildomain,
         formData.phone,
-        `${formData.address1} ${formData.address2}`,
+        formData.address1,
+        formData.address2,
         formData.zipcode || '12334',
-        formData.gender || 0       
+        formData.gender || 'N'       
     ];
     
     const [result] = await db.execute(sql,values);

@@ -194,6 +194,8 @@ export default function SignUp() {
         e.preventDefault(); 
         
         if(validate()){
+            console.log('formData',formData);
+            
             if(idCheck==='default'){
                 alert('아이디 중복체크를 해주세요.');
                 return false;
