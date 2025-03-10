@@ -60,9 +60,7 @@ npm i jsonwebtoken
 
 상품 상세페이지
 [http://localhost:3000/goods/detail](http://localhost:3000/goods/detail)
-![review](https://github.com/user-attachments/assets/3fc5fde0-e20c-45c6-a506-28e83a955855)
 
-![inquire](https://github.com/user-attachments/assets/44b32833-800e-4594-8629-fc480994f051)
 
 
 
@@ -73,9 +71,11 @@ npm i jsonwebtoken
 
 로그인
 [http://localhost:3000/member/login](http://localhost:3000/member/login)
-![Image](https://github.com/user-attachments/assets/6c6ead55-b800-4be8-9dee-cb57f9fa64d6)
 
 
+## 영상 시연
+[상품등록, 상세, 로그인, 상품문의, 후기](https://yell1229.github.io/portfolio/images/product.mp4)
+[회원가입](https://yell1229.github.io/portfolio/images/signup.mp4)
 
 ## 제작 예정
 
