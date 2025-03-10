@@ -17,15 +17,23 @@ export default function AsideSlide() {
     const [pid, setPid] = useState(JSON.parse(localStorage.getItem('viewProducts')) || []);
     const [clickItem, setClickIatem] = useState([]);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+          const savedPid = JSON.parse(localStorage.getItem('viewProducts')) || [];
+          setPid(savedPid); 
+        }, 2000);
+    
+        return () => clearInterval(interval);
+      }, []);
 
     useEffect(() => {
+        
         if(pid && pid.length > 0 ){
             axios.post('http://localhost:9000/product/clickItem',{'pid':pid})
             .then(res =>setClickIatem(res.data))
             .catch(err =>console.log(err));
         }
     },[pid]);
-    
     
     return (
         <div className="aside_slide">

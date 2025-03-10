@@ -70,6 +70,8 @@ export const getList = async () => {
                     reviews re ON pr.pid = re.pid
                 GROUP BY 
                     pr.pid, pr.brand
+                ORDER BY
+                    pid desc
     `;
 
     const [result] = await db.execute(sql);

@@ -58,5 +58,6 @@ export const memberLogin = async({id,pwd}) => {
     `;
 
     const [result] = await db.execute(sql,[id,pwd]);   
+    
     return {'result':result[0]};
 }

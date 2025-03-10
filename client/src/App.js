@@ -12,6 +12,7 @@ import TotalList from './pages/TotalList.jsx';
 import { AuthProvider } from './components/auth/AuthContext.js';
 import ScrollToTop from './components/common/ScrollToTop.jsx';
 import PickList from './pages/PickList.jsx';
+import Review from './pages/Review.jsx';
 
 import './scss/kurly.scss';
 
@@ -31,6 +32,7 @@ export default function App() {
                     <Route path="/member/signup" element={<SignUp />} />
                     <Route path="/goods/new" element={<NewProduct />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/review" element={<Review />} />
                 </Route>
             </Routes>
             </ScrollToTop>

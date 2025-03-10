@@ -157,7 +157,7 @@ export default function Header() {
                         
                         <nav>
                             <ul>
-                                <li><a href="">신상품</a></li>
+                                <li><Link to="/goods/all">신상품</Link></li>
                                 <li><a href="">베스트</a></li>
                                 <li><a href="">알뜰쇼핑</a></li>
                                 <li><a href="">특가/혜택</a></li>

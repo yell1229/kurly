@@ -30,7 +30,6 @@ npm i react-bootstrap
 npm i swiper
 npm i react-daum-postcode
 npm i lodash
-npm i swiper
 ```
 
 ### server

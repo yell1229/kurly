@@ -100,7 +100,7 @@
 .aside_slide{
     position:relative;
     width:80px;
-    height:281px;
+    max-height:281px;
     margin-top: 8px;
     padding:23px 10px;
     border: 1px solid rgb(221, 221, 221);
@@ -112,7 +112,7 @@
         margin-bottom:5px;
     }
     .swiper{
-        height:209px;
+        max-height:209px;
     }
     .swiper-slide{
         width:60px;

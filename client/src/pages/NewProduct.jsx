@@ -114,6 +114,7 @@ export default function NewProduct() {
                     "orgDetailImgs":fnames2.originalname,
                     "delivery":deliveryRef.current.value 
                 };
+                
         if(validator() ) {
            console.log('formData',formData);
             
