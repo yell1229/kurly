@@ -11,11 +11,14 @@
 DB: MySQL 
 
 ## Notice
-- @ 클릭시 상품등록 페이지로 이동
+- MySQL 설치
+     1.  [https://www.mysql.com/](https://www.mysql.com/)<br>
+     2.  [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) (LTS 버전 설치)<br>
+     3.  [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)<br>
+     4.  MySQL workbranch 실행(MySQL 엑셀파일 import)
+
 - MySQL 엑셀파일 import 방법 링크 <br>
      🔗 https://docs.google.com/document/d/1i-fSyf0fiAIxes1XgFarcSiYTNz78uyrBF80Sx3AAgg/edit?tab=t.0  <br>
-- WBS 구글 스프레드시트 링크 <br>
-     🔗 https://docs.google.com/spreadsheets/d/1efKJctb6Yvo3z2QcAqwEk18eivzJ61jYt6foYRShAQk/edit?usp=sharing  <br>
 
 ## 설치 라이브러리 
 ### client
@@ -26,6 +29,8 @@ npm i react-icons
 npm i react-bootstrap
 npm i swiper
 npm i react-daum-postcode
+npm i lodash
+npm i swiper
 ```
 
 ### server

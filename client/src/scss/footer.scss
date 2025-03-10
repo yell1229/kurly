@@ -164,7 +164,7 @@
 
 .btn_top{
     position:fixed;
-    bottom:15px;
+    bottom:-60px;
     right:30px;
     width:50px;
     height:50px;
@@ -176,4 +176,9 @@
     text-align:center;
     cursor: pointer;
     overflow:hidden;
+    transition: bottom 0.7s;
+    &.on{
+        bottom:15px;
+        right:30px;
+    }
 }

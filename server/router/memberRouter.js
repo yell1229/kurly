@@ -6,7 +6,6 @@ const router = express.Router();
 router
     .post('/signup', controller.memberSignUp)
     .post('/idcheck', controller.memberIdCheck)
-    .post('/login', controller.memberLogin)
-    .post('/getAddr', controller.memberAddress);
+    .post('/login', controller.memberLogin);
 
 export default router;

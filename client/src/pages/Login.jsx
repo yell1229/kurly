@@ -19,10 +19,14 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:9000/member/login',formData)
-                .then(res => {                
-                    if(res.data.result === 1) {
+                .then(res => {      
+                    console.log('res.data',res.data);
+                              
+                    if(res.data.count === 1) {
                         localStorage.setItem('token',res.data.token);
                         localStorage.setItem('user_id',formData.id);
+                        localStorage.setItem('user_name',res.data.name);
+                        localStorage.setItem('user_addr',res.data.address);
                         setIsLogin(true);
                         setTimeout(()=>{ navigate('/') },1000);
                     }else{

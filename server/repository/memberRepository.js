@@ -49,26 +49,14 @@ export const memberIdCheck = async({id}) => {
 // 로그인
 export const memberLogin = async({id,pwd}) => {
     const sql = `
-                select count(id) as result 
-                            from member
-	                        where id= ? and pwd = ?
+                select count(*) as count,
+                        name,
+                        address
+                from member 
+                where id=? and pwd=?
+                GROUP BY name, zipcode, address;
     `;
-    const [result] = await db.execute(sql,[id,pwd]);
-    console.log('result=====>',result);
-    
-    return {'result':result[0].result};
 
-}
-
-// 주소
-export const memberAddress = async({id}) => {
-    const sql = `
-                select address 
-                    from member 
-                    where id= ?
-    `;
-    const [result] = await db.execute(sql,[id]);
-    
-    return {'address':result[0].address};
-
+    const [result] = await db.execute(sql,[id,pwd]);   
+    return {'result':result[0]};
 }

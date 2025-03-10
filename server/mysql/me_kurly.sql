@@ -48,3 +48,13 @@ select
                         dc,
                         truncate((price * ((100 - dc)*0.01)),0) as dcPrice
                 from kurly_product  ;
+
+-- 로그인 시 다른 정보 가져오기 group by 없이는  repositoy에서 error
+select * from member;
+select count(*) as count,
+		name,
+        zipcode,
+        address
+from member 
+where id='hongs' and pwd='1234'
+GROUP BY name, zipcode, address;

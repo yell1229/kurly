@@ -21,18 +21,11 @@ export const memberIdCheck = async (req,res) => {
 // 로그인
 export const memberLogin = async (req, res) => {
     let result = await repository.memberLogin(req.body);
-
-    if(result.result === 1){
+    const count = result.result.count;
+    if(count === 1){       
         const token = jwt.sign({id:req.body.id},'HJgQhhXsvX');
-        result = {...result,"token":token} ;   
+        result = {...result.result,"token":token} ;   
     }
-    res.json(result);
-    res.end();
-}
-
-// 주소
-export const memberAddress = async (req, res) => {
-    const result = await repository.memberAddress(req.body);
     res.json(result);
     res.end();
 }

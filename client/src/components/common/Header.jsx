@@ -2,7 +2,7 @@ import React,{useState, useRef, useEffect, useContext} from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {AuthContext} from '../auth/AuthContext.js';
-import Postcode from '../Postcode.jsx';
+// import Postcode from '../Postcode.jsx';
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
@@ -13,7 +13,7 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { TfiClose } from "react-icons/tfi";
 
 export default function Header() {
-    const {isLogin, setIsLogin} = useContext(AuthContext);
+    const {isLogin, setIsLogin, userName} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
     const [topBan, setTopBan] = useState(true);
@@ -21,7 +21,7 @@ export default function Header() {
     const [customerBox,setCustomerBox] = useState(false);
     const [layerAddr,setLayerAddr] = useState(false);
     const [navIdx, setNavIdx] = useState([]);
-    const [useAddr, setUserAddr] = useState('');
+    const [useAddr, setUserAddr] = useState(localStorage.getItem('user_addr') || '');
     const [checkCategory, setCheckCategory] = useState(false);
     const catrgoryWrapRef = useRef(null);
     const navRef = useRef(null);
@@ -46,17 +46,6 @@ export default function Header() {
         window.addEventListener('scroll',scrollNav);
         return () => window.removeEventListener('scroll',scrollNav);
     },[]);
-    useEffect(() => {
-        // const check 
-        const check = location.pathname;
-        if(check === '/member/login' && isLogin){
-            const id = localStorage.getItem('user_id');
-            
-            axios.post('http://localhost:9000/member/getAddr',{'id':id})
-                .then(res => setUserAddr(res.data.address) )
-                .catch(err => console.log(err));
-        }
-    },[navigate]);
 
     const navHoverEvent = (idx) =>{  
         const submenu = navList[idx -1]?.sub;
@@ -70,6 +59,8 @@ export default function Header() {
             if(select){
                 localStorage.removeItem('user_id');
                 localStorage.removeItem('token');
+                localStorage.removeItem('user_name');
+                localStorage.removeItem('user_addr');
                 setIsLogin(false);
                 navigate('/');
             }
@@ -93,7 +84,7 @@ export default function Header() {
                 <div className="top_btns">
                     <div className="inner">
                         <ul className="top_btns">
-                            <li><Link to="/member/signup">회원가입</Link></li>   
+                            <li>{ isLogin ? `${userName}님`: <Link to="/member/signup">회원가입</Link> }</li>   
                             <li onClick={handleLoginToggle}>{ isLogin ? '로그아웃' : '로그인' }</li>   
                             <li onMouseEnter={() => setCustomerBox(true)} onMouseLeave={() => setCustomerBox(false)}>고객센터 <BiSolidDownArrow className="icon" />
                                 {customerBox && <div className="sub_list">
