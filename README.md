@@ -12,10 +12,10 @@ DB: MySQL
 
 ## Notice
 - MySQL 설치
-     1. [https://www.mysql.com/](https://www.mysql.com/)<br>
-     2. [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) (LTS 버전 설치)<br>
-     3. [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)<br>
-     4. MySQL workbranch 실행(MySQL 엑셀파일 import)
+1. [https://www.mysql.com/](https://www.mysql.com/)<br>
+2. [MySQL Community Server](https://dev.mysql.com/downloads/mysql/) (LTS 버전 설치)<br>
+3. [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)<br>
+4. MySQL workbranch 실행(MySQL 엑셀파일 import)
 
 - MySQL 엑셀파일 import 방법 링크 <br>
      🔗 https://docs.google.com/document/d/1i-fSyf0fiAIxes1XgFarcSiYTNz78uyrBF80Sx3AAgg/edit?tab=t.0  <br>
