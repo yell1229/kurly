@@ -19,6 +19,7 @@ import './scss/kurly.scss';
 export default function App() {
     return (
         <AuthProvider>
+        {/* <BrowserRouter basename='/portfolio'> */}
         <BrowserRouter>
             <ScrollToTop>
             <Routes>

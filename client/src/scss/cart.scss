@@ -103,11 +103,11 @@
                     }
                     .prod_box{
                         display: flex;
-                        justify-content: space-between;
                         gap:12px;
                         align-items: start;
                         padding:16px 0;
                         & > div{
+                            flex-grow:1;
                             padding-right:25px;
                             .prod_tit{
                                 display: -webkit-box;

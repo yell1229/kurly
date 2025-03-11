@@ -6,6 +6,7 @@ import uploadRouter from './router/uploadRouter.js';
 import memberRouter from './router/memberRouter.js';
 import reviewRouter from './router/reviewRouter.js';
 import inquireRouter from './router/inquireRouter.js';
+import cartRouter from './router/cartRouter.js';
 
 const server = express();
 const port = 9000;
@@ -30,7 +31,15 @@ server.use('/review', reviewRouter);
 // 상품문의
 server.use('/inquire', inquireRouter)
 
+// 회원
 server.use('/member',memberRouter);
+
+
+// 장바구니
+server.use('/cart',cartRouter);
+
+
+
 
 server.listen(port,() => {
     console.log(`start------ ->> ${port}`);   

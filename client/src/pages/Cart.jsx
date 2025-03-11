@@ -1,11 +1,58 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
+import axios from'axios';
+import { Link } from 'react-router-dom';
 import '../scss/cart.scss';
 import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 export default function Cart() {
-    const list = [1,2,3];
+    const [list, setList] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const id = localStorage.getItem('user_id');
+    const addr = localStorage.getItem('user_addr');
+
+    useEffect( () => {
+        const result = getCartList();
+        //console.log('result---->', result);
+        
+        //calculateTotalPrice(result);
+    },[]);
+
+    const calculateTotalPrice = (list) => {
+        console.log('result====>', list);
+        
+        let total = list.reduce((sum, item) => {
+            let price = parseInt(item.price * (100 - item.dc) *0.01) || 0;
+            let count = parseInt(item.qty) || 1 ;
+            return sum + (price * count );
+        } ,0);
+        setTotalPrice(total.toLocaleString());
+    }
+
+    const getCartList = async () => {
+        const result = await axios.post('http://localhost:9000/cart/getCartList', {'id':id});
+        let resultList = result.data;
+            if(result.data.length >1){
+                setList(result.data);
+                calculateTotalPrice(resultList);
+            }
+          console.log('result List', resultList);
+
+            return resultList;
+    }
+
+    
+
+    
+    const deleteProduct = (pid) => {
+        axios
+            .post('http://localhost:9000/cart/deleteItem', {'id':id ,'pid':pid})
+            .then(res => {
+                if(res.data.result_rows ===1) getCartList();
+            })
+            .catch(err => console.log(err));
+    }
     return (
         <div className='cart'>
             <div className="inner">
@@ -30,42 +77,42 @@ export default function Cart() {
                                     샛별배송
                                 </label>
                             </div>
-
+                            
                             {
-                                list.map((item)=>
-                                    <div className="prod_box">
+                                list.map((item, i)=>
+                                    <div className="prod_box" key={`${item.pid}_${i}`}>
                                         <label className='check_box'>
                                             <div className='check'><input type="checkbox" />
                                                 <div><GoCheck size={15} /></div>
                                             </div>
                                         </label>
                                         <div>
-                                            <div className="prod_tit">[달바] 화이트 트러플 퍼스트 스프레이 세럼 100ml 2개 세트 (옐로우 미스트 세럼)</div>
-                                            <div className="info">[달바] 화이트 트러플 퍼스트 스프레이 세럼 100ml 2개 세트 (옐로우 미스트 세럼)(+마스크팩 1매 증정)</div>
+                                            <div className="prod_tit">{item.subject}</div>
+                                            <div className="info">{item.sub_desc}</div>
                                             <div className="detail_area">
                                                 <div className="thumb">
-                                                    <img src="https://placehold.co/64x83" />
+                                                    <Link key={item.pid} to={`/goods/detail/${item.pid}`}><img src={item.image} /></Link>
                                                 </div>
                                                 <div className='control'>
                                                     <div className='price'>
-                                                        <strong>6,999원</strong><span>7,900원</span>
+                                                        <strong>{item.dcPride}원</strong><span>{item.price}원</span>
                                                     </div>
                                                     <div className="count_area">
                                                         <button type="button">-</button>
-                                                        <span>1</span>
+                                                        <span>{item.qty}</span>
                                                         <button type="button">+</button>
                                                     </div>
                                                 </div>
                                                 
                                             </div>
                                         </div>
-                                        <button type="button"><IoMdClose /></button>
+                                        <button type="button" onClick={() =>deleteProduct(item.pid)}><IoMdClose /></button>
                                     </div>
                                 )
                             }
                             <div className="total_price">
                                 <div>상품 49,490원 + 배송비 무료</div>
-                                <strong>49,490원</strong>
+                                <strong>{totalPrice}원</strong>
                             </div>
                         </div>
                     </div>
@@ -76,7 +123,7 @@ export default function Cart() {
                             <div className="tit"><HiOutlineMapPin/>배송지</div>
                             <div className='type'>샛별배송</div>
                             <div className="addr">
-                                <div>서울시 강남구 어쩔고 저쩌고서울시 강남구 어쩔고 저쩌고...</div>
+                                <div>{addr}</div>
                                 <button>변경</button>
                             </div>
                         </div>

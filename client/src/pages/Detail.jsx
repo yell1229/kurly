@@ -18,6 +18,7 @@ import '../scss/detail.scss';
 export default function Detail() {
     const {isLogin} = useContext(AuthContext);
     const {loginCheck} = useLogin();
+    const navigate = useNavigate();
     const scrolls = [
         {id:'상품설명', ref:useRef(null)},
         {id:'상세정보', ref:useRef(null)},
@@ -93,14 +94,71 @@ export default function Detail() {
         }
     }
     // 장바구니 데이터
-    const cartAddItem = () => {
+    // const cartAddItem = () => {
+    //     const cartList = JSON.parse(localStorage.getItem('viewedProducts')) || [];
+    //     if(isLogin){
+    //         const cartItem = {
+    //             'pid':pid,
+    //             'qty':count
+    //         }
+
+    //         // pid 중복이면 qty 갯수만 증가, 없으면 상품 추가 
+    //         const findItem = cartList.find((item) => item.pid === cartItem.pid );
+    //         if(findItem){
+    //             findItem.qty += cartItem.qty;
+    //             console.log('추가 아이템',findItem);
+    //         }else{
+    //             cartList.push(cartItem);
+    //         }
+
+    //         localStorage.setItem('viewedProducts',JSON.stringify(cartList));
+    //         const id = localStorage.getItem('user_id');
+            
+    //         axios
+    //             .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
+    //             .then(res => console.log(res.data))
+    //             .catch(err => console.log(err));
+
+    //         alert(`장바구니에 추가되었습니다.`);
+            
+    //     }else{
+    //         const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
+    //         if(login) navigate('/member/login');
+    //     }
+        
+    // }
+    const cartAddItem = async () => {
+
         if(isLogin){
-            const cartData = {
+            const id = localStorage.getItem('user_id');
+            
+            const cartItem = {
                 'pid':pid,
                 'qty':count
             }
-            console.log('cartData',cartData);
+          
+            const result = await axios.post('http://localhost:9000/cart/check',{'id':id, 'pid':pid});
+            const findItem = result.data.count;
+
+            if(!findItem){ // 추가
+                axios
+                    .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
+                    .then(res => {
+                            if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+                        })
+                    .catch(err => console.log(err));
+            }else{ // 갯수 변경
+                axios
+                    .post('http://localhost:9000/cart/update',{'id':id, ...cartItem})
+                    .then(res =>  {
+                            if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+                        })
+                    .catch(err => console.log(err));
+            }
             
+        }else{
+            const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
+            if(login) navigate('/member/login');
         }
         
     }

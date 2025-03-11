@@ -49,6 +49,9 @@ npm i jsonwebtoken
 
 [http://localhost:3000](http://localhost:3000)
 
+UI 확인<br>
+[https://yell1229.github.io/portfolio/](https://yell1229.github.io/portfolio/)
+
 
 ### `Product`
 
@@ -67,7 +70,7 @@ npm i jsonwebtoken
 ### `Member`
 
 회원가입
-[http://localhost:3000/member/signup](http://localhost:3000/member/signup)
+[https://yell1229.github.io/portfolio/member/signup](https://yell1229.github.io/portfolio/member/signup)
 
 로그인
 [http://localhost:3000/member/login](http://localhost:3000/member/login) <br><br>
