@@ -10,12 +10,14 @@ import InquireInfo from '../components/detail/InquireInfo.jsx';
 import CartBottom from '../components/detail/CartBottom.jsx';
 import Nav from '../components/detail/Nav.jsx';
 import {AuthContext} from '../components/auth/AuthContext.js';
+import { CartContext } from '../components/context/CartContext.js';
 import { useLogin } from '../hook/useLogin.js';
 
 import axios from 'axios';
 import '../scss/detail.scss';
 
 export default function Detail() {
+    const {cartCount, setCartCount} = useContext(CartContext);
     const {isLogin} = useContext(AuthContext);
     const {loginCheck} = useLogin();
     const navigate = useNavigate();
@@ -145,6 +147,7 @@ export default function Detail() {
                     .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
                     .then(res => {
                             if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+                            setCartCount(cartCount + 1);
                         })
                     .catch(err => console.log(err));
             }else{ // 갯수 변경

@@ -2,6 +2,8 @@ import React,{useState, useRef, useEffect, useContext} from 'react';
 import axios from 'axios';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {AuthContext} from '../auth/AuthContext.js';
+import { CartContext } from '../context/CartContext.js';
+import { useCart } from '../../hook/useCart.js';
 // import Postcode from '../Postcode.jsx';
 
 import { BiSolidDownArrow } from "react-icons/bi";
@@ -13,6 +15,8 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { TfiClose } from "react-icons/tfi";
 
 export default function Header() {
+    const {getCount, setCount} = useCart();
+    const {cartCount, setCartCount} = useContext(CartContext);
     const {isLogin, setIsLogin, userName} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation();
@@ -31,6 +35,10 @@ export default function Header() {
             .then((res) => setNavList(res.data))
             .catch(err => console.log(err));
     },[]);
+
+    useEffect(() => {
+        (isLogin) ? getCount() : setCount(0);
+    },[isLogin]);
 
     useEffect(() => {
         const scrollNav = () => {
@@ -128,7 +136,7 @@ export default function Header() {
                            }
                         </div>
                         <div className="heart"><Link to="/goods/pick"><GoHeart /></Link><span>찜하기</span></div>
-                        <div className="cart"><Link to="/cart"><BsCart2 /></Link><span>장바구니</span></div>
+                        <div className="cart"><Link to="/cart"><BsCart2 />{cartCount !== 0 ? <span>{cartCount}</span> :''}</Link><span>장바구니</span></div>
                     </div>
                 </div>
                 <div className="nav_area" ref={navRef}>
