@@ -18,7 +18,7 @@ DB: MySQL
 4. MySQL workbranch 실행(MySQL 엑셀파일 import)
 
 - MySQL 엑셀파일 import 방법 링크 <br>
-     🔗 https://docs.google.com/document/d/1i-fSyf0fiAIxes1XgFarcSiYTNz78uyrBF80Sx3AAgg/edit?tab=t.0  <br>
+     🔗 https://docs.google.com/document/d/16F4O7yvddNx3zc0Y2deV4iaHuLAtkTHJliop8QEfdps/edit?usp=sharing <br>
 
 ## 설치 라이브러리 
 ### client
