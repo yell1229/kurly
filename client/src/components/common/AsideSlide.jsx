@@ -3,6 +3,7 @@ import React,{useEffect, useState} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination} from 'swiper/modules';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -34,7 +35,7 @@ export default function AsideSlide() {
             .catch(err =>console.log(err));
         }
     },[pid]);
-    
+
     return (
         <div className="aside_slide">
             <div className='tit'>최근 본 상품</div>
@@ -46,7 +47,7 @@ export default function AsideSlide() {
                     direction = {'vertical' }
                     centeredSlides = {false}
                     speed = {500 }
-                    freeMode = {true}
+                    freeMode = {false}
                     loop = {false}
                     className = {"slider"}
                     height = {209 }

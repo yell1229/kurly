@@ -17,7 +17,7 @@ export default function TotalList() {
             <div className="inner">
                 {
                     list && list.map((item) =>
-                        <ProductThumb product={item}/>
+                        <React.Fragment key={item}><ProductThumb product={item}/></React.Fragment>
                     )
                 }
             </div>

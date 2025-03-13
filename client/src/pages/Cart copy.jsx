@@ -1,29 +1,80 @@
 import React,{useEffect, useState, useContext, useRef} from 'react';
+import axios from'axios';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../components/context/CartContext';
-import { useCart } from '../hook/useCart.js';
 import '../scss/cart.scss';
 import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 export default function Cart() {
-    const {cartCount, setCartCount, cartList, setCartList, totalDc, setTotalDc, totalDcPrice, setTotalDcPrice, totalPrice, setTotalPrice, listArr, setListArr} = useContext(CartContext);
-    const {getCartList, deleteProduct, calculateTotalPrice} = useCart();
-
+    const {cartCount, setCartCount} = useContext(CartContext);
+    const [list, setList] = useState([]);
+    const [totalDc, setTotalDc] = useState(0);
+    const [totalDcPrice, setTotalDcPrice] = useState(0);
+    const [totalPrice, setTotalPrice] = useState(0);
+    const id = localStorage.getItem('user_id');
     const addr = localStorage.getItem('user_addr');
+    const [listArr, setListArr] = useState([]);
     const listRefs = useRef([]);
 
     useEffect( () => {
         getCartList();
-        calculateTotalPrice();
-    },[listArr]);
+    },[]);
+    console.log('listArr',listArr);
     
+    // listArr 변경될 때마다 값을 계산함.
+    const calculateTotalPrice = (list) => {
+        console.log('click');
+        
+        let newList = list.filter((item) => listArr.includes(item.pid))
+        
+        // total dc price
+        let totalDC = newList.reduce((sum, item) => {
+            let price = parseInt(item.price * (100 - item.dc) *0.01) || 0;
+            let count = parseInt(item.qty) || 1 ;
+            return sum + (price * count );
+        } ,0);
+        setTotalDcPrice(totalDC.toLocaleString());
+
+        // total price
+        const total = newList.reduce((sum, item)=>{
+            let price = parseInt(item.price) || 0;
+            let count = parseInt(item.qty) || 1 ;
+            return sum + (price * count);
+        },0);
+        setTotalPrice(total.toLocaleString());
+
+        // total price
+        const totalDc = newList.reduce((sum, item)=>{
+            let price = parseInt(item.price * (item.dc *0.01)) || 0;
+            let count = parseInt(item.qty) || 1 ;
+            return sum + (price * count);
+        },0);
+        setTotalDc(totalDc.toLocaleString());
+    }
+
+    const getCartList = async () => {
+        const result = await axios.post('http://localhost:9000/cart/getCartList', {'id':id});
+        let resultList = result.data;
+            if(result.data.length > 0){
+                setList(result.data);
+                calculateTotalPrice(resultList);
+            }
+          console.log('result List', resultList);
+
+            return resultList;
+    }
     
-    
-console.log('cartList',cartList);
-console.log('listArr',listArr);
-    
+    const deleteProduct = (pid) => {
+        axios
+            .post('http://localhost:9000/cart/deleteItem', {'id':id ,'pid':pid})
+            .then(res => {
+                if(res.data.result_rows ===1) getCartList();
+                setCartCount(cartCount -1);
+            })
+            .catch(err => console.log(err));
+    }
     // 상품 선택
     const checkProduct = (pid) =>{
         // 클릭되면 값이 없으면 담는다. 값이 있으면 뺀다.
@@ -35,7 +86,7 @@ console.log('listArr',listArr);
             setListArr([...listArr, pid]);
         }
         
-        calculateTotalPrice();
+        calculateTotalPrice(list);
     }
     
     
@@ -58,7 +109,7 @@ console.log('listArr',listArr);
                                 </div>
                                 전체선택 {listArr.length}/{cartCount}
                             </label>
-                            {/* <button type="button">선택삭제</button> */}
+                            <button type="button">선택삭제</button>
                         </div>
                         <div className="cart_list_area box">
                             {/* <div className="total_check">
@@ -71,7 +122,7 @@ console.log('listArr',listArr);
                             </div> */}
                             
                             {
-                                cartList && cartList.map((item, i)=>
+                                list.map((item, i)=>
                                     <div className="prod_box" key={`${item.pid}_${i}`}>
                                         <label className='check_box'>
                                             <div className='check'>
