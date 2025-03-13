@@ -29,3 +29,11 @@ export const memberLogin = async (req, res) => {
     res.json(result);
     res.end();
 }
+// address
+export const updateAddr = async (req, res) => {
+    console.log(req.body);
+    const result = await repository.updateAddr(req.body);
+
+    res.json(result);
+    res.end();
+}

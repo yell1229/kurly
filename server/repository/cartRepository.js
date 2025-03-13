@@ -70,3 +70,18 @@ export const deleteCartItem = async ({id, pid}) => {
     const result = await db.execute(sql, [id, pid]);
     return {'result_rows':result[0].affectedRows};
 }
+
+
+// item count update
+export const setPidUpdate = async ({id, pid, type}) => {
+    const str = (type === 'increase') ?  'qty + 1' :  'qty - 1' ;
+
+    const sql =`
+                update cart 
+                    set qty= ${str}
+                    where id = ? and pid = ?
+    `;
+
+    const result = await db.execute(sql, [id, pid]);
+    return {'result_rows':result[0].affectedRows};
+}

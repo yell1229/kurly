@@ -2,27 +2,57 @@ import React,{useEffect, useState, useContext, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../components/context/CartContext';
 import { useCart } from '../hook/useCart.js';
+import Postcode from '../components/Postcode.jsx';
+import axios from 'axios';
+import { AuthContext } from '../components/auth/AuthContext.js';
 import '../scss/cart.scss';
 import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 export default function Cart() {
-    const {cartCount, setCartCount, cartList, setCartList, totalDc, setTotalDc, totalDcPrice, setTotalDcPrice, totalPrice, setTotalPrice, listArr, setListArr} = useContext(CartContext);
-    const {getCartList, deleteProduct, calculateTotalPrice} = useCart();
+    const {cartCount, cartList, setCartList, totalDc, totalDcPrice, totalPrice, listArr, setListArr, selectList} = useContext(CartContext);
+    const {getCartList, deleteProduct, calculateTotalPrice, updatePidCount} = useCart();
+    const {userAddr, setUserAddr} = useContext(AuthContext);
 
-    const addr = localStorage.getItem('user_addr');
+    const id = localStorage.getItem('user_id');
     const listRefs = useRef([]);
+
+
+    useEffect( () => {
+        const newList = listRefs.current.map((item)=> parseInt(item.name));
+        setListArr(newList);
+    },[]);
 
     useEffect( () => {
         getCartList();
         calculateTotalPrice();
     },[listArr]);
     
+    // 주소 변경
+    const setAddress = async (fullAddress) => {
+        const result = await axios.post('http://localhost:9000/member/updateAddr',{'addr':fullAddress, 'id':id})
+
+        if(result.data.result === 1){
+            localStorage.setItem('user_addr', fullAddress);
+            setUserAddr(()=>{ // localStorage.getItem("user_addr") 이것만 넣어주는지 AuthContext 문법을 넣는지?
+                try {
+                    const token = localStorage.getItem("token");
+                    const addr = localStorage.getItem("user_addr");
+                    return token ? addr : false;
+                } catch (error) {
+                    console.error("로컬스토리지 JSON 파싱 오류", error);
+                    return false;
+                }
+            })
+        }
+    }
     
     
-console.log('cartList',cartList);
-console.log('listArr',listArr);
+console.log('장바구니 전체 갯수 :cartList',cartList);
+console.log('선택된 리스트의 pid: listArr',listArr);
+console.log('선택된 리스트의 정보: selectList',selectList);
+console.log('totalPrice',totalPrice);
     
     // 상품 선택
     const checkProduct = (pid) =>{
@@ -98,9 +128,9 @@ console.log('listArr',listArr);
                                                         <strong>{item.dcPride}원</strong><span>{item.price}원</span>
                                                     </div>
                                                     <div className="count_area">
-                                                        <button type="button">-</button>
+                                                        <button type="button" onClick={()=>{updatePidCount(item.qty, item.pid, 'decrease')}}>-</button>
                                                         <span>{item.qty}</span>
-                                                        <button type="button">+</button>
+                                                        <button type="button" onClick={()=>{updatePidCount(item.qty, item.pid, 'increase')}}>+</button>
                                                     </div>
                                                 </div>
                                                 
@@ -111,8 +141,8 @@ console.log('listArr',listArr);
                                 )
                             }
                             <div className="total_price">
-                                <div>상품 49,490원 + 배송비 무료</div>
-                                <strong>{totalDcPrice}원</strong>
+                                <div>상품 49,490원 + {totalDcPrice > 10000 ? '배송비 무료':'배송비 3,000원'}</div>
+                                <strong>{totalDcPrice.toLocaleString()}원</strong>
                             </div>
                         </div>
                     </div>
@@ -123,8 +153,8 @@ console.log('listArr',listArr);
                             <div className="tit"><HiOutlineMapPin/>배송지</div>
                             <div className='type'>샛별배송</div>
                             <div className="addr">
-                                <div>{addr}</div>
-                                <button>변경</button>
+                                <div>{userAddr}</div>
+                                <Postcode setAddress={setAddress} text='변경'/>
                             </div>
                         </div>
                         <div className="order_detail box">
@@ -140,11 +170,11 @@ console.log('listArr',listArr);
                                 </li>
                                 <li>
                                     <span>배송비</span>
-                                    <strong>0원</strong>
+                                    <strong>{totalDcPrice > 10000 ? '0':'3,000'}원</strong>
                                 </li>
                             </ul>
                         </div>
-                        <button type='button' className='btn_order'>{totalDcPrice}원 주문하기</button>
+                        <button type='button' className='btn_order'>{totalDcPrice.toLocaleString()}원 주문하기</button>
                     </div>
                     {/* address */}
                 </div>

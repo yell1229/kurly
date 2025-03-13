@@ -244,12 +244,14 @@
                         div{
                             color:#848f9a;
                         }
-                        button{
+                        .btn_search_addr{
                             width:50px;
                             height:32px;
                             line-height:32px;
                             border:1px solid #dfe4eb;
                             border-radius: 6px;
+                            text-align:center;
+                            cursor: pointer;
                         }
                     }
                 }

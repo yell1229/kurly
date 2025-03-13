@@ -63,3 +63,14 @@ export const memberLogin = async({id,pwd}) => {
     
     return {'result':result[0]};
 }
+
+export const updateAddr = async ({addr, id}) =>{
+    
+    const sql = `
+            update member
+            set address = ?
+            where id= ?
+    `;
+    const [result] = await db.execute(sql,[addr,id]);   
+    return {'result':result.affectedRows};
+}

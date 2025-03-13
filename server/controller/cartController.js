@@ -34,3 +34,10 @@ export const deleteCartItem = async (req,res) => {
     res.json(result);
     res.end();
 }
+
+// item count update
+export const setPidUpdate = async (req,res) => {
+    const result = await repository.setPidUpdate(req.body);
+    res.json(result);
+    res.end();
+}
