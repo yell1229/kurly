@@ -3,7 +3,7 @@ import React,{useEffect, useState} from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination} from 'swiper/modules';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -17,6 +17,7 @@ import { IoIosArrowUp } from "react-icons/io";
 export default function AsideSlide() {
     const [pid, setPid] = useState(JSON.parse(localStorage.getItem('viewProducts')) || []);
     const [clickItem, setClickIatem] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -36,6 +37,10 @@ export default function AsideSlide() {
         }
     },[pid]);
 
+    // const andleLink = (pid) => {
+    //     navigate(`/goods/detail/${pid}`);
+    // }
+
     return (
         <div className="aside_slide">
             <div className='tit'>최근 본 상품</div>
@@ -47,15 +52,16 @@ export default function AsideSlide() {
                     direction = {'vertical' }
                     centeredSlides = {false}
                     speed = {500 }
-                    freeMode = {true}
+                    freeMode = {false}
                     loop = {false}
                     className = {"slider"}
-                    height = {209 }
+                    simulateTouch={false} 
                     navigation = {{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'} }  
             >    
                 {clickItem && clickItem.map((item, idx) =>
-                    <SwiperSlide key={idx} >
+                    <SwiperSlide key={`${item.pid}_${idx}`} >
                         <a href={`/goods/detail/${item.pid}`}>
+
                             <img src={`http://localhost:9000/${item.image_url}`} alt='' />
                         </a>
                     </SwiperSlide>

@@ -76,6 +76,12 @@ UI 확인<br>
 [http://localhost:3000/member/login](http://localhost:3000/member/login) <br><br>
 
 
+### `Cart`
+
+장바구니
+[http://localhost:3000/cart](http://localhost:3000/cart)
+
+
 
 ## $\bf{\color{#DD6565} :video_camera: 시연 영상}$
 [🔗 상품등록, 상세, 로그인, 상품문의, 후기](https://yell1229.github.io/portfolio/images/product.mp4)
@@ -86,8 +92,10 @@ UI 확인<br>
 
 ## 제작 예정
 
-장바구니 (UI 완료)
-[http://localhost:3000/cart](http://localhost:3000/cart) <br><br><br>
+Redux로 업데이트<br><br>
+TS로 업데이트
+결제 페이지<br><br>
+
 
 ## :love_letter: Email
 yellsdesign@naver.com

@@ -36,8 +36,8 @@ export default function Cart() {
     useEffect( () => {
         getCartList();
         calculateTotalPrice();
-    },[listArr]);
-    console.log('listArr',listArr);
+    },[]);
+    // console.log('listArr',listArr);
 
     // 전체상품 선택한 상태로 load
     const addListArr = () => {
@@ -66,10 +66,11 @@ export default function Cart() {
 
     }
 
-    // console.log('장바구니 전체 갯수 :cartList',cartList);
-    // console.log('선택된 리스트의 pid: listArr',listArr);
-    // console.log('선택된 리스트의 정보: selectList',selectList);
-    // console.log('totalPrice',totalPrice);
+
+    // 주문하기
+    // 주문 전 선택된 상품을 DB(order list)에 넣는다. {id, [상품리스트]}
+    // 주문된 상품은 카트리스트에서 삭제
+
 
     return (
         <div className='cart'>
@@ -170,7 +171,7 @@ export default function Cart() {
                                 </li>
                             </ul>
                         </div>
-                        <button type='button' className='btn_order'>{totalDcPrice.toLocaleString()}원 주문하기</button>
+                        <Link to="/order/checkout" className='btn_order'>{totalDcPrice.toLocaleString()}원 주문하기</Link>
                     </div>
                     {/* address */}
                 </div>

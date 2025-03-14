@@ -14,6 +14,7 @@ import {CartProvider} from './components/context/CartContext.js';
 import ScrollToTop from './components/common/ScrollToTop.jsx';
 import PickList from './pages/PickList.jsx';
 import Review from './pages/Review.jsx';
+import Checkout from './pages/Checkout.jsx';
 
 import './scss/kurly.scss';
 
@@ -36,6 +37,7 @@ export default function App() {
                     <Route path="/goods/new" element={<NewProduct />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/review" element={<Review />} />
+                    <Route path="/order/checkout" element={<Checkout />} />
                 </Route>
             </Routes>
             </ScrollToTop>
