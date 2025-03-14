@@ -1,5 +1,5 @@
 import React,{useRef, useState, useEffect, useContext, useCallback} from 'react';
-import { useParams ,useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { VscBell } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
 
@@ -12,15 +12,16 @@ import Nav from '../components/detail/Nav.jsx';
 import {AuthContext} from '../components/auth/AuthContext.js';
 import { CartContext } from '../components/context/CartContext.js';
 import { useLogin } from '../hook/useLogin.js';
+import {useCart} from '../hook/useCart.js';
 
 import axios from 'axios';
 import '../scss/detail.scss';
 
 export default function Detail() {
+    const{cartAddItem} = useCart();
     const {cartCount, setCartCount} = useContext(CartContext);
     const {isLogin} = useContext(AuthContext);
     const {loginCheck} = useLogin();
-    const navigate = useNavigate();
     const scrolls = [
         {id:'상품설명', ref:useRef(null)},
         {id:'상세정보', ref:useRef(null)},
@@ -129,42 +130,42 @@ export default function Detail() {
     //     }
         
     // }
-    const cartAddItem = async () => {
+    // const cartAddItem = async () => {
 
-        if(isLogin){
-            const id = localStorage.getItem('user_id');
+    //     if(isLogin){
+    //         const id = localStorage.getItem('user_id');
             
-            const cartItem = {
-                'pid':pid,
-                'qty':count
-            }
+    //         const cartItem = {
+    //             'pid':pid,
+    //             'qty':count
+    //         }
           
-            const result = await axios.post('http://localhost:9000/cart/check',{'id':id, 'pid':pid});
-            const findItem = result.data.count;
+    //         const result = await axios.post('http://localhost:9000/cart/check',{'id':id, 'pid':pid});
+    //         const findItem = result.data.count;
 
-            if(!findItem){ // 추가
-                axios
-                    .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
-                    .then(res => {
-                            if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
-                            setCartCount(cartCount + 1);
-                        })
-                    .catch(err => console.log(err));
-            }else{ // 갯수 변경
-                axios
-                    .post('http://localhost:9000/cart/update',{'id':id, ...cartItem})
-                    .then(res =>  {
-                            if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
-                        })
-                    .catch(err => console.log(err));
-            }
+    //         if(!findItem){ // 추가
+    //             axios
+    //                 .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
+    //                 .then(res => {
+    //                         if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+    //                         setCartCount(cartCount + 1);
+    //                     })
+    //                 .catch(err => console.log(err));
+    //         }else{ // 갯수 변경
+    //             axios
+    //                 .post('http://localhost:9000/cart/update',{'id':id, ...cartItem})
+    //                 .then(res =>  {
+    //                         if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+    //                     })
+    //                 .catch(err => console.log(err));
+    //         }
             
-        }else{
-            const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
-            if(login) navigate('/member/login');
-        }
+    //     }else{
+    //         const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
+    //         if(login) navigate('/member/login');
+    //     }
         
-    }
+    // }
 
     // 찜하기 
     const handleAddHeart = useCallback(() => {
@@ -259,7 +260,7 @@ export default function Detail() {
                             <div className="btns">
                                 <div className="heart" onClick={handleAddHeart}><AiFillHeart className={heart ? 'on':''} /></div>
                                 <div className="bell"><VscBell /></div>
-                                <div className="add_cart" onClick={cartAddItem}>장바구니 담기</div>
+                                <div className="add_cart" onClick={() => cartAddItem(product.pid)}>장바구니 담기</div>
                             </div>
                         </div>
                         {/* right */}

@@ -5,7 +5,9 @@ export default function ScrollToTop({ children }) {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        if (!pathname.includes('/goods/detail')) {
+            window.scrollTo(0, 0);
+        }
     }, [pathname]);
 
     return <>{children}</>;

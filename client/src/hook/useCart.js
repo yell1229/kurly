@@ -2,12 +2,14 @@ import React, { useContext, useEffect } from "react";
 import { AuthContext } from "../components/auth/AuthContext.js";
 import { CartContext } from "../components/context/CartContext.js";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 export function useCart() {
     const { isLogin } = useContext(AuthContext);
-    const { setCartCount, cartList, setCartList, 
+    const { cartCount, setCartCount, cartList, setCartList, 
             setTotalDc, setTotalDcPrice, setTotalPrice,
             listArr, selectList, setSelectList } = useContext(CartContext);
+    const navigate = useNavigate();
 
     const id = localStorage.getItem('user_id');
 
@@ -104,9 +106,46 @@ export function useCart() {
         }
     };
 
+    // 장바구니에 담기
+    const cartAddItem = async (pid, count) => {
+
+        if(isLogin){
+            
+            const cartItem = {
+                'pid':pid,
+                'qty':count ? count :1
+            }
+          
+            const result = await axios.post('http://localhost:9000/cart/check',{'id':id, 'pid':pid});
+            const findItem = result.data.count;
+
+            if(!findItem){ // 추가
+                axios
+                    .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
+                    .then(res => {
+                            if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+                            setCartCount(cartCount + 1);
+                        })
+                    .catch(err => console.log(err));
+            }else{ // 갯수 변경
+                axios
+                    .post('http://localhost:9000/cart/update',{'id':id, ...cartItem})
+                    .then(res =>  {
+                            if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
+                        })
+                    .catch(err => console.log(err));
+            }
+            
+        }else{
+            const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
+            if(login) navigate('/member/login');
+        }
+        
+    }
+
     // console.log('장바구니 전체 갯수 : cartList', cartList);
     // console.log('선택된 리스트의 pid: listArr', listArr);
     // console.log('선택된 리스트의 정보: selectList', selectList);
 
-    return { getCartList, deleteProduct, getCount, setCount, calculateTotalPrice, updatePidCount };
+    return { getCartList, deleteProduct, getCount, setCount, calculateTotalPrice, updatePidCount, cartAddItem };
 }

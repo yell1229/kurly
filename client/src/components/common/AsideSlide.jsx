@@ -61,7 +61,6 @@ export default function AsideSlide() {
                 {clickItem && clickItem.map((item, idx) =>
                     <SwiperSlide key={`${item.pid}_${idx}`} >
                         <a href={`/goods/detail/${item.pid}`}>
-
                             <img src={`http://localhost:9000/${item.image_url}`} alt='' />
                         </a>
                     </SwiperSlide>
