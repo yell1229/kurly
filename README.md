@@ -79,7 +79,7 @@ UI 확인<br>
 ### `Cart`
 
 장바구니
-[http://localhost:3000/cart](http://localhost:3000/cart)
+[http://localhost:3000/cart](http://localhost:3000/cart)<br><br>
 
 
 
@@ -93,7 +93,7 @@ UI 확인<br>
 ## 제작 예정
 
 Redux로 업데이트<br><br>
-TS로 업데이트
+TS로 업데이트<br><br>
 결제 페이지<br><br>
 
 
