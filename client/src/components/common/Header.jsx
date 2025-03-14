@@ -1,6 +1,6 @@
 import React,{useState, useRef, useEffect, useContext} from 'react';
 import axios from 'axios';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {AuthContext} from '../auth/AuthContext.js';
 import { CartContext } from '../context/CartContext.js';
 import { useCart } from '../../hook/useCart.js';
@@ -16,16 +16,14 @@ import { TfiClose } from "react-icons/tfi";
 
 export default function Header() {
     const {getCount, setCount} = useCart();
-    const {cartCount, setCartCount} = useContext(CartContext);
-    const {isLogin, setIsLogin, userName} = useContext(AuthContext);
+    const {cartCount} = useContext(CartContext);
+    const {isLogin, setIsLogin, userName, userAddr} = useContext(AuthContext);
     const navigate = useNavigate();
-    const location = useLocation();
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
     const [layerAddr,setLayerAddr] = useState(false);
     const [navIdx, setNavIdx] = useState([]);
-    const [useAddr, setUserAddr] = useState(localStorage.getItem('user_addr') || '');
     const [checkCategory, setCheckCategory] = useState(false);
     const catrgoryWrapRef = useRef(null);
     const navRef = useRef(null);
@@ -121,7 +119,7 @@ export default function Header() {
                             {layerAddr && 
                             <div className="layer_pop">
                                 { (isLogin) ?
-                                    <><div className="msg">{useAddr}</div>
+                                    <><div className="msg">{userAddr}</div>
                                     <div className="btns">
                                         <button type="button" onClick={()=> alert('mypage 준비중입니다.')}>배송지 변경</button>
                                         {/* <Postcode setAddress={setAddress} text="배송지 변경" /> */}

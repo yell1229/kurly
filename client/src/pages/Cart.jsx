@@ -2,6 +2,7 @@ import React,{useEffect, useState, useContext, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../components/context/CartContext';
 import { useCart } from '../hook/useCart.js';
+import {useLogin} from '../hook/useLogin.js';
 import Postcode from '../components/Postcode.jsx';
 import axios from 'axios';
 import { AuthContext } from '../components/auth/AuthContext.js';
@@ -11,49 +12,39 @@ import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
 export default function Cart() {
-    const {cartCount, cartList, setCartList, totalDc, totalDcPrice, totalPrice, listArr, setListArr, selectList} = useContext(CartContext);
+    const {cartCount, cartList, totalDc, totalDcPrice, totalPrice, listArr, setListArr} = useContext(CartContext);
     const {getCartList, deleteProduct, calculateTotalPrice, updatePidCount} = useCart();
-    const {userAddr, setUserAddr} = useContext(AuthContext);
-
-    const id = localStorage.getItem('user_id');
+    const {setAddress} = useLogin();
+    const {userAddr} = useContext(AuthContext);
     const listRefs = useRef([]);
 
 
     useEffect( () => {
-        const newList = listRefs.current.map((item)=> parseInt(item.name));
-        setListArr(newList);
+        let count = 0;
+        const timer = setInterval(() => {
+            addListArr();
+            count += 1;
+            
+            if (count >= 5) {
+                clearInterval(timer);
+            }
+        }, 100);
+
+        return () => clearInterval(timer);
     },[]);
 
     useEffect( () => {
         getCartList();
         calculateTotalPrice();
     },[listArr]);
-    
-    // 주소 변경
-    const setAddress = async (fullAddress) => {
-        const result = await axios.post('http://localhost:9000/member/updateAddr',{'addr':fullAddress, 'id':id})
+    console.log('listArr',listArr);
 
-        if(result.data.result === 1){
-            localStorage.setItem('user_addr', fullAddress);
-            setUserAddr(()=>{ // localStorage.getItem("user_addr") 이것만 넣어주는지 AuthContext 문법을 넣는지?
-                try {
-                    const token = localStorage.getItem("token");
-                    const addr = localStorage.getItem("user_addr");
-                    return token ? addr : false;
-                } catch (error) {
-                    console.error("로컬스토리지 JSON 파싱 오류", error);
-                    return false;
-                }
-            })
-        }
+    // 전체상품 선택한 상태로 load
+    const addListArr = () => {
+        const newList = listRefs.current.map((item)=> parseInt(item.name));
+        setListArr(newList);
     }
-    
-    
-console.log('장바구니 전체 갯수 :cartList',cartList);
-console.log('선택된 리스트의 pid: listArr',listArr);
-console.log('선택된 리스트의 정보: selectList',selectList);
-console.log('totalPrice',totalPrice);
-    
+
     // 상품 선택
     const checkProduct = (pid) =>{
         // 클릭되면 값이 없으면 담는다. 값이 있으면 뺀다.
@@ -74,6 +65,11 @@ console.log('totalPrice',totalPrice);
        (e.target.checked) ? setListArr(newList) : setListArr([]);
 
     }
+
+    // console.log('장바구니 전체 갯수 :cartList',cartList);
+    // console.log('선택된 리스트의 pid: listArr',listArr);
+    // console.log('선택된 리스트의 정보: selectList',selectList);
+    // console.log('totalPrice',totalPrice);
 
     return (
         <div className='cart'>
@@ -136,7 +132,7 @@ console.log('totalPrice',totalPrice);
                                                 
                                             </div>
                                         </div>
-                                        <button type="button" onClick={() =>deleteProduct(item.pid)}><IoMdClose /></button>
+                                        <button type="button" onClick={() => {deleteProduct(item.pid); checkProduct(item.pid); }}><IoMdClose /></button>
                                     </div>
                                 )
                             }

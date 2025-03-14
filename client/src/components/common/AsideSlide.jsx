@@ -47,12 +47,12 @@ export default function AsideSlide() {
                     direction = {'vertical' }
                     centeredSlides = {false}
                     speed = {500 }
-                    freeMode = {false}
+                    freeMode = {true}
                     loop = {false}
                     className = {"slider"}
                     height = {209 }
                     navigation = {{nextEl: '.aside_slide .swiper-next', prevEl: '.aside_slide .swiper-prev'} }  
-            >   
+            >    
                 {clickItem && clickItem.map((item, idx) =>
                     <SwiperSlide key={idx} >
                         <a href={`/goods/detail/${item.pid}`}>

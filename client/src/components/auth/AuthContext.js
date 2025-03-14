@@ -15,26 +15,8 @@ export const AuthProvider = ({children})=>{
             return false;
         }
     });
-    const [userName, setUserName] = useState(()=>{
-        try {
-            const token = localStorage.getItem("token");
-            const name = localStorage.getItem("user_name");
-            return token ? name : false;
-        } catch (error) {
-            console.error("로컬스토리지 JSON 파싱 오류", error);
-            return false;
-        }
-    });
-    const [userAddr, setUserAddr] = useState(()=>{
-        try {
-            const token = localStorage.getItem("token");
-            const addr = localStorage.getItem("user_addr");
-            return token ? addr : false;
-        } catch (error) {
-            console.error("로컬스토리지 JSON 파싱 오류", error);
-            return false;
-        }
-    });
+    const [userName, setUserName] = useState('');
+    const [userAddr, setUserAddr] = useState('');
     
     // 토큰으로 로그인 상태 유지
     useEffect(()=>{

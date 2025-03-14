@@ -5,16 +5,15 @@ import axios from 'axios';
 
 export function useCart(){
     const {isLogin} = useContext(AuthContext);
-    const {cartCount, setCartCount, cartList, setCartList, 
-        totalDc, setTotalDc, totalDcPrice, setTotalDcPrice, totalPrice, setTotalPrice,
-         listArr, setListArr, selectList, setSelectList} = useContext(CartContext);
+    const { setCartCount, cartList, setCartList, 
+            setTotalDc, setTotalDcPrice, setTotalPrice,
+            listArr, selectList, setSelectList} = useContext(CartContext);
 
     const id = localStorage.getItem('user_id');
 
     // checkbox 선택 시 listArr 변경될 때마다 값을 계산함.
     const calculateTotalPrice = (cartList) => {
         if (!Array.isArray(cartList)) return ;
-
 
         if(listArr.length > 0 ){
             setSelectList(cartList.filter((item) => listArr.includes(item.pid)));
@@ -69,6 +68,7 @@ export function useCart(){
         const result = await axios.post('http://localhost:9000/cart/deleteItem', {'id':id ,'pid':pid});
         if(result.data.result_rows) {
             getCartList();
+            getCount();
         }
 
     }
