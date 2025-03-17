@@ -1,15 +1,25 @@
-import React,{useState, useRef, useContext} from 'react';
+import React,{useState, useRef, useContext, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {AuthContext} from '../components/auth/AuthContext.js';
 import '../scss/member.scss';
 import axios from 'axios';
+import {getLogin} from '../service/authApi.js';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Login() {
-    const {isLogin, setIsLogin,setUserName,setUserAddr} = useContext(AuthContext);
+    const dispatch = useDispatch();
+    const isLogin = useSelector(state => state.login.isLogin);
+    // const {isLogin, setIsLogin,setUserName,setUserAddr} = useContext(AuthContext);
     const idRef = useRef(null);
     const pwdRef = useRef(null);
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(isLogin){
+            setTimeout(()=>{ navigate('/') },1000);
+        }
+    },[isLogin]);
 
     const handleChange = (e) => {
         let {name, value} = e.target;
@@ -18,27 +28,8 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:9000/member/login',formData)
-                .then(res => {      
-                    console.log('res.data',res.data);
-                              
-                    if(res.data.count === 1) {
-                        localStorage.setItem('token',res.data.token);
-                        localStorage.setItem('user_id',formData.id);
-                        localStorage.setItem('user_name',res.data.name);
-                        localStorage.setItem('user_addr',res.data.address);
-                        setIsLogin(true);
-                        setUserName(localStorage.getItem('user_name'));
-                        setUserAddr(localStorage.getItem('user_addr'));
-                        setTimeout(()=>{ navigate('/') },1000);
-                    }else{
-                        alert('다시 입력해주세요.');
-                        idRef.current.value='';
-                        pwdRef.current.value='';
-                        idRef.current.focus();
-                    }
-                })
-                .catch(err => console.log(err));
+
+        dispatch(getLogin(formData));
     }
 
     return (

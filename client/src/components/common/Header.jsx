@@ -5,6 +5,8 @@ import {AuthContext} from '../auth/AuthContext.js';
 import { CartContext } from '../context/CartContext.js';
 import { useCart } from '../../hook/useCart.js';
 // import Postcode from '../Postcode.jsx';
+import { useSelector, useDispatch } from 'react-redux';
+import {getLogout} from '../../service/authApi.js';
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
@@ -15,9 +17,12 @@ import { HiOutlineMenu } from "react-icons/hi";
 import { TfiClose } from "react-icons/tfi";
 
 export default function Header() {
+    const dispatch = useDispatch();
+    const isLogin = useSelector(state => state.login.isLogin);
+    const userName = useSelector(state => state.login.userName);
+    const userAddr = useSelector(state => state.login.userAddr);
     const {getCount, setCount} = useCart();
     const {cartCount} = useContext(CartContext);
-    const {isLogin, setIsLogin, userName, userAddr} = useContext(AuthContext);
     const navigate = useNavigate();
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
@@ -37,7 +42,7 @@ export default function Header() {
     useEffect(() => {
         (isLogin) ? getCount() : setCount(0);
     },[isLogin]);
-
+    
     useEffect(() => {
         const scrollNav = () => {
             const scrollY = window.scrollY
@@ -63,11 +68,9 @@ export default function Header() {
         if(isLogin){
             const select = window.confirm('로그아웃 하시겠습니까?');
             if(select){
-                localStorage.removeItem('user_id');
-                localStorage.removeItem('token');
-                localStorage.removeItem('user_name');
-                localStorage.removeItem('user_addr');
-                setIsLogin(false);
+                
+                dispatch(getLogout());
+                // setIsLogin(false);
                 navigate('/');
             }
             
