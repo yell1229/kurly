@@ -96,7 +96,7 @@ UI 확인<br>
 
 ## 제작 예정
 
-Redux로 업데이트<br><br>
+Redux로 업데이트(로그인/아웃 완료)<br><br>
 TS로 업데이트<br><br>
 결제 페이지<br><br>
 
