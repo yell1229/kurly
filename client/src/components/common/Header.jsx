@@ -1,7 +1,6 @@
 import React,{useState, useRef, useEffect, useContext} from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import {AuthContext} from '../auth/AuthContext.js';
 import { CartContext } from '../context/CartContext.js';
 import { useCart } from '../../hook/useCart.js';
 // import Postcode from '../Postcode.jsx';

@@ -21,10 +21,12 @@ export const memberIdCheck = async (req,res) => {
 // 로그인
 export const memberLogin = async (req, res) => {
     let result = await repository.memberLogin(req.body);
-    const count = result.result.count;
-    if(count === 1){       
+    
+    if(result && result.count === 1){       
         const token = jwt.sign({id:req.body.id},'HJgQhhXsvX');
-        result = {...result.result,"token":token} ;   
+        result = {...result,"token":token} ;   
+    }else if(result === undefined){
+        result = {count:0};
     }
     res.json(result);
     res.end();

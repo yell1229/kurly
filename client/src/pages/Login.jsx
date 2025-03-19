@@ -1,15 +1,13 @@
 import React,{useState, useRef, useContext, useEffect} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {AuthContext} from '../components/auth/AuthContext.js';
 import '../scss/member.scss';
-import axios from 'axios';
-import {getLogin} from '../service/authApi.js';
+import {getLogin, getLoginReset} from '../service/authApi.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 export default function Login() {
     const dispatch = useDispatch();
     const isLogin = useSelector(state => state.login.isLogin);
-    // const {isLogin, setIsLogin,setUserName,setUserAddr} = useContext(AuthContext);
+    const isError = useSelector(state => state.login.isError);
     const idRef = useRef(null);
     const pwdRef = useRef(null);
     const [formData, setFormData] = useState({});
@@ -20,6 +18,16 @@ export default function Login() {
             setTimeout(()=>{ navigate('/') },1000);
         }
     },[isLogin]);
+    useEffect(()=>{
+        if(isError){
+            alert('다시 입력해주세요.');
+            idRef.current.value='';
+            pwdRef.current.value='';
+            idRef.current.focus();
+            // isError 리셋
+            dispatch(getLoginReset());
+        }
+    },[isError]);
 
     const handleChange = (e) => {
         let {name, value} = e.target;

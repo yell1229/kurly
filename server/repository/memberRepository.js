@@ -61,7 +61,7 @@ export const memberLogin = async({id,pwd}) => {
 
     const [result] = await db.execute(sql,[id,pwd]);   
     
-    return {'result':result[0]};
+    return result[0];
 }
 
 export const updateAddr = async ({addr, id}) =>{
