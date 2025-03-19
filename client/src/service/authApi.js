@@ -1,4 +1,4 @@
-import { setIsLogin , setIsLogout, setLoginReset } from '../features/auth/authSlice.js';
+import { setIsLogin , setIsLogout, setLoginReset, setAddress } from '../features/auth/authSlice.js';
 import axiosApi from './axiosApi.js';
 
 
@@ -27,4 +27,17 @@ export const getLogin = (formData) => async (dispatch) => {
 
 export const getLoginReset = () => (dispatch) =>{
     dispatch(setLoginReset());
+}
+
+// 주소 변경
+const changeAddress =  (fullAddress) => async(dispatch) => {
+    const type ='post';
+    const url = 'http://localhost:9000/member/updateAddr';
+    const data = {'addr':fullAddress, 'id':id};
+
+    const result = await axiosApi({type, url, data});
+    const fullAddress = fullAddress;
+    if(result.result === 1){
+        dispatch(setAddress({fullAddress}));
+    }
 }

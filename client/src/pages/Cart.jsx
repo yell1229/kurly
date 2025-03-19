@@ -4,20 +4,26 @@ import { CartContext } from '../components/context/CartContext';
 import { useCart } from '../hook/useCart.js';
 import {useLogin} from '../hook/useLogin.js';
 import Postcode from '../components/Postcode.jsx';
-import axios from 'axios';
-import { AuthContext } from '../components/auth/AuthContext.js';
+
 import '../scss/cart.scss';
 import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
+import {useSelector, useDispatch} from 'react-redux';
+import {getCartList} from '../service/cartApi.js'
 
 export default function Cart() {
-    const {cartCount, cartList, totalDc, totalDcPrice, totalPrice, listArr, setListArr} = useContext(CartContext);
-    const {getCartList, deleteProduct, calculateTotalPrice, updatePidCount} = useCart();
-    const {setAddress} = useLogin();
-    const {userAddr} = useContext(AuthContext);
-    const listRefs = useRef([]);
+    const dispatch = useDispatch();
+    const { totalDc, totalDcPrice, totalPrice, listArr, setListArr} = useContext(CartContext);
+    
+    const cartCount = useSelector(state => state.cart.cartCount);
+    const userAddr = useSelector(state => state.login.userAddr);
+    const isLogin = useSelector(state => state.login.isLogin);
+    const cartList = useSelector(state => state.cart.cartList);
 
+    const { deleteProduct, calculateTotalPrice, updatePidCount} = useCart();
+    const {setAddress} = useLogin();
+    const listRefs = useRef([]);
 
     useEffect( () => {
         let count = 0;
@@ -34,8 +40,10 @@ export default function Cart() {
     },[]);
 
     useEffect( () => {
-        getCartList();
-        calculateTotalPrice();
+        if(isLogin){
+            dispatch(getCartList());
+            calculateTotalPrice();
+        }   
     },[]);
     // console.log('listArr',listArr);
 

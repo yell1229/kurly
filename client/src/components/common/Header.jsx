@@ -1,11 +1,10 @@
-import React,{useState, useRef, useEffect, useContext} from 'react';
+import React,{useState, useRef, useEffect} from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import { CartContext } from '../context/CartContext.js';
-import { useCart } from '../../hook/useCart.js';
 // import Postcode from '../Postcode.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {getLogout} from '../../service/authApi.js';
+import {getCount} from '../../service/cartApi.js';
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
@@ -17,12 +16,11 @@ import { TfiClose } from "react-icons/tfi";
 
 export default function Header() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isLogin = useSelector(state => state.login.isLogin);
     const userName = useSelector(state => state.login.userName);
     const userAddr = useSelector(state => state.login.userAddr);
-    const {getCount, setCount} = useCart();
-    const {cartCount} = useContext(CartContext);
-    const navigate = useNavigate();
+    const cartCount = useSelector(state => state.cart.cartCount);
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
@@ -39,7 +37,7 @@ export default function Header() {
     },[]);
 
     useEffect(() => {
-        (isLogin) ? getCount() : setCount(0);
+        if(isLogin) dispatch(getCount()) ;
     },[isLogin]);
     
     useEffect(() => {
@@ -69,14 +67,12 @@ export default function Header() {
             if(select){
                 
                 dispatch(getLogout());
-                // setIsLogin(false);
                 navigate('/');
             }
             
         }else{
             navigate('/member/login');
         }
-        
     }
 
     return (
