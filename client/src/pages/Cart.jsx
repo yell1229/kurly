@@ -10,7 +10,7 @@ import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
 import {useSelector, useDispatch} from 'react-redux';
-import {getCartList} from '../service/cartApi.js'
+import {getCartList, deleteProduct, updatePidCount} from '../service/cartApi.js';
 
 export default function Cart() {
     const dispatch = useDispatch();
@@ -20,8 +20,9 @@ export default function Cart() {
     const userAddr = useSelector(state => state.login.userAddr);
     const isLogin = useSelector(state => state.login.isLogin);
     const cartList = useSelector(state => state.cart.cartList);
+    // const listArr = useSelector(state => state.cart.listArr);
 
-    const { deleteProduct, calculateTotalPrice, updatePidCount} = useCart();
+    const { calculateTotalPrice} = useCart();
     const {setAddress} = useLogin();
     const listRefs = useRef([]);
 
@@ -133,15 +134,15 @@ export default function Cart() {
                                                         <strong>{item.dcPride}원</strong><span>{item.price}원</span>
                                                     </div>
                                                     <div className="count_area">
-                                                        <button type="button" onClick={()=>{updatePidCount(item.qty, item.pid, 'decrease')}}>-</button>
+                                                        <button type="button" onClick={()=>{dispatch(updatePidCount(item.qty, item.pid, 'decrease', cartList))}}>-</button>
                                                         <span>{item.qty}</span>
-                                                        <button type="button" onClick={()=>{updatePidCount(item.qty, item.pid, 'increase')}}>+</button>
+                                                        <button type="button" onClick={()=>{dispatch(updatePidCount(item.qty, item.pid, 'increase', cartList))}}>+</button>
                                                     </div>
                                                 </div>
                                                 
                                             </div>
                                         </div>
-                                        <button type="button" onClick={() => {deleteProduct(item.pid); checkProduct(item.pid); }}><IoMdClose /></button>
+                                        <button type="button" onClick={() => {dispatch(deleteProduct(item.pid)); checkProduct(item.pid); }}><IoMdClose /></button>
                                     </div>
                                 )
                             }

@@ -1,5 +1,5 @@
 import React,{useRef, useState, useEffect, useContext, useCallback} from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { VscBell } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
 
@@ -13,14 +13,17 @@ import {AuthContext} from '../components/auth/AuthContext.js';
 import { CartContext } from '../components/context/CartContext.js';
 import { useLogin } from '../hook/useLogin.js';
 import {useCart} from '../hook/useCart.js';
+import {useSelector, useDispatch} from 'react-redux';
+import {cartAddItem} from '../service/cartApi.js';
 
 import axios from 'axios';
 import '../scss/detail.scss';
 
 export default function Detail() {
-    const{cartAddItem} = useCart();
-    const {cartCount, setCartCount} = useContext(CartContext);
-    const {isLogin} = useContext(AuthContext);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const isLogin = useSelector(state => state.login.isLogin);
+    const cartCount = useSelector(state => state.cart.cartCount);
     const {loginCheck} = useLogin();
     const scrolls = [
         {id:'상품설명', ref:useRef(null)},
@@ -96,76 +99,7 @@ export default function Detail() {
             (count === 1) ? setCount(1) : setCount(count - 1);   
         }
     }
-    // 장바구니 데이터
-    // const cartAddItem = () => {
-    //     const cartList = JSON.parse(localStorage.getItem('viewedProducts')) || [];
-    //     if(isLogin){
-    //         const cartItem = {
-    //             'pid':pid,
-    //             'qty':count
-    //         }
-
-    //         // pid 중복이면 qty 갯수만 증가, 없으면 상품 추가 
-    //         const findItem = cartList.find((item) => item.pid === cartItem.pid );
-    //         if(findItem){
-    //             findItem.qty += cartItem.qty;
-    //             console.log('추가 아이템',findItem);
-    //         }else{
-    //             cartList.push(cartItem);
-    //         }
-
-    //         localStorage.setItem('viewedProducts',JSON.stringify(cartList));
-    //         const id = localStorage.getItem('user_id');
-            
-    //         axios
-    //             .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
-    //             .then(res => console.log(res.data))
-    //             .catch(err => console.log(err));
-
-    //         alert(`장바구니에 추가되었습니다.`);
-            
-    //     }else{
-    //         const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
-    //         if(login) navigate('/member/login');
-    //     }
-        
-    // }
-    // const cartAddItem = async () => {
-
-    //     if(isLogin){
-    //         const id = localStorage.getItem('user_id');
-            
-    //         const cartItem = {
-    //             'pid':pid,
-    //             'qty':count
-    //         }
-          
-    //         const result = await axios.post('http://localhost:9000/cart/check',{'id':id, 'pid':pid});
-    //         const findItem = result.data.count;
-
-    //         if(!findItem){ // 추가
-    //             axios
-    //                 .post('http://localhost:9000/cart/add',{'id':id, ...cartItem})
-    //                 .then(res => {
-    //                         if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
-    //                         setCartCount(cartCount + 1);
-    //                     })
-    //                 .catch(err => console.log(err));
-    //         }else{ // 갯수 변경
-    //             axios
-    //                 .post('http://localhost:9000/cart/update',{'id':id, ...cartItem})
-    //                 .then(res =>  {
-    //                         if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
-    //                     })
-    //                 .catch(err => console.log(err));
-    //         }
-            
-    //     }else{
-    //         const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
-    //         if(login) navigate('/member/login');
-    //     }
-        
-    // }
+    
 
     // 찜하기 
     const handleAddHeart = useCallback(() => {
@@ -187,7 +121,17 @@ export default function Detail() {
         }
     }, [isLogin, pid, product.pid, loginCheck]);
     
-
+    const handleAddCart = () =>{
+        console.log('click');
+        
+        if(isLogin){
+            dispatch(cartAddItem(product.pid, count, cartCount))
+        }else{
+            const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
+            if(login) navigate('/member/login');
+        }
+        
+    }
     return (
         <div>
             <div className="detail_area">
@@ -260,7 +204,7 @@ export default function Detail() {
                             <div className="btns">
                                 <div className="heart" onClick={handleAddHeart}><AiFillHeart className={heart ? 'on':''} /></div>
                                 <div className="bell"><VscBell /></div>
-                                <div className="add_cart" onClick={() => cartAddItem(product.pid)}>장바구니 담기</div>
+                                <div className="add_cart" onClick={handleAddCart}>장바구니 담기</div>
                             </div>
                         </div>
                         {/* right */}
