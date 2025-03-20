@@ -37,9 +37,11 @@ export const changeAddress =  (fullAddress) => async(dispatch) => {
     const type ='post';
     const url = 'http://localhost:9000/member/updateAddr';
     const data = {'addr':fullAddress, 'id':id};
-
+    console.log('fullAddress',fullAddress);
+    
     const result = await axiosApi({type, url, data});
-    const fullAddress = fullAddress;
+    console.log('result',result);
+    
     if(result.result === 1){
         dispatch(setAddress({fullAddress}));
     }

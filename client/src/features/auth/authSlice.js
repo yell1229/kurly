@@ -30,7 +30,7 @@ export const authSlice = createSlice({
             state.isError = false;
         },
         setAddress(state, action){
-            // state.userAddr = action.payload;
+            state.userAddr = action.payload.fullAddress;
         }
     },
 })

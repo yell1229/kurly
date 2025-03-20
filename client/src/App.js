@@ -9,7 +9,7 @@ import Cart from './pages/Cart.jsx';
 import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
 import TotalList from './pages/TotalList.jsx';
-import { AuthProvider } from './components/auth/AuthContext.js';
+// import { AuthProvider } from './components/auth/AuthContext.js';
 import {CartProvider} from './components/context/CartContext.js';
 import ScrollToTop from './components/common/ScrollToTop.jsx';
 import PickList from './pages/PickList.jsx';
@@ -20,7 +20,7 @@ import './scss/kurly.scss';
 
 export default function App() {
     return (
-        <AuthProvider>
+
         <CartProvider>
         {/* <BrowserRouter basename='/portfolio'> */}
         <BrowserRouter>
@@ -43,6 +43,5 @@ export default function App() {
             </ScrollToTop>
         </BrowserRouter>
         </CartProvider>
-        </AuthProvider>
     );
 }

@@ -11,10 +11,10 @@ import CartBottom from '../components/detail/CartBottom.jsx';
 import Nav from '../components/detail/Nav.jsx';
 import {AuthContext} from '../components/auth/AuthContext.js';
 import { CartContext } from '../components/context/CartContext.js';
-import { useLogin } from '../hook/useLogin.js';
+// import { useLogin } from '../hook/useLogin.js';
 import {useCart} from '../hook/useCart.js';
 import {useSelector, useDispatch} from 'react-redux';
-import {cartAddItem} from '../service/cartApi.js';
+// import {cartAddItem} from '../service/cartApi.js';
 
 import axios from 'axios';
 import '../scss/detail.scss';
@@ -24,7 +24,8 @@ export default function Detail() {
     const navigate = useNavigate();
     const isLogin = useSelector(state => state.login.isLogin);
     const cartCount = useSelector(state => state.cart.cartCount);
-    const {loginCheck} = useLogin();
+    const {cartAddItem} = useCart();
+    // const {loginCheck} = useLogin();
     const scrolls = [
         {id:'상품설명', ref:useRef(null)},
         {id:'상세정보', ref:useRef(null)},
@@ -117,15 +118,17 @@ export default function Detail() {
                 setHeart(false);
             }
         }else{
-            loginCheck();
+            alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
+            setTimeout(()=>{ navigate('/member/login')},1000);
+
         }
-    }, [isLogin, pid, product.pid, loginCheck]);
+    }, [isLogin, pid, product.pid]);
     
     const handleAddCart = () =>{
         console.log('click');
         
         if(isLogin){
-            dispatch(cartAddItem(product.pid, count, cartCount))
+            cartAddItem(product.pid, count)
         }else{
             const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
             if(login) navigate('/member/login');

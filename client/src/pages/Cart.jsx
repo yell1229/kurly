@@ -2,28 +2,19 @@ import React,{useEffect, useState, useContext, useRef} from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../components/context/CartContext';
 import { useCart } from '../hook/useCart.js';
-import {useLogin} from '../hook/useLogin.js';
 import Postcode from '../components/Postcode.jsx';
 
 import '../scss/cart.scss';
 import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
-import {useSelector, useDispatch} from 'react-redux';
-import {getCartList, deleteProduct, updatePidCount} from '../service/cartApi.js';
+import {useSelector} from 'react-redux';
 
 export default function Cart() {
-    const dispatch = useDispatch();
-    const { totalDc, totalDcPrice, totalPrice, listArr, setListArr} = useContext(CartContext);
-    
-    const cartCount = useSelector(state => state.cart.cartCount);
+    const { cartCount,cartList, totalDc, totalDcPrice, totalPrice, listArr, setListArr} = useContext(CartContext);
+    const { calculateTotalPrice, getCartList, deleteProduct, updatePidCount} = useCart();
     const userAddr = useSelector(state => state.login.userAddr);
     const isLogin = useSelector(state => state.login.isLogin);
-    const cartList = useSelector(state => state.cart.cartList);
-    // const listArr = useSelector(state => state.cart.listArr);
-
-    const { calculateTotalPrice} = useCart();
-    const {setAddress} = useLogin();
     const listRefs = useRef([]);
 
     useEffect( () => {
@@ -42,11 +33,10 @@ export default function Cart() {
 
     useEffect( () => {
         if(isLogin){
-            dispatch(getCartList());
+            getCartList();
             calculateTotalPrice();
         }   
     },[]);
-    // console.log('listArr',listArr);
 
     // 전체상품 선택한 상태로 load
     const addListArr = () => {
@@ -134,15 +124,15 @@ export default function Cart() {
                                                         <strong>{item.dcPride}원</strong><span>{item.price}원</span>
                                                     </div>
                                                     <div className="count_area">
-                                                        <button type="button" onClick={()=>{dispatch(updatePidCount(item.qty, item.pid, 'decrease', cartList))}}>-</button>
+                                                        <button type="button" onClick={()=>{updatePidCount(item.qty, item.pid, 'decrease', cartList)}}>-</button>
                                                         <span>{item.qty}</span>
-                                                        <button type="button" onClick={()=>{dispatch(updatePidCount(item.qty, item.pid, 'increase', cartList))}}>+</button>
+                                                        <button type="button" onClick={()=>{updatePidCount(item.qty, item.pid, 'increase', cartList)}}>+</button>
                                                     </div>
                                                 </div>
                                                 
                                             </div>
                                         </div>
-                                        <button type="button" onClick={() => {dispatch(deleteProduct(item.pid)); checkProduct(item.pid); }}><IoMdClose /></button>
+                                        <button type="button" onClick={() => {deleteProduct(item.pid); checkProduct(item.pid); }}><IoMdClose /></button>
                                     </div>
                                 )
                             }
@@ -160,7 +150,7 @@ export default function Cart() {
                             <div className='type'>샛별배송</div>
                             <div className="addr">
                                 <div>{userAddr}</div>
-                                <Postcode setAddress={setAddress} text='변경'/>
+                                <Postcode text='변경'/>
                             </div>
                         </div>
                         <div className="order_detail box">

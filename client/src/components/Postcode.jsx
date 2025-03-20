@@ -1,7 +1,10 @@
 import React from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import {changeAddress} from '../service/authApi.js';
+import { useDispatch } from 'react-redux';
 
 export default function Postcode ({setAddress, text}) {
+    const dispatch = useDispatch();
     const postcodeScriptUrl = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
     const open = useDaumPostcodePopup(postcodeScriptUrl);
 
@@ -22,7 +25,7 @@ export default function Postcode ({setAddress, text}) {
         }
         //console.log('data',data.zonecode);
         
-        setAddress(fullAddress);
+        dispatch(changeAddress(fullAddress));
     };
 
     const handleClick = () => {

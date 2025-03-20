@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from "react"; 
-import { AuthContext } from "../components/auth/AuthContext.js";
+// import { AuthContext } from "../components/auth/AuthContext.js";
 import { CartContext } from "../components/context/CartContext.js";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import {useSelector} from 'react-redux';
 
 export function useCart() {
-    const { isLogin } = useContext(AuthContext);
+    // const { isLogin } = useContext(AuthContext);
+    // const isLogin = useSelector(state => state.login.isLogin);
     const { cartCount, setCartCount, cartList, setCartList, 
             setTotalDc, setTotalDcPrice, setTotalPrice,
             listArr, selectList, setSelectList } = useContext(CartContext);
@@ -62,11 +64,9 @@ export function useCart() {
 
     // 장바구니 리스트 가져오기
     const getCartList = async () => {
-        if (isLogin) {
-            const result = await axios.post('http://localhost:9000/cart/getCartList', { 'id': id });
-            setCartList(result.data);
-            calculateTotalPrice();  // getCartList 후에 다시 total 계산
-        }
+        const result = await axios.post('http://localhost:9000/cart/getCartList', { 'id': id });
+        setCartList(result.data);
+        calculateTotalPrice();  // getCartList 후에 다시 total 계산
     };
 
     // 선택 상품 삭제
@@ -109,7 +109,7 @@ export function useCart() {
     // 장바구니에 담기
     const cartAddItem = async (pid, count) => {
 
-        if(isLogin){
+
             
             const cartItem = {
                 'pid':pid,
@@ -134,13 +134,7 @@ export function useCart() {
                             if(res.data.result_rows === 1) alert(`장바구니에 추가되었습니다.`);
                         })
                     .catch(err => console.log(err));
-            }
-            
-        }else{
-            const login = window.confirm(`로그인 후 이용 가능합니다 \n 로그인 하시겠습니까?`);
-            if(login) navigate('/member/login');
-        }
-        
+            }    
     }
 
     // console.log('장바구니 전체 갯수 : cartList', cartList);

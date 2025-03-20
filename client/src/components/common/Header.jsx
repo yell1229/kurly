@@ -1,10 +1,11 @@
-import React,{useState, useRef, useEffect} from 'react';
+import React,{useState, useRef, useEffect,useContext} from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-// import Postcode from '../Postcode.jsx';
+import Postcode from '../Postcode.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {getLogout} from '../../service/authApi.js';
-import {getCount} from '../../service/cartApi.js';
+import { CartContext } from '../context/CartContext.js';
+import { useCart } from '../../hook/useCart.js';
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
@@ -20,7 +21,8 @@ export default function Header() {
     const isLogin = useSelector(state => state.login.isLogin);
     const userName = useSelector(state => state.login.userName);
     const userAddr = useSelector(state => state.login.userAddr);
-    const cartCount = useSelector(state => state.cart.cartCount);
+    const { cartCount} = useContext(CartContext);
+    const {getCount} = useCart();
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
@@ -37,7 +39,7 @@ export default function Header() {
     },[]);
 
     useEffect(() => {
-        if(isLogin) dispatch(getCount()) ;
+        if(isLogin) getCount();
     },[isLogin]);
     
     useEffect(() => {
@@ -119,8 +121,7 @@ export default function Header() {
                                 { (isLogin) ?
                                     <><div className="msg">{userAddr}</div>
                                     <div className="btns">
-                                        <button type="button" onClick={()=> alert('mypage 준비중입니다.')}>배송지 변경</button>
-                                        {/* <Postcode setAddress={setAddress} text="배송지 변경" /> */}
+                                        <Postcode text="배송지 변경" />
                                     </div></> :
                                     <><div className="msg"><span>배송지를 등록</span>하고<br />구매 가능한 상품을 확인하세요!</div>
                                     <div className="btns">
