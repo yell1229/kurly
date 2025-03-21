@@ -29,13 +29,13 @@ export const authSlice = createSlice({
         setLoginReset(state){
             state.isError = false;
         },
-        setAddress(state, action){
+        setNewAddress(state, action){
             state.userAddr = action.payload.fullAddress;
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { setIsLogin, setIsLogout, setLoginReset, setAddress } = authSlice.actions
+export const { setIsLogin, setIsLogout, setLoginReset, setNewAddress } = authSlice.actions
 
 export default authSlice.reducer

@@ -1,11 +1,13 @@
-import React,{useContext} from 'react';
+import React from 'react';
 import { BsCart2 } from "react-icons/bs";
 import { HiOutlineChatBubbleLeftEllipsis } from "react-icons/hi2";
 import { Link } from 'react-router-dom';
-import { useCart } from '../hook/useCart';
+
+import { useDispatch } from 'react-redux';
+import {cartAddItem} from '../service/cartApi.js';
 
 export default function ProductThumb({product}) {
-    const {cartAddItem} = useCart();
+    const dispatch = useDispatch();
 
     return (
         <div className="box">
@@ -16,7 +18,7 @@ export default function ProductThumb({product}) {
                 </div>
                 </Link>
                 <div className="product_detail_area">
-                    <button type="button" className='cart' onClick={() => cartAddItem(product.pid)}><BsCart2 className='icon' />담기</button>
+                    <button type="button" className='cart' onClick={() => dispatch(cartAddItem(product.pid))}><BsCart2 className='icon' />담기</button>
                     <Link key={product.pid} to={`/goods/detail/${product.pid}`}>
                     <div className="info_txt">
                         <span>{product.name}</span>

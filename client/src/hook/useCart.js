@@ -11,7 +11,7 @@ export function useCart() {
     const { cartCount, setCartCount, cartList, setCartList, 
             setTotalDc, setTotalDcPrice, setTotalPrice,
             listArr, selectList, setSelectList } = useContext(CartContext);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const id = localStorage.getItem('user_id');
 

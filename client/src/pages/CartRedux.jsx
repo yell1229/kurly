@@ -7,7 +7,7 @@ import { GoCheck } from "react-icons/go";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineMapPin } from "react-icons/hi2";
 import {useSelector, useDispatch} from 'react-redux';
-import {getCartList, deleteProduct, updatePidCount, updateListArr, loadList, resetListArr} from '../service/cartApi.js';
+import {getCartList, deleteProduct, updatePidCount, updateListArr, loadList, calculateTotalPrice} from '../service/cartApi.js';
 
 export default function Cart() {
     const dispatch = useDispatch();
@@ -18,16 +18,16 @@ export default function Cart() {
     const totalDc = useSelector(state => state.cart.totalDc);
     const totalDcPrice = useSelector(state => state.cart.totalDcPrice);
     const totalPrice = useSelector(state => state.cart.totalPrice);
-    const listArr = useSelector(state => state.cart.listArr); // pid
-    const selectList = useSelector(state => state.cart.selectList); // select cartList
-
+    const listArr = useSelector(state => state.cart.listArr);
+    const selectList = useSelector(state => state.cart.selectList);
     const listRefs = useRef([]);
-    
+
     useEffect( () => {
         let count = 0;
         if(cartList.length > 0 && cartList.length !== listArr.length){
             const timer = setInterval(() => {
                 dispatch(loadList(cartList));
+                dispatch(calculateTotalPrice(cartList, listArr, selectList));
                 count += 1;
                 
                 if (count >= 5) {
@@ -37,16 +37,16 @@ export default function Cart() {
             return () => clearInterval(timer);
         }
         
+
     },[]);
 
     useEffect( () => {
         if(isLogin){
             dispatch(getCartList(listRefs));
+            dispatch(calculateTotalPrice(cartList, listArr, selectList));
         }   
     },[]);
-    console.log('listArr',listArr);
-    console.log('selectList',selectList);
-
+    // console.log('listArr',listArr);
 
 
     // 상품 선택
@@ -55,20 +55,30 @@ export default function Cart() {
         let isCheck = listArr.includes(pid);
         if(isCheck){
             let newList = listArr.filter((item) => item !== pid);
-            dispatch(updateListArr(cartList, newList));
+            dispatch(updateListArr(newList));
         }else{
-            dispatch(updateListArr(cartList,[...listArr, pid]));
+            dispatch(updateListArr([...listArr, pid]));
         }
         
+        dispatch(calculateTotalPrice(cartList, listArr, selectList));
     }
+    
     
     const toggleAllCheck = (e) => {
        const newList = listRefs.current.map((item)=> parseInt(item.name));
-       (e.target.checked) ? dispatch(updateListArr(cartList, newList)) : dispatch(resetListArr());
+       (e.target.checked) ? dispatch(updateListArr(newList)) : dispatch(updateListArr([]));
 
     }
-    
 
+    console.log('totalPrice',totalPrice);
+    console.log('listArr',listArr);
+    console.log('totalDc',totalDc);
+    console.log('cartList',cartList);
+    
+    const countCalc = (qty, pid, type) => {
+        dispatch(updatePidCount(qty, pid, type, cartList, listArr));
+        dispatch(calculateTotalPrice(cartList, listArr, selectList));
+    }
     // 주문하기
     // 주문 전 선택된 상품을 DB(order list)에 넣는다. {id, [상품리스트]}
     // 주문된 상품은 카트리스트에서 삭제
@@ -82,7 +92,7 @@ export default function Cart() {
                     <div className="cart_list">
                         <div className="total box">
                             <label className='check_box'>
-                                <div className='check'><input type="checkbox" checked={Array.isArray(listArr) && listArr?.length === cartCount}  onChange={toggleAllCheck} />
+                                <div className='check'><input type="checkbox" checked={listArr?.length === cartCount} onChange={toggleAllCheck} />
                                     <div><GoCheck size={15} /></div>
                                 </div>
                                 전체선택 {listArr.length}/{cartCount}
@@ -127,22 +137,21 @@ export default function Cart() {
                                                         <strong>{item.dcPride}원</strong><span>{item.price}원</span>
                                                     </div>
                                                     <div className="count_area">
-                                                        <button type="button" onClick={()=>{ dispatch(updatePidCount(item.qty, item.pid, 'decrease', cartList, listArr))}}>-</button>
+                                                        <button type="button" onClick={()=>{countCalc(item.qty, item.pid, 'decrease')}}>-</button>
                                                         <span>{item.qty}</span>
-                                                        <button type="button" onClick={()=>{ dispatch(updatePidCount(item.qty, item.pid, 'increase', cartList, listArr))}}>+</button>
-
+                                                        <button type="button" onClick={()=>{countCalc(item.qty, item.pid, 'increase')}}>+</button>
                                                     </div>
                                                 </div>
                                                 
                                             </div>
                                         </div>
-                                        <button type="button" onClick={() => {deleteProduct(item.pid); checkProduct(item.pid); }}><IoMdClose /></button>
+                                        <button type="button" onClick={() => {dispatch(deleteProduct(item.pid)); checkProduct(item.pid); }}><IoMdClose /></button>
                                     </div>
                                 )
                             }
                             <div className="total_price">
-                                <div>상품 {totalPrice.toLocaleString()}원 + {totalDcPrice > 10000 ? '배송비 무료':'배송비 3,000원'}</div>
-                                <strong>{totalDcPrice.toLocaleString()}원</strong>
+                                <div>상품 {totalPrice}원 + {totalDcPrice > 10000 ? '배송비 무료':'배송비 3,000원'}</div>
+                                <strong>{totalDcPrice}원</strong>
                             </div>
                         </div>
                     </div>
@@ -162,11 +171,11 @@ export default function Cart() {
                             <ul>
                                 <li>
                                     <span>상품금액</span>
-                                    <strong>{totalPrice.toLocaleString()}원</strong>
+                                    <strong>{totalPrice}원</strong>
                                 </li>
                                 <li>
                                     <span>상품할인금액</span>
-                                    <strong className='orange'>-{totalDc.toLocaleString()}원</strong>
+                                    <strong className='orange'>-{totalDc}원</strong>
                                 </li>
                                 <li>
                                     <span>배송비</span>
@@ -174,7 +183,7 @@ export default function Cart() {
                                 </li>
                             </ul>
                         </div>
-                        <Link to="/order/checkout" className='btn_order'>{totalDcPrice.toLocaleString()}원 주문하기</Link>
+                        <Link to="/order/checkout" className='btn_order'>{totalDcPrice}원 주문하기</Link>
                     </div>
                     {/* address */}
                 </div>

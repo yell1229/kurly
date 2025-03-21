@@ -1,14 +1,13 @@
-import { setIsLogin , setIsLogout, setLoginReset, setAddress } from '../features/auth/authSlice.js';
+import { setIsLogin , setIsLogout, setLoginReset, setNewAddress } from '../features/auth/authSlice.js';
 import axiosApi from './axiosApi.js';
+
 
 const id = localStorage.getItem('user_id');
 
+
 // logout
 export const getLogout = () => (dispatch) => {
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('token');
-    localStorage.removeItem('user_name');
-    localStorage.removeItem('user_addr');
+    localStorage.clear();
     dispatch(setIsLogout());
 }
 
@@ -33,17 +32,16 @@ export const getLoginReset = () => (dispatch) =>{
 }
 
 // 주소 변경
-export const changeAddress =  (fullAddress) => async(dispatch) => {
+export const setAddress =  (fullAddress) => async(dispatch) => {
     const type ='post';
     const url = 'http://localhost:9000/member/updateAddr';
     const data = {'addr':fullAddress, 'id':id};
-    console.log('fullAddress',fullAddress);
-    
+     
     const result = await axiosApi({type, url, data});
-    console.log('result',result);
-    
+
     if(result.result === 1){
-        dispatch(setAddress({fullAddress}));
+        dispatch(setNewAddress({fullAddress}));
     }
 }
+
 

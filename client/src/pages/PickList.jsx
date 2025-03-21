@@ -14,7 +14,6 @@ export default function PickList() {
         }
         
     },[]);
-    console.log('heartList', heartList);
     
     return (
         <div className='product_list'>

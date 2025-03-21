@@ -1,17 +1,16 @@
 import React,{useEffect, useState, useContext, useRef} from 'react';
-import { Link } from 'react-router-dom';
-import { CartContext } from '../components/context/CartContext';
-import { useCart } from '../hook/useCart.js';
-import {useLogin} from '../hook/useLogin.js';
 import Postcode from '../components/Postcode.jsx';
-import axios from 'axios';
-import { AuthContext } from '../components/auth/AuthContext.js';
+
 import '../scss/cart.scss';
 import { HiOutlineMapPin } from "react-icons/hi2";
+import {useSelector, useDispatch} from 'react-redux';
+
+
 export default function Checkout() {
-    const {totalDc, totalDcPrice, totalPrice} = useContext(CartContext);
-    const {setAddress} = useLogin();
-    const {userAddr} = useContext(AuthContext);
+    const totalDc = useSelector(state => state.cart.totalDc);
+    const totalDcPrice = useSelector(state => state.cart.totalDcPrice);
+    const totalPrice = useSelector(state => state.cart.totalPrice);
+    const userAddr = useSelector(state => state.login.userAddr);
 
     return (
         <div className='cart'>
@@ -26,7 +25,7 @@ export default function Checkout() {
                             <div className='type'>샛별배송</div>
                             <div className="addr">
                                 <div>{userAddr}</div>
-                                <Postcode setAddress={setAddress} text='변경'/>
+                                <Postcode text='변경'/>
                             </div>
                         </div>
                         <div className="order_detail box">
@@ -34,11 +33,11 @@ export default function Checkout() {
                             <ul>
                                 <li>
                                     <span>상품금액</span>
-                                    <strong>{totalPrice}원</strong>
+                                    <strong>{totalPrice.toLocaleString()}원</strong>
                                 </li>
                                 <li>
                                     <span>상품할인금액</span>
-                                    <strong className='orange'>-{totalDc}원</strong>
+                                    <strong className='orange'>-{totalDc.toLocaleString()}원</strong>
                                 </li>
                                 <li>
                                     <span>배송비</span>

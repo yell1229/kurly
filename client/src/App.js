@@ -20,7 +20,6 @@ import './scss/kurly.scss';
 
 export default function App() {
     return (
-
         <CartProvider>
         {/* <BrowserRouter basename='/portfolio'> */}
         <BrowserRouter>

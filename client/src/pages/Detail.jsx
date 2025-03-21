@@ -9,12 +9,8 @@ import ReviewInfo from '../components/detail/ReviewInfo.jsx';
 import InquireInfo from '../components/detail/InquireInfo.jsx';
 import CartBottom from '../components/detail/CartBottom.jsx';
 import Nav from '../components/detail/Nav.jsx';
-import {AuthContext} from '../components/auth/AuthContext.js';
-import { CartContext } from '../components/context/CartContext.js';
-// import { useLogin } from '../hook/useLogin.js';
-import {useCart} from '../hook/useCart.js';
 import {useSelector, useDispatch} from 'react-redux';
-// import {cartAddItem} from '../service/cartApi.js';
+import {cartAddItem} from '../service/cartApi.js';
 
 import axios from 'axios';
 import '../scss/detail.scss';
@@ -24,7 +20,7 @@ export default function Detail() {
     const navigate = useNavigate();
     const isLogin = useSelector(state => state.login.isLogin);
     const cartCount = useSelector(state => state.cart.cartCount);
-    const {cartAddItem} = useCart();
+    // const {cartAddItem} = useCart();
     // const {loginCheck} = useLogin();
     const scrolls = [
         {id:'상품설명', ref:useRef(null)},
@@ -125,7 +121,6 @@ export default function Detail() {
     }, [isLogin, pid, product.pid]);
     
     const handleAddCart = () =>{
-        console.log('click');
         
         if(isLogin){
             cartAddItem(product.pid, count)

@@ -16,7 +16,7 @@ const loadState = () => {
 export const store = configureStore({
     reducer: {
         login:authSlice,
-        cart:cartSlice,
+        cart:cartSlice
     },
     preloadedState: loadState(),
 });

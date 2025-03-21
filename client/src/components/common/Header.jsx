@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Postcode from '../Postcode.jsx';
 import { useSelector, useDispatch } from 'react-redux';
 import {getLogout} from '../../service/authApi.js';
-import { CartContext } from '../context/CartContext.js';
-import { useCart } from '../../hook/useCart.js';
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import { BiSearch } from "react-icons/bi";
@@ -21,8 +19,7 @@ export default function Header() {
     const isLogin = useSelector(state => state.login.isLogin);
     const userName = useSelector(state => state.login.userName);
     const userAddr = useSelector(state => state.login.userAddr);
-    const { cartCount} = useContext(CartContext);
-    const {getCount} = useCart();
+    const cartCount = useSelector(state => state.cart.cartCount);
     const [topBan, setTopBan] = useState(true);
     const [navList, setNavList] = useState([]);
     const [customerBox,setCustomerBox] = useState(false);
@@ -37,10 +34,6 @@ export default function Header() {
             .then((res) => setNavList(res.data))
             .catch(err => console.log(err));
     },[]);
-
-    useEffect(() => {
-        if(isLogin) getCount();
-    },[isLogin]);
     
     useEffect(() => {
         const scrollNav = () => {

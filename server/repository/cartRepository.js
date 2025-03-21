@@ -73,9 +73,10 @@ export const deleteCartItem = async ({id, pid}) => {
 
 
 // item count update
-export const setPidUpdate = async ({id, pid, type}) => {
-    const str = (type === 'increase') ?  'qty + 1' :  'qty - 1' ;
-
+export const setPidUpdate = async ({id, pid, types}) => {
+    const str = (types === 'increase') ?  'qty + 1' :  'qty - 1' ;
+    // console.log(types, qty);
+    
     const sql =`
                 update cart 
                     set qty= ${str}
