@@ -1,15 +1,15 @@
-import React,{useState, useRef, useContext, useEffect} from 'react';
+import React,{useState, useRef, useEffect} from 'react';
 import WritePopup from './WritePopup.jsx';
-import { useLogin } from '../../hook/useLogin.js';
-import {AuthContext} from '../auth/AuthContext.js';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { SlArrowLeft } from "react-icons/sl";
 import { SlArrowRight } from "react-icons/sl";
 import axios from 'axios';
 
 
 export default function InquireInfo({src, name, pid}) {
-    const {loginCheck} = useLogin();
-    const {isLogin} = useContext(AuthContext);
+    const navigate = useNavigate();
+    const isLogin = useSelector(state => state.login.isLogin);
     const [isTrue, setIsTrue] = useState(false);
     const [data, setData] = useState([]);
     const [update, setUpdate] = useState(0);
@@ -40,7 +40,8 @@ export default function InquireInfo({src, name, pid}) {
         if(isLogin) {
             setIsTrue(true);
         }else{
-            loginCheck();
+            alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
+            setTimeout(()=>{ navigate('/member/login')},1000);
         }
     }
     useEffect(() => {

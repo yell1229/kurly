@@ -136,7 +136,7 @@ export default function Cart() {
                                                 
                                             </div>
                                         </div>
-                                        <button type="button" onClick={() => {deleteProduct(item.pid); checkProduct(item.pid); }}><IoMdClose /></button>
+                                        <button type="button" onClick={() => {dispatch(deleteProduct(item.pid)); checkProduct(item.pid); }}><IoMdClose /></button>
                                     </div>
                                 )
                             }

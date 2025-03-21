@@ -1,7 +1,8 @@
 import React,{useRef, useState, useEffect, useContext} from 'react';
 import WritePopup from './WritePopup.jsx';
-import {AuthContext} from '../auth/AuthContext.js';
-import { useLogin } from '../../hook/useLogin.js';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { LuThumbsUp } from "react-icons/lu";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
@@ -15,8 +16,8 @@ import axios from 'axios';
 import 'swiper/css';
 
 export default function ReviewInfo({src, name, pid, setReviewCount}) {
-    const {isLogin} = useContext(AuthContext);
-    const {loginCheck} = useLogin();
+    const navigate = useNavigate();
+    const isLogin = useSelector(state => state.login.isLogin);
     const [data, setData] = useState([]);
     const [dimiDisplay, setDimiDisplay] = useState(false);
     const [isTrue, setIsTrue] = useState(false);
@@ -114,7 +115,8 @@ export default function ReviewInfo({src, name, pid, setReviewCount}) {
         if(isLogin) {
             setIsTrue(true);
         }else{
-            loginCheck();
+            alert('로그인하셔야 본 서비스를 이용하실 수 있습니다.');
+            setTimeout(()=>{ navigate('/member/login')},1000);
         }
     }
     
