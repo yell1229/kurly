@@ -7,6 +7,8 @@ import memberRouter from './router/memberRouter.js';
 import reviewRouter from './router/reviewRouter.js';
 import inquireRouter from './router/inquireRouter.js';
 import cartRouter from './router/cartRouter.js';
+import paymentRouter from './router/paymentRouter.js';
+import orderRouter from './router/orderRouter.js';
 
 const server = express();
 const port = 9000;
@@ -38,7 +40,11 @@ server.use('/member',memberRouter);
 // 장바구니
 server.use('/cart',cartRouter);
 
+// 결제
+server.use('/payment',paymentRouter);
 
+// 주문
+server.use('/order',orderRouter);
 
 
 server.listen(port,() => {

@@ -96,7 +96,6 @@ export const cartSlice = createSlice({
         },
         setLodingListArr(state,action){
             const result = action.payload.cartList;
-            console.log('result',result);
             
             state.listArr = [];
             if(result.length >0){
@@ -108,9 +107,7 @@ export const cartSlice = createSlice({
                 state.selectList =[];
             }
         },
-        setLodingSelectList(state,action){
-            console.log('action.payload.cartList',action.payload.cartList);
-            
+        setLodingSelectList(state,action){          
             state.selectList = action.payload.cartList;
         },
         setResetListArr(state){

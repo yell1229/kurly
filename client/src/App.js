@@ -9,12 +9,13 @@ import Cart from './pages/Cart.jsx';
 import NewProduct from './pages/NewProduct.jsx';
 import ProductList from './pages/ProductList.jsx';
 import TotalList from './pages/TotalList.jsx';
-// import { AuthProvider } from './components/auth/AuthContext.js';
+
 import {CartProvider} from './components/context/CartContext.js';
 import ScrollToTop from './components/common/ScrollToTop.jsx';
 import PickList from './pages/PickList.jsx';
 import Review from './pages/Review.jsx';
 import Checkout from './pages/Checkout.jsx';
+import PaySuccess from './pages/PaySuccess.jsx';
 
 import './scss/kurly.scss';
 
@@ -37,6 +38,7 @@ export default function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/review" element={<Review />} />
                     <Route path="/order/checkout" element={<Checkout />} />
+                    <Route path="/success" element={<PaySuccess />} />
                 </Route>
             </Routes>
             </ScrollToTop>

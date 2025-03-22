@@ -15,6 +15,7 @@ export const getCartList = () => async (dispatch) => {
     dispatch(setTotalPrice({result}));
     dispatch(setTotalDcPrice({result}));
     dispatch(setTotalDc({result}));
+    dispatch(getCount());
 
 };
 

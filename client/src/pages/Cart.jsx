@@ -25,7 +25,7 @@ export default function Cart() {
     
     useEffect( () => {
         let count = 0;
-        if(cartList.length > 0 && cartList.length !== listArr.length){
+        if(cartList && cartList.length > 0 && cartList.length !== listArr.length){
             const timer = setInterval(() => {
                 dispatch(loadList(cartList));
                 count += 1;
@@ -44,8 +44,9 @@ export default function Cart() {
             dispatch(getCartList(listRefs));
         }   
     },[]);
-    console.log('listArr',listArr);
-    console.log('selectList',selectList);
+    // console.log('listArr',listArr);
+    // console.log('selectList',selectList);
+    // console.log('cartList',cartList);
 
 
 
