@@ -20,6 +20,7 @@ export default function Cart() {
     const totalPrice = useSelector(state => state.cart.totalPrice);
     const listArr = useSelector(state => state.cart.listArr); // pid
     const selectList = useSelector(state => state.cart.selectList); // select cartList
+    const isComplete = useSelector(state => state.order.isComplete);
 
     const listRefs = useRef([]);
     
@@ -36,7 +37,6 @@ export default function Cart() {
             }, 100);
             return () => clearInterval(timer);
         }
-        
     },[]);
 
     useEffect( () => {
