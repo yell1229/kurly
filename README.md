@@ -84,7 +84,7 @@ UI 확인<br>
 
 장바구니
 [http://localhost:3000/cart](http://localhost:3000/cart)<br><br>
-결제
+결제(단품 결제 완료)
 [http://localhost:3000/order/checkout](http://localhost:3000/order/checkout)<br><br>
 
 
@@ -98,9 +98,8 @@ UI 확인<br>
 
 ## 제작 예정
 
-Redux로 업데이트(로그인/로그아웃 완료, 장바구니 완료)<br><br>
+Redux로 업데이트(로그인/로그아웃 완료, 장바구니 완료, 결제 완료)<br><br>
 TS로 업데이트<br><br>
-결제 페이지<br><br>
 
 
 ## :love_letter: Email
