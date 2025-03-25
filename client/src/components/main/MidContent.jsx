@@ -5,7 +5,7 @@ import ContentBox from './ContentBox.jsx';
 export default function MidContent() {
     const [list, setList] = useState([]);
     useEffect(() => {
-        axios.post('http://localhost:9000/product/filterItem',{'pid':[5,6,7,8]})
+        axios.post('http://localhost:9000/product/filterItem',{'pid':[5,6,7,8,9,10,11,12]})
             .then(res =>setList(res.data))
             .catch(err =>console.log(err));
     },[]);
@@ -18,8 +18,8 @@ export default function MidContent() {
         'banner':false
     }
     return (
-        <div className="cont_area">
-            <ContentBox product={list} data={contData} />
+        <div className="cont_area con2_slide">
+            <ContentBox product={list} data={contData} classname='con2_slide' />
         </div>
     );
 }

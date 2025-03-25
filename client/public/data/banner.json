@@ -1,18 +1,22 @@
 [
     {
-        "img":"https://picsum.photos/id/1/1200/370",
-        "src":"https://www.kurly.com/main"
+        "img":"https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/24e219ea-ba7c-4137-bb9e-0af4e9ef94a8.png",
+        "src":""
     },
     {
-        "img":"https://picsum.photos/id/2/1200/370",
-        "src":"https://www.coupang.com/"
+        "img":"https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/ff874790-e195-4331-9454-2aca51780208.png",
+        "src":""
     },
     {
-        "img":"https://picsum.photos/id/3/1200/370",
-        "src":"https://www.naver.com/"
+        "img":"https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/503ff87f-0993-4bfc-a9a6-d9917defc5bd.png",
+        "src":""
     },
     {
-        "img":"https://picsum.photos/id/4/1200/370",
-        "src":"https://github.com/"
+        "img":"https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/cab17bad-413b-4667-9c5a-10dfedea9d75.png",
+        "src":""
+    },
+    {
+        "img":"https://product-image.kurly.com/hdims/resize/%3E1900x%3E370/quality/85/src/banner/main/pc/img/d702b21d-afce-49b4-a20f-888356653dad.jpg",
+        "src":""
     }
 ]

@@ -1,9 +1,9 @@
 import React from 'react';
-import SlideList from '../../components/SlideList.jsx';
+import SlideTab4 from '../../components/SlideTab4.jsx';
 import { Link } from 'react-router-dom';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
-export default function ContentBox({product, data}) {
+export default function ContentBox({product, data, classname}) {
 
     return (
         <div className="cont_area">
@@ -11,8 +11,8 @@ export default function ContentBox({product, data}) {
                 <strong><a href={data.link}>{data.txt1}<MdOutlineKeyboardArrowRight className='icon' /></a></strong>
                 <span>{data.txt2}</span>
             </div>
-            <div className="product_list_wrap">
-                <SlideList classname="slider_tab4" product={product} />
+            <div className="product_list_wrap slider_tab4">
+                <SlideTab4 classname={classname} product={product} />
             </div>
             <Link className='btn_total' to={data.filterLink}>{data.filterLinkName}</Link>
             {   data.banner &&

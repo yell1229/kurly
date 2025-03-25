@@ -24,6 +24,7 @@ export default function SlideList({classname, product}) {
                     modules = {[Navigation, Pagination, Autoplay]}
                     slidesPerView= {1}
                     centeredSlides = {true}
+                    loop = {true}
                     navigation= {true}
                     autoplay = {{
                         delay: 4500,
@@ -33,11 +34,10 @@ export default function SlideList({classname, product}) {
                         type: 'fraction'
                         }}
                     speed = {500}
-                    loop = {false}
                     className = {"slider"}
                 >
                     {product && product.map((img, idx) =>
-                        <SwiperSlide key={idx} style={{background:"#666"}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
+                        <SwiperSlide key={idx} style={{background:""}}><a href={img.src} target='_blank'><img src={img.img} alt="" /></a></SwiperSlide>
                     )}
                 </Swiper>
             </div>}
@@ -60,33 +60,6 @@ export default function SlideList({classname, product}) {
                 <div className="swiper-prev"><MdArrowBackIos /></div>
                 <div className="swiper-next"><MdArrowForwardIos  /></div>
             </div>}
-
-            {/* main contents */}
-            {
-                classname === 'slider_tab4' && <div className={classname}>
-                <div>
-                    <Swiper 
-                         modules = {[Navigation, Pagination, Autoplay]}
-                         spaceBetween = {18}
-                         slidesPerView = {4}
-                         slidesPerGroup = {4}
-                         freeMode = {true}
-                         centeredSlides  = {false}
-                         speed = {500}
-                         loop= {false}
-                         className = { "slider"}
-                         navigation = {{nextEl: '.slider_tab4 .swiper-button-next', prevEl: '.slider_tab4 .swiper-button-prev'}}
-                    >
-                        {product && product.map((img, idx) =>
-                            <SwiperSlide key={idx}><ProductThumb product={img} /></SwiperSlide>
-                        )}
-                        <SwiperSlide><Link to="/goods/all"><div className="more"><span>전체보기</span></div></Link></SwiperSlide>
-                    </Swiper>
-                    <div className="swiper-button-prev"></div>
-                    <div className="swiper-button-next"></div>
-                </div>
-            </div>
-            }
         </>
     );
 }
