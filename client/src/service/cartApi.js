@@ -35,7 +35,7 @@ export const getCount = () => async(dispatch) => {
 
 // 장바구니에 담기
 export const cartAddItem = (pid, count, cartCount) => async(dispatch) => {
-        
+    console.log(pid, count, cartCount);
         const cartItem = {
             'pid':pid,
             'qty':count ? count :1

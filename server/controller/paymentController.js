@@ -29,7 +29,7 @@ export const paymentKakaopay = async (req, res) => {
         res.json(response.data);
         
     }catch(err){
-        console.log('err',err);
+        console.log('err ====================================> ',err);
         
     }
 }

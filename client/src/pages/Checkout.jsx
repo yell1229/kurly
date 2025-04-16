@@ -28,7 +28,7 @@ export default function Checkout() {
                 'total_amount':totalDcPrice
             })
             .then(res =>{
-                console.log(res.data.next_redirect_pc_url);
+                console.log('res.data.next_redirect_pc_url',res.data.next_redirect_pc_url);
                 
                 if(res.data.next_redirect_pc_url){
                     window.location.href=res.data.next_redirect_pc_url;

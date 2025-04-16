@@ -13,7 +13,6 @@ import 'swiper/css/autoplay';
 import '../scss/slider.scss';
 
 export default function SlideTab4({classname, product}) {
-    console.log('classname',classname);
     
     return (
         <div>
