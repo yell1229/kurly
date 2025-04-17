@@ -87,13 +87,13 @@ export const deleteProduct =  (pid) => async(dispatch) => {
 // 상품 갯수 수정
 export const updatePidCount =  (qty, pid, types, cartList,listArr) => async(dispatch) => {
     // console.log('qty, pid, type',qty, pid, type);
-    if(types==='decrease'){
-        console.log('decrease');
+    // if(types==='decrease'){
+    //     console.log('decrease');
         
-    }else if(types==='increase'){
-        console.log('increase');
+    // }else if(types==='increase'){
+    //     console.log('increase');
         
-    }
+    // }
     if (qty === 1 && types === 'decrease') {
         alert('최소 수량은 1개입니다.');
     } else {
@@ -120,7 +120,6 @@ export const updateListArr = (cartList,newList) => (dispatch) => {
     dispatch(setListArr({newList}));
     
     const result = cartList.filter((item) => newList.includes(item.pid)); // 선택된 상품의 정보를 담는 리스트
-    console.log('상품 선택 시 업데이트 result',result);
     
     if (JSON.stringify(result) !== JSON.stringify(newList)) {
         dispatch(setSelectList({result}));  // selectList가 달라질 때만 업데이트   
