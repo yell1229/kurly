@@ -62,7 +62,7 @@ export default function AsideSlide() {
                     </SwiperSlide>
                 ) }
             </Swiper>
-            ) : 'test'}
+            ) : ''}
             <div className="swiper-prev"><IoIosArrowUp /></div>
             <div className="swiper-next"><IoIosArrowDown /></div>
         </div>
